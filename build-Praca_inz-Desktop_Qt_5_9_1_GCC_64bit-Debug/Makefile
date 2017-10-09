@@ -51,9 +51,13 @@ OBJECTS_DIR   = ./
 ####### Files
 
 SOURCES       = ../Praca_inz/main.cpp \
-		../Praca_inz/mainwindow.cpp moc_mainwindow.cpp
+		../Praca_inz/mainwindow.cpp \
+		../Praca_inz/game.cpp \
+		../Praca_inz/table.cpp moc_mainwindow.cpp
 OBJECTS       = main.o \
 		mainwindow.o \
+		game.o \
+		table.o \
 		moc_mainwindow.o
 DIST          = ../../../Qt/5.9.1/gcc_64/mkspecs/features/spec_pre.prf \
 		../../../Qt/5.9.1/gcc_64/mkspecs/common/unix.conf \
@@ -214,6 +218,7 @@ DIST          = ../../../Qt/5.9.1/gcc_64/mkspecs/features/spec_pre.prf \
 		../../../Qt/5.9.1/gcc_64/mkspecs/features/qt_config.prf \
 		../../../Qt/5.9.1/gcc_64/mkspecs/linux-g++/qmake.conf \
 		../../../Qt/5.9.1/gcc_64/mkspecs/features/spec_post.prf \
+		../Praca_inz/.qmake.stash \
 		../../../Qt/5.9.1/gcc_64/mkspecs/features/exclusive_builds.prf \
 		../../../Qt/5.9.1/gcc_64/mkspecs/features/toolchain.prf \
 		../../../Qt/5.9.1/gcc_64/mkspecs/features/default_pre.prf \
@@ -233,8 +238,12 @@ DIST          = ../../../Qt/5.9.1/gcc_64/mkspecs/features/spec_pre.prf \
 		../../../Qt/5.9.1/gcc_64/mkspecs/features/exceptions.prf \
 		../../../Qt/5.9.1/gcc_64/mkspecs/features/yacc.prf \
 		../../../Qt/5.9.1/gcc_64/mkspecs/features/lex.prf \
-		../Praca_inz/Praca_inz.pro ../Praca_inz/mainwindow.h ../Praca_inz/main.cpp \
-		../Praca_inz/mainwindow.cpp
+		../Praca_inz/Praca_inz.pro ../Praca_inz/mainwindow.h \
+		../Praca_inz/game.h \
+		../Praca_inz/table.h ../Praca_inz/main.cpp \
+		../Praca_inz/mainwindow.cpp \
+		../Praca_inz/game.cpp \
+		../Praca_inz/table.cpp
 QMAKE_TARGET  = Praca_inz
 DESTDIR       = 
 TARGET        = Praca_inz
@@ -405,6 +414,7 @@ Makefile: ../Praca_inz/Praca_inz.pro ../../../Qt/5.9.1/gcc_64/mkspecs/linux-g++/
 		../../../Qt/5.9.1/gcc_64/mkspecs/features/qt_config.prf \
 		../../../Qt/5.9.1/gcc_64/mkspecs/linux-g++/qmake.conf \
 		../../../Qt/5.9.1/gcc_64/mkspecs/features/spec_post.prf \
+		.qmake.stash \
 		../../../Qt/5.9.1/gcc_64/mkspecs/features/exclusive_builds.prf \
 		../../../Qt/5.9.1/gcc_64/mkspecs/features/toolchain.prf \
 		../../../Qt/5.9.1/gcc_64/mkspecs/features/default_pre.prf \
@@ -589,6 +599,7 @@ Makefile: ../Praca_inz/Praca_inz.pro ../../../Qt/5.9.1/gcc_64/mkspecs/linux-g++/
 ../../../Qt/5.9.1/gcc_64/mkspecs/features/qt_config.prf:
 ../../../Qt/5.9.1/gcc_64/mkspecs/linux-g++/qmake.conf:
 ../../../Qt/5.9.1/gcc_64/mkspecs/features/spec_post.prf:
+.qmake.stash:
 ../../../Qt/5.9.1/gcc_64/mkspecs/features/exclusive_builds.prf:
 ../../../Qt/5.9.1/gcc_64/mkspecs/features/toolchain.prf:
 ../../../Qt/5.9.1/gcc_64/mkspecs/features/default_pre.prf:
@@ -628,8 +639,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents ../../../Qt/5.9.1/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../Praca_inz/mainwindow.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../Praca_inz/main.cpp ../Praca_inz/mainwindow.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../Praca_inz/mainwindow.h ../Praca_inz/game.h ../Praca_inz/table.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../Praca_inz/main.cpp ../Praca_inz/mainwindow.cpp ../Praca_inz/game.cpp ../Praca_inz/table.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../Praca_inz/mainwindow.ui $(DISTDIR)/
 
 
@@ -902,7 +913,8 @@ main.o: ../Praca_inz/main.cpp ../Praca_inz/mainwindow.h \
 		../../../Qt/5.9.1/gcc_64/include/QtCore/qeventloop.h \
 		../../../Qt/5.9.1/gcc_64/include/QtWidgets/qdesktopwidget.h \
 		../../../Qt/5.9.1/gcc_64/include/QtGui/qguiapplication.h \
-		../../../Qt/5.9.1/gcc_64/include/QtGui/qinputmethod.h
+		../../../Qt/5.9.1/gcc_64/include/QtGui/qinputmethod.h \
+		../Praca_inz/game.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../Praca_inz/main.cpp
 
 mainwindow.o: ../Praca_inz/mainwindow.cpp ../Praca_inz/mainwindow.h \
@@ -1009,8 +1021,52 @@ mainwindow.o: ../Praca_inz/mainwindow.cpp ../Praca_inz/mainwindow.h \
 		../../../Qt/5.9.1/gcc_64/include/QtGui/qtouchdevice.h \
 		../../../Qt/5.9.1/gcc_64/include/QtWidgets/qtabwidget.h \
 		../../../Qt/5.9.1/gcc_64/include/QtGui/qicon.h \
-		ui_mainwindow.h
+		ui_mainwindow.h \
+		../../../Qt/5.9.1/gcc_64/include/QtCore/QVariant \
+		../../../Qt/5.9.1/gcc_64/include/QtWidgets/QAction \
+		../../../Qt/5.9.1/gcc_64/include/QtWidgets/qaction.h \
+		../../../Qt/5.9.1/gcc_64/include/QtWidgets/qactiongroup.h \
+		../../../Qt/5.9.1/gcc_64/include/QtWidgets/QApplication \
+		../../../Qt/5.9.1/gcc_64/include/QtWidgets/qapplication.h \
+		../../../Qt/5.9.1/gcc_64/include/QtCore/qcoreapplication.h \
+		../../../Qt/5.9.1/gcc_64/include/QtCore/qeventloop.h \
+		../../../Qt/5.9.1/gcc_64/include/QtWidgets/qdesktopwidget.h \
+		../../../Qt/5.9.1/gcc_64/include/QtGui/qguiapplication.h \
+		../../../Qt/5.9.1/gcc_64/include/QtGui/qinputmethod.h \
+		../../../Qt/5.9.1/gcc_64/include/QtWidgets/QButtonGroup \
+		../../../Qt/5.9.1/gcc_64/include/QtWidgets/qbuttongroup.h \
+		../../../Qt/5.9.1/gcc_64/include/QtWidgets/QHeaderView \
+		../../../Qt/5.9.1/gcc_64/include/QtWidgets/qheaderview.h \
+		../../../Qt/5.9.1/gcc_64/include/QtWidgets/qabstractitemview.h \
+		../../../Qt/5.9.1/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		../../../Qt/5.9.1/gcc_64/include/QtWidgets/qframe.h \
+		../../../Qt/5.9.1/gcc_64/include/QtCore/qabstractitemmodel.h \
+		../../../Qt/5.9.1/gcc_64/include/QtCore/qitemselectionmodel.h \
+		../../../Qt/5.9.1/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
+		../../../Qt/5.9.1/gcc_64/include/QtWidgets/qstyleoption.h \
+		../../../Qt/5.9.1/gcc_64/include/QtWidgets/qabstractspinbox.h \
+		../../../Qt/5.9.1/gcc_64/include/QtGui/qvalidator.h \
+		../../../Qt/5.9.1/gcc_64/include/QtCore/qregularexpression.h \
+		../../../Qt/5.9.1/gcc_64/include/QtWidgets/qslider.h \
+		../../../Qt/5.9.1/gcc_64/include/QtWidgets/qabstractslider.h \
+		../../../Qt/5.9.1/gcc_64/include/QtWidgets/qstyle.h \
+		../../../Qt/5.9.1/gcc_64/include/QtWidgets/qtabbar.h \
+		../../../Qt/5.9.1/gcc_64/include/QtWidgets/qrubberband.h \
+		../../../Qt/5.9.1/gcc_64/include/QtWidgets/QMenuBar \
+		../../../Qt/5.9.1/gcc_64/include/QtWidgets/qmenubar.h \
+		../../../Qt/5.9.1/gcc_64/include/QtWidgets/qmenu.h \
+		../../../Qt/5.9.1/gcc_64/include/QtWidgets/QStatusBar \
+		../../../Qt/5.9.1/gcc_64/include/QtWidgets/qstatusbar.h \
+		../../../Qt/5.9.1/gcc_64/include/QtWidgets/QToolBar \
+		../../../Qt/5.9.1/gcc_64/include/QtWidgets/qtoolbar.h \
+		../../../Qt/5.9.1/gcc_64/include/QtWidgets/QWidget
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o ../Praca_inz/mainwindow.cpp
+
+game.o: ../Praca_inz/game.cpp ../Praca_inz/game.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o game.o ../Praca_inz/game.cpp
+
+table.o: ../Praca_inz/table.cpp ../Praca_inz/table.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o table.o ../Praca_inz/table.cpp
 
 moc_mainwindow.o: moc_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainwindow.o moc_mainwindow.cpp
