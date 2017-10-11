@@ -11,6 +11,7 @@ class Game
 public:
     Game();
     void next();
+    void print();
 private:
     vector<tuple<double,double,double>> history;
     int current;
