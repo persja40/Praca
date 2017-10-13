@@ -8,23 +8,38 @@ using tuple3 = tuple<double,double,double>;
 
 Game::Game()
 {
-    current= 0;
     srand(time(NULL));
-    history.push_back( tuple3((double) rand() / (RAND_MAX),(double) rand() / (RAND_MAX),(double) rand() / (RAND_MAX)) );
+    p= {0.5,0.5,0.5};
+    current=0;
+    nr={0,0,0};
 }
 
 void Game::next(){
 //Change mind
-    double dWier= 1.0 - std::get<1>(history[current]) - std::get<2>(history[current]);
-    double dKol= 1.0 - std::get<0>(history[current]) - std::get<2>(history[current]);
-    double dWar= 1.0 - std::get<0>(history[current]) - std::get<1>(history[current]);
-    cout<<dWier<<"\t\t"<<dKol<<"\t\t"<<dWar<<endl;
-    history.push_back( tuple3(std::get<0>(history[current])+dWier, std::get<1>(history[current])+dKol,std::get<2>(history[current])+dWar));
     current++;
+    array<double,3> choices= {(double) rand()/RAND_MAX, (double) rand()/RAND_MAX, (double) rand()/RAND_MAX};
+    for(int i=0; i<3; i++){
+        if(choices[i]<p[i])
+            nr[i]++;
+    }
+    decision();
 //Draw
+    cout<<p[0]<<"\t\t"<<p[1]<<"\t\t"<<p[2]<<"\t\t"<<endl;
 }
 
-void Game::print(){
-    for(tuple3 a:history)
-        std::cout<<std::get<0>(a)<<"\t\t"<<std::get<1>(a)<<"\t\t"<<std::get<2>(a)<<"\t"<<std::endl;
+void Game::decision(){
+    array<double,3> result= { 0.1*( 1 - static_cast<double>(nr[1])/current + 1 - static_cast<double>(nr[2])/current - 1.0),
+        0.1*( 1 - static_cast<double>(nr[2])/current + 1 - static_cast<double>(nr[0])/current - 1.0),
+        0.1*( 1 - static_cast<double>(nr[0])/current + 1 - static_cast<double>(nr[1])/current - 1.0)
+    };
+    for(int i=0; i<3; i++)
+        p[i]= checker(p[i]+result[i]);
+}
+
+double Game::checker(double r){
+    if(r<0.0)
+        return 0.0;
+    else if(r>1.0)
+        return 1.0;
+    else return r;
 }

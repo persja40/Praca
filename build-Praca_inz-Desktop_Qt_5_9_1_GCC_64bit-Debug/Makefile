@@ -52,12 +52,10 @@ OBJECTS_DIR   = ./
 
 SOURCES       = ../Praca_inz/main.cpp \
 		../Praca_inz/mainwindow.cpp \
-		../Praca_inz/game.cpp \
-		../Praca_inz/table.cpp moc_mainwindow.cpp
+		../Praca_inz/game.cpp moc_mainwindow.cpp
 OBJECTS       = main.o \
 		mainwindow.o \
 		game.o \
-		table.o \
 		moc_mainwindow.o
 DIST          = ../../../Qt/5.9.1/gcc_64/mkspecs/features/spec_pre.prf \
 		../../../Qt/5.9.1/gcc_64/mkspecs/common/unix.conf \
@@ -239,11 +237,9 @@ DIST          = ../../../Qt/5.9.1/gcc_64/mkspecs/features/spec_pre.prf \
 		../../../Qt/5.9.1/gcc_64/mkspecs/features/yacc.prf \
 		../../../Qt/5.9.1/gcc_64/mkspecs/features/lex.prf \
 		../Praca_inz/Praca_inz.pro ../Praca_inz/mainwindow.h \
-		../Praca_inz/game.h \
-		../Praca_inz/table.h ../Praca_inz/main.cpp \
+		../Praca_inz/game.h ../Praca_inz/main.cpp \
 		../Praca_inz/mainwindow.cpp \
-		../Praca_inz/game.cpp \
-		../Praca_inz/table.cpp
+		../Praca_inz/game.cpp
 QMAKE_TARGET  = Praca_inz
 DESTDIR       = 
 TARGET        = Praca_inz
@@ -639,8 +635,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents ../../../Qt/5.9.1/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../Praca_inz/mainwindow.h ../Praca_inz/game.h ../Praca_inz/table.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../Praca_inz/main.cpp ../Praca_inz/mainwindow.cpp ../Praca_inz/game.cpp ../Praca_inz/table.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../Praca_inz/mainwindow.h ../Praca_inz/game.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../Praca_inz/main.cpp ../Praca_inz/mainwindow.cpp ../Praca_inz/game.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../Praca_inz/mainwindow.ui $(DISTDIR)/
 
 
@@ -1064,9 +1060,6 @@ mainwindow.o: ../Praca_inz/mainwindow.cpp ../Praca_inz/mainwindow.h \
 
 game.o: ../Praca_inz/game.cpp ../Praca_inz/game.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o game.o ../Praca_inz/game.cpp
-
-table.o: ../Praca_inz/table.cpp ../Praca_inz/table.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o table.o ../Praca_inz/table.cpp
 
 moc_mainwindow.o: moc_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainwindow.o moc_mainwindow.cpp

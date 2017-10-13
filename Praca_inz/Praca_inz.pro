@@ -30,8 +30,7 @@ SOURCES += \
 
 HEADERS += \
         mainwindow.h \
-    game.h \
-    table.h
+    game.h
 
 FORMS += \
         mainwindow.ui
