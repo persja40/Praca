@@ -27,12 +27,14 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
     game.cpp \
-    myglwidget.cpp
+    myglwidget.cpp \
+    multigame.cpp
 
 HEADERS += \
         mainwindow.h \
     game.h \
-    myglwidget.h
+    myglwidget.h \
+    multigame.h
 
 FORMS += \
         mainwindow.ui
