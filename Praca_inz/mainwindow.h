@@ -25,11 +25,17 @@ private slots:
 
   void on_listWidget_currentRowChanged(int currentRow);
 
+  void on_spinBox_Delay_valueChanged(int arg1);
+
+  void on_pushButton_Clear_clicked();
+
 private:
     Ui::MainWindow *ui;
     int nr_players;
     int nr_rounds;
     int fun;
+    int delay;
+    volatile bool cancel;
 };
 
 #endif // MAINWINDOW_H
