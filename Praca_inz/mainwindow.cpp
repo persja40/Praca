@@ -21,7 +21,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
-    cancel= true;
+    kill();
     delete ui;
 }
 
@@ -29,6 +29,8 @@ void MainWindow::on_pushButton_Run_clicked()
 {
     QtConcurrent::run(
             [&]()->void{
+                kill();
+                this_thread::sleep_for(1.3s);
                 const int g= nr_rounds;
                 const int p= nr_players;
                 vector<unique_ptr<Game>> tab;
@@ -70,6 +72,10 @@ void MainWindow::on_spinBox_Delay_valueChanged(int arg1)
 
 void MainWindow::on_pushButton_Clear_clicked()
 {
+    kill();
+}
+
+void MainWindow::kill(){
     QtConcurrent::run(
             [&]()->void{
                 cancel= true;

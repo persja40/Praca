@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "game.h"
+#include <atomic>
 
 namespace Ui {
 class MainWindow;
@@ -35,7 +36,8 @@ private:
     int nr_rounds;
     int fun;
     int delay;
-    volatile bool cancel;
+    volatile atomic<bool> cancel;
+    void kill();
 };
 
 #endif // MAINWINDOW_H
