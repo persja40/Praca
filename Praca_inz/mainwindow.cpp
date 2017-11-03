@@ -9,7 +9,8 @@ MainWindow::MainWindow(QWidget *parent) :
     nr_players= 0;
     fun= 0;
     delay= 0;
-    cancel=false;
+    cancel= false;
+    busy= false;
     ui->setupUi(this);
 }
 
@@ -23,8 +24,8 @@ void MainWindow::on_pushButton_Run_clicked()
 {
     QtConcurrent::run(
             [&]()->void{
-                kill();                
-                this_thread::sleep_for(1.3s);
+                busy= true;
+                ui->pushButton_Run->setEnabled(false);
                 const int g= nr_rounds;
                 const int p= nr_players;
                 vector<unique_ptr<Game>> tab;
@@ -39,14 +40,18 @@ void MainWindow::on_pushButton_Run_clicked()
                     vector<tup3<double>> begin;
                     vector<tup3<double>> end;
                     for(int i=0; i<p;i++){
-                        if(cancel)
+                        if(cancel){
+                            busy= false;
                             throw 1;
+                        }
                         begin.push_back(tab[i]->next());
                         end.push_back(tab[i]->prelast());
                     }
                     //emit
                     this_thread::sleep_for(d);
                 }
+                busy= false;
+                ui->pushButton_Run->setEnabled(true);
                 cout<<"FINISH"<<endl;
             });
 }
@@ -79,9 +84,14 @@ void MainWindow::on_pushButton_Clear_clicked()
 void MainWindow::kill(){
     QtConcurrent::run(
             [&]()->void{
+                ui->pushButton_Run->setEnabled(false);
+                ui->pushButton_Clear->setEnabled(false);
                 cancel= true;
-                this_thread::sleep_for(1.1s);
+                while(busy);
                 cancel= false;
                 //emit clear
+                busy= false;
+                ui->pushButton_Run->setEnabled(true);
+                ui->pushButton_Clear->setEnabled(true);
             });
 }

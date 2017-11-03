@@ -37,6 +37,7 @@ private:
     int delay;
     volatile atomic<bool> cancel;
     void kill();
+    volatile atomic<bool> busy;
 };
 
 #endif // MAINWINDOW_H
