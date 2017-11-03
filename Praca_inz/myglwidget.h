@@ -3,6 +3,7 @@
 
 #include <QGLWidget>
 #include <QMouseEvent>
+#include <expressions.h>
 
 class MyGLWidget : public QGLWidget
 {
@@ -31,6 +32,7 @@ public slots:
 
 private:
     void draw();
+    void drawLines(vector<tup3<double>>begin,vector<tup3<double>>end,vector<tup3<int>>color);
     int xRot;
     int yRot;
     int zRot;

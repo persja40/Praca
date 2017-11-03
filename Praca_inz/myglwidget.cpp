@@ -52,16 +52,16 @@ void MyGLWidget::setZRotation(int angle)
 
 void MyGLWidget::initializeGL()
 {
-    qglClearColor(Qt::black);
+//    qglClearColor(Qt::black);
 
-    glEnable(GL_DEPTH_TEST);
-    glEnable(GL_CULL_FACE);
-    glShadeModel(GL_SMOOTH);
-    glEnable(GL_LIGHTING);
-    glEnable(GL_LIGHT0);
+//    glEnable(GL_DEPTH_TEST);
+//    glEnable(GL_CULL_FACE);
+//    glShadeModel(GL_SMOOTH);
+//    glEnable(GL_LIGHTING);
+//    glEnable(GL_LIGHT0);
 
-    static GLfloat lightPosition[4] = { 0, 0, 10, 1.0 };
-    glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
+//    static GLfloat lightPosition[4] = { 0, 0, 10, 1.0 };
+//    glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
 }
 
 void MyGLWidget::paintGL()
@@ -112,37 +112,58 @@ void MyGLWidget::mouseMoveEvent(QMouseEvent *event)
 
 void MyGLWidget::draw()
 {
-    qglColor(Qt::red);
-    glBegin(GL_QUADS);
-        glNormal3f(0,0,-1);
-        glVertex3f(-1,-1,0);
-        glVertex3f(-1,1,0);
-        glVertex3f(1,1,0);
-        glVertex3f(1,-1,0);
+//    qglColor(Qt::red);
+//    glBegin(GL_QUADS);
+//        glNormal3f(0,0,-1);
+//        glVertex3f(-1,-1,0);
+//        glVertex3f(-1,1,0);
+//        glVertex3f(1,1,0);
+//        glVertex3f(1,-1,0);
 
+//    glEnd();
+//    glBegin(GL_TRIANGLES);
+//        glNormal3f(0,-1,0.707);
+//        glVertex3f(-1,-1,0);
+//        glVertex3f(1,-1,0);
+//        glVertex3f(0,0,1.2);
+//    glEnd();
+//    glBegin(GL_TRIANGLES);
+//        glNormal3f(1,0, 0.707);
+//        glVertex3f(1,-1,0);
+//        glVertex3f(1,1,0);
+//        glVertex3f(0,0,1.2);
+//    glEnd();
+//    glBegin(GL_TRIANGLES);
+//        glNormal3f(0,1,0.707);
+//        glVertex3f(1,1,0);
+//        glVertex3f(-1,1,0);
+//        glVertex3f(0,0,1.2);
+//    glEnd();
+//    glBegin(GL_TRIANGLES);
+//        glNormal3f(-1,0,0.707);
+//        glVertex3f(-1,1,0);
+//        glVertex3f(-1,-1,0);
+//        glVertex3f(0,0,1.2);
+//    glEnd();
+    glLineWidth(0.1);
+    glColor3ub(255, 0, 0);
+    glBegin(GL_LINES);
+        glVertex3f(0.0, 0.0, 0.0);
+        glVertex3f(15, 0, 0);
     glEnd();
-    glBegin(GL_TRIANGLES);
-        glNormal3f(0,-1,0.707);
-        glVertex3f(-1,-1,0);
-        glVertex3f(1,-1,0);
-        glVertex3f(0,0,1.2);
-    glEnd();
-    glBegin(GL_TRIANGLES);
-        glNormal3f(1,0, 0.707);
-        glVertex3f(1,-1,0);
-        glVertex3f(1,1,0);
-        glVertex3f(0,0,1.2);
-    glEnd();
-    glBegin(GL_TRIANGLES);
-        glNormal3f(0,1,0.707);
-        glVertex3f(1,1,0);
-        glVertex3f(-1,1,0);
-        glVertex3f(0,0,1.2);
-    glEnd();
-    glBegin(GL_TRIANGLES);
-        glNormal3f(-1,0,0.707);
-        glVertex3f(-1,1,0);
-        glVertex3f(-1,-1,0);
-        glVertex3f(0,0,1.2);
-    glEnd();
+
+}
+
+void drawLines(vector<tup3<double>>begin,vector<tup3<double>>end,vector<tup3<int>>color){
+    glLineWidth(0.1);
+    for(unsigned int i=0; i<begin.size();i++){
+        tup3<double> b=begin[i];
+        tup3<double> e=end[i];
+        tup3<int> c= color[i];
+        glColor3ub(get<0>(c), get<1>(c), get<2>(c));
+        glBegin(GL_LINES);
+            glVertex3f(get<0>(b), get<1>(b), get<2>(b));
+            glVertex3f(get<0>(e), get<1>(e), get<2>(e));
+        glEnd();
+    }
 }

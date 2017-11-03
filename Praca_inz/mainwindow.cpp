@@ -1,11 +1,5 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include <iostream>
-#include <memory>
-#include <vector>
-#include <chrono>
-#include <thread>
-#include <qtconcurrentrun.h>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -29,15 +23,18 @@ void MainWindow::on_pushButton_Run_clicked()
 {
     QtConcurrent::run(
             [&]()->void{
-                kill();
+                kill();                
                 this_thread::sleep_for(1.3s);
                 const int g= nr_rounds;
                 const int p= nr_players;
                 vector<unique_ptr<Game>> tab;
+                vector<tup3<int>> col;
                 chrono::milliseconds d(delay);
                 cout<<"fun: "<<fun<<endl;
-                for(int i=0; i<p;i++)
-                tab.push_back(make_unique<Game>(fun));
+                for(int i=0; i<p;i++){
+                    tab.push_back(make_unique<Game>(fun));
+                    col.push_back(make_tuple( rand()%256, rand()%256, rand()%256 ));
+                }
                 for(int j=0; j<g;j++){
                     for(auto& i:tab){
                         if(cancel)

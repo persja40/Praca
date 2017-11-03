@@ -2,10 +2,6 @@
 #include <stdlib.h>
 #include <time.h>
 
-#include<iostream>
-
-using tuple3 = tuple<double,double,double>;
-
 Game::Game(int f)
 {
     srand(time(NULL));

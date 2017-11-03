@@ -34,7 +34,8 @@ HEADERS += \
         mainwindow.h \
     game.h \
     myglwidget.h \
-    multigame.h
+    multigame.h \
+    expressions.h
 
 FORMS += \
         mainwindow.ui

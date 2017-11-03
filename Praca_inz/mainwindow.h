@@ -3,7 +3,6 @@
 
 #include <QMainWindow>
 #include "game.h"
-#include <atomic>
 
 namespace Ui {
 class MainWindow;

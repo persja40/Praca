@@ -1,10 +1,6 @@
 #ifndef GAME_H
 #define GAME_H
-
-#include<array>
-#include<functional>
-
-using namespace std;
+#include <expressions.h>
 
 class Game //3 players game
 {
