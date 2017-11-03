@@ -140,7 +140,7 @@ void MyGLWidget::draw()
 //        glVertex3f(-1,-1,0);
 //        glVertex3f(0,0,1.2);
 //    glEnd();
-    glLineWidth(0.1);
+    glLineWidth(1);
     glColor3ub(255, 0, 0);
     glBegin(GL_LINES);
         glVertex3f(0.0, 0.0, 0.0);
