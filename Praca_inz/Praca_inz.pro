@@ -6,6 +6,7 @@
 
 QT       += core gui opengl concurrent
 CONFIG += c++14
+QMAKE_CXXFLAGS_RELEASE += -O3
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
