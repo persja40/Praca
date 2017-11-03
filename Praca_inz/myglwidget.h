@@ -33,6 +33,7 @@ public slots:
 private:
     void draw();
     void drawLines(vector<tup3<double>>begin,vector<tup3<double>>end,vector<tup3<int>>color);
+    void clear();
     int xRot;
     int yRot;
     int zRot;

@@ -6,9 +6,12 @@ class Game //3 players game
 {
 public:
     Game(int f);
-    void next();
+    tup3<double> next();
+    int getCurrent();
+    tup3<double> prelast();
 private:
     array<double,3> p;
+    tup3<double> pre;
     int current;
     array<int,3> nr;
     double checker(double r);

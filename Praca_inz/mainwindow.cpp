@@ -36,11 +36,15 @@ void MainWindow::on_pushButton_Run_clicked()
                     col.push_back(make_tuple( rand()%256, rand()%256, rand()%256 ));
                 }
                 for(int j=0; j<g;j++){
-                    for(auto& i:tab){
+                    vector<tup3<double>> begin;
+                    vector<tup3<double>> end;
+                    for(int i=0; i<p;i++){
                         if(cancel)
                             throw 1;
-                        i->next();
+                        begin.push_back(tab[i]->next());
+                        end.push_back(tab[i]->prelast());
                     }
+                    //emit
                     this_thread::sleep_for(d);
                 }
                 cout<<"FINISH"<<endl;
@@ -78,5 +82,6 @@ void MainWindow::kill(){
                 cancel= true;
                 this_thread::sleep_for(1.1s);
                 cancel= false;
+                //emit clear
             });
 }

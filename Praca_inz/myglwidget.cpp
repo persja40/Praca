@@ -66,12 +66,7 @@ void MyGLWidget::initializeGL()
 
 void MyGLWidget::paintGL()
 {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glLoadIdentity();
-    glTranslatef(0.0, 0.0, -10.0);
-    glRotatef(xRot / 16.0, 1.0, 0.0, 0.0);
-    glRotatef(yRot / 16.0, 0.0, 1.0, 0.0);
-    glRotatef(zRot / 16.0, 0.0, 0.0, 1.0);
+    clear();
     draw();
 }
 
@@ -154,7 +149,7 @@ void MyGLWidget::draw()
 
 }
 
-void drawLines(vector<tup3<double>>begin,vector<tup3<double>>end,vector<tup3<int>>color){
+void MyGLWidget::drawLines(vector<tup3<double>>begin,vector<tup3<double>>end,vector<tup3<int>>color){
     glLineWidth(0.1);
     for(unsigned int i=0; i<begin.size();i++){
         tup3<double> b=begin[i];
@@ -166,4 +161,13 @@ void drawLines(vector<tup3<double>>begin,vector<tup3<double>>end,vector<tup3<int
             glVertex3f(get<0>(e), get<1>(e), get<2>(e));
         glEnd();
     }
+}
+
+void MyGLWidget::clear(){
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glLoadIdentity();
+    glTranslatef(0.0, 0.0, -10.0);
+    glRotatef(xRot / 16.0, 1.0, 0.0, 0.0);
+    glRotatef(yRot / 16.0, 0.0, 1.0, 0.0);
+    glRotatef(zRot / 16.0, 0.0, 0.0, 1.0);
 }
