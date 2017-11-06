@@ -30,7 +30,8 @@ SOURCES += \
         mainwindow.cpp \
     game.cpp \
     myglwidget.cpp \
-    multigame.cpp
+    multigame.cpp \
+    expressions.cpp
 
 HEADERS += \
         mainwindow.h \

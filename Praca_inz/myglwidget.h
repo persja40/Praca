@@ -29,15 +29,21 @@ public slots:
     void setXRotation(int angle);
     void setYRotation(int angle);
     void setZRotation(int angle);
+    void copy();
 
 private:
     void draw();
-    void drawLines(vector<tup3<double>>begin,vector<tup3<double>>end,vector<tup3<int>>color);
+    //void drawLines(vector<tup3<double>>begin,vector<tup3<double>>end,vector<tup3<int>>color);
+    void drawLines();
     void clear();
     int xRot;
     int yRot;
     int zRot;
     QPoint lastPos;
+    vector<vector<tup3<double>>>begin;
+    vector<vector<tup3<double>>>end;
+    vector<tup3<int>> color;
+    mutex drawable;
 };
 
 #endif // MYGLWIDGET_H

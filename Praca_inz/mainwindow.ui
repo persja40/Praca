@@ -178,9 +178,30 @@
     <slot>setXRotation(int)</slot>
     <slot>setYRotation(int)</slot>
     <slot>setZRotation(int)</slot>
+    <slot>copy()</slot>
    </slots>
   </customwidget>
  </customwidgets>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>MainWindow</sender>
+   <signal>copy()</signal>
+   <receiver>myGLWidget</receiver>
+   <slot>copy()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1</x>
+     <y>37</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>108</x>
+     <y>50</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <signal>copy()</signal>
+ </slots>
 </ui>

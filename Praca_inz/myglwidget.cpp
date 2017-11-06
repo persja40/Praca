@@ -50,6 +50,18 @@ void MyGLWidget::setZRotation(int angle)
     }
 }
 
+void MyGLWidget::copy(){
+    while(!points.try_lock());
+    cout<<"COPYING"<<endl;
+    while(!drawable.try_lock());
+    begin= beginsp;
+    end= endsp;
+    color= colorsp;
+    drawable.unlock();
+    points.unlock();
+    updateGL();
+}
+
 void MyGLWidget::initializeGL()
 {
 //    qglClearColor(Qt::black);
@@ -68,6 +80,7 @@ void MyGLWidget::paintGL()
 {
     clear();
     draw();
+    drawLines();
 }
 
 void MyGLWidget::resizeGL(int width, int height)
@@ -149,18 +162,20 @@ void MyGLWidget::draw()
 
 }
 
-void MyGLWidget::drawLines(vector<tup3<double>>begin,vector<tup3<double>>end,vector<tup3<int>>color){
+void MyGLWidget::drawLines(){
     glLineWidth(0.1);
-    for(unsigned int i=0; i<begin.size();i++){
-        tup3<double> b=begin[i];
-        tup3<double> e=end[i];
-        tup3<int> c= color[i];
-        glColor3ub(get<0>(c), get<1>(c), get<2>(c));
-        glBegin(GL_LINES);
-            glVertex3f(get<0>(b), get<1>(b), get<2>(b));
-            glVertex3f(get<0>(e), get<1>(e), get<2>(e));
-        glEnd();
+    for(unsigned int p=0; p<begin.size();p++){
+        glColor3ub(get<0>(color[p]), get<1>(color[p]), get<2>(color[p]));
+        for(unsigned int l=0; l<begin[0].size(); l++){
+            tup3<double> b=begin[p][l];
+            tup3<double> e=end[p][l];
+            glBegin(GL_LINES);
+                glVertex3f(get<0>(b), get<1>(b), get<2>(b));
+                glVertex3f(get<0>(e), get<1>(e), get<2>(e));
+            glEnd();
+        }
     }
+    cout<<"Begin: "<<begin.size()<<endl;
 }
 
 void MyGLWidget::clear(){

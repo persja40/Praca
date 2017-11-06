@@ -17,5 +17,9 @@ using namespace std;
 template<typename T>
 using tup3= tuple<T,T,T>;
 
+extern mutex points;
+extern vector<vector<tup3<double>>> beginsp;
+extern vector<vector<tup3<double>>> endsp;
+extern vector<tup3<int>> colorsp;
 #endif // EXPRESSIONS
 

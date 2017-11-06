@@ -16,6 +16,9 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+signals:
+    void copy();
+
 private slots:
   void on_pushButton_Run_clicked();
 

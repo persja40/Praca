@@ -29,14 +29,19 @@ void MainWindow::on_pushButton_Run_clicked()
                 const int g= nr_rounds;
                 const int p= nr_players;
                 vector<unique_ptr<Game>> tab;
-                vector<tup3<int>> col;
+                colorsp.clear();
                 chrono::milliseconds d(delay);
-                cout<<"fun: "<<fun<<endl;
+//                cout<<"fun: "<<fun<<endl;
+                beginsp.resize(p);
+                endsp.resize(p);
                 for(int i=0; i<p;i++){
                     tab.push_back(make_unique<Game>(fun));
-                    col.push_back(make_tuple( rand()%256, rand()%256, rand()%256 ));
+                    colorsp.push_back(make_tuple( rand()%256, rand()%256, rand()%256 ));
+                    beginsp[i].resize(g);
+                    endsp[i].resize(g);
                 }
                 for(int j=0; j<g;j++){
+                    while(!points.try_lock());
                     vector<tup3<double>> begin;
                     vector<tup3<double>> end;
                     for(int i=0; i<p;i++){
@@ -44,14 +49,20 @@ void MainWindow::on_pushButton_Run_clicked()
                             busy= false;
                             throw 1;
                         }
-                        begin.push_back(tab[i]->next());
-                        end.push_back(tab[i]->prelast());
+                        beginsp[i].push_back(tab[i]->next());
+                        endsp[i].push_back(tab[i]->prelast());
                     }
+                    points.unlock();
                     //emit
+                    emit copy();
                     this_thread::sleep_for(d);
                 }
                 busy= false;
                 ui->pushButton_Run->setEnabled(true);
+                cout<<"p: "<<p<<";   g: "<<g<<endl;
+                cout<<"Beginsp: "<<beginsp.size()<<endl;
+                //emit copy();
+                //cout<<sizeof(beginsp) + sizeof(double)*3*p*g<<endl;
                 cout<<"FINISH"<<endl;
             });
 }
