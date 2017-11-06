@@ -32,6 +32,8 @@ private slots:
 
   void on_pushButton_Clear_clicked();
 
+  void on_pushButton_Debug_clicked();
+
 private:
     Ui::MainWindow *ui;
     int nr_players;

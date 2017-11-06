@@ -52,7 +52,6 @@ void MyGLWidget::setZRotation(int angle)
 
 void MyGLWidget::copy(){
     while(!points.try_lock());
-    cout<<"COPYING"<<endl;
     while(!drawable.try_lock());
     begin= beginsp;
     end= endsp;
@@ -163,6 +162,7 @@ void MyGLWidget::draw()
 }
 
 void MyGLWidget::drawLines(){
+    while(!drawable.try_lock());
     glLineWidth(0.1);
     for(unsigned int p=0; p<begin.size();p++){
         glColor3ub(get<0>(color[p]), get<1>(color[p]), get<2>(color[p]));
@@ -175,7 +175,7 @@ void MyGLWidget::drawLines(){
             glEnd();
         }
     }
-    cout<<"Begin: "<<begin.size()<<endl;
+    drawable.unlock();
 }
 
 void MyGLWidget::clear(){

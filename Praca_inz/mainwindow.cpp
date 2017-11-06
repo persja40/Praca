@@ -29,14 +29,17 @@ void MainWindow::on_pushButton_Run_clicked()
                 const int g= nr_rounds;
                 const int p= nr_players;
                 vector<unique_ptr<Game>> tab;
-                colorsp.clear();
+                std::default_random_engine generator;
+                std::uniform_int_distribution<int> distribution(0,255);
+                auto r= bind(distribution, generator);
+                //clear data REMEMBER
+                srand(time(0));
                 chrono::milliseconds d(delay);
-//                cout<<"fun: "<<fun<<endl;
                 beginsp.resize(p);
                 endsp.resize(p);
                 for(int i=0; i<p;i++){
                     tab.push_back(make_unique<Game>(fun));
-                    colorsp.push_back(make_tuple( rand()%256, rand()%256, rand()%256 ));
+                    colorsp.push_back(make_tuple( r(), r(), r() ));
                     beginsp[i].resize(g);
                     endsp[i].resize(g);
                 }
@@ -53,16 +56,11 @@ void MainWindow::on_pushButton_Run_clicked()
                         endsp[i].push_back(tab[i]->prelast());
                     }
                     points.unlock();
-                    //emit
                     emit copy();
                     this_thread::sleep_for(d);
                 }
                 busy= false;
                 ui->pushButton_Run->setEnabled(true);
-                cout<<"p: "<<p<<";   g: "<<g<<endl;
-                cout<<"Beginsp: "<<beginsp.size()<<endl;
-                //emit copy();
-                //cout<<sizeof(beginsp) + sizeof(double)*3*p*g<<endl;
                 cout<<"FINISH"<<endl;
             });
 }
@@ -105,4 +103,10 @@ void MainWindow::kill(){
                 ui->pushButton_Run->setEnabled(true);
                 ui->pushButton_Clear->setEnabled(true);
             });
+}
+
+void MainWindow::on_pushButton_Debug_clicked()
+{
+    for(const auto& i:colorsp)
+        cout<<get<0>(i)<<"\t"<<get<1>(i)<<"\t"<<get<2>(i)<<endl;
 }

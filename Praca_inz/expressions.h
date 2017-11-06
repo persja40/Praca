@@ -11,6 +11,7 @@
 #include <thread>
 #include <qtconcurrentrun.h>
 #include <mutex>
+#include <random>
 
 using namespace std;
 

@@ -40,6 +40,13 @@
        </spacer>
       </item>
       <item>
+       <widget class="QPushButton" name="pushButton_Debug">
+        <property name="text">
+         <string>PushButton</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QLabel" name="label_4">
         <property name="text">
          <string>Draw delay</string>
