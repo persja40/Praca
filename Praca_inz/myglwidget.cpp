@@ -64,13 +64,11 @@ void MyGLWidget::copy(){
 void MyGLWidget::initializeGL()
 {
 //    qglClearColor(Qt::black);
-
 //    glEnable(GL_DEPTH_TEST);
 //    glEnable(GL_CULL_FACE);
 //    glShadeModel(GL_SMOOTH);
 //    glEnable(GL_LIGHTING);
 //    glEnable(GL_LIGHT0);
-
 //    static GLfloat lightPosition[4] = { 0, 0, 10, 1.0 };
 //    glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
 }
@@ -84,7 +82,7 @@ void MyGLWidget::paintGL()
 
 void MyGLWidget::resizeGL(int width, int height)
 {
-    int side = qMin(width, height);
+    int side = qMax(width, height);
     glViewport((width - side) / 2, (height - side) / 2, side, side);
 
     glMatrixMode(GL_PROJECTION);
@@ -152,26 +150,20 @@ void MyGLWidget::draw()
 //        glVertex3f(-1,-1,0);
 //        glVertex3f(0,0,1.2);
 //    glEnd();
-    glLineWidth(1);
-    glColor3ub(255, 0, 0);
-    glBegin(GL_LINES);
-        glVertex3f(0.0, 0.0, 0.0);
-        glVertex3f(15, 0, 0);
-    glEnd();
 
 }
 
 void MyGLWidget::drawLines(){
     while(!drawable.try_lock());
-    glLineWidth(0.1);
+    glLineWidth(3);
     for(unsigned int p=0; p<begin.size();p++){
         glColor3ub(get<0>(color[p]), get<1>(color[p]), get<2>(color[p]));
         for(unsigned int l=0; l<begin[0].size(); l++){
             tup3<double> b=begin[p][l];
             tup3<double> e=end[p][l];
             glBegin(GL_LINES);
-                glVertex3f(get<0>(b), get<1>(b), get<2>(b));
-                glVertex3f(get<0>(e), get<1>(e), get<2>(e));
+                glVertex3f(get<0>(b)-0.5, get<1>(b)-0.5, get<2>(b)-0.5);
+                glVertex3f(get<0>(e)-0.5, get<1>(e)-0.5, get<2>(e)-0.5);
             glEnd();
         }
     }

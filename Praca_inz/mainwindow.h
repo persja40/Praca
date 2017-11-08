@@ -43,6 +43,7 @@ private:
     volatile atomic<bool> cancel;
     void kill();
     volatile atomic<bool> busy;
+    void clear_vectors();
 };
 
 #endif // MAINWINDOW_H

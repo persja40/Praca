@@ -24,7 +24,6 @@ void MainWindow::on_pushButton_Run_clicked()
 {
     QtConcurrent::run(
             [&]()->void{
-                busy= true;
                 ui->pushButton_Run->setEnabled(false);
                 const int g= nr_rounds;
                 const int p= nr_players;
@@ -32,8 +31,7 @@ void MainWindow::on_pushButton_Run_clicked()
                 std::default_random_engine generator;
                 std::uniform_int_distribution<int> distribution(0,255);
                 auto r= bind(distribution, generator);
-                //clear data REMEMBER
-                srand(time(0));
+                clear_vectors();
                 chrono::milliseconds d(delay);
                 beginsp.resize(p);
                 endsp.resize(p);
@@ -45,8 +43,6 @@ void MainWindow::on_pushButton_Run_clicked()
                 }
                 for(int j=0; j<g;j++){
                     while(!points.try_lock());
-                    vector<tup3<double>> begin;
-                    vector<tup3<double>> end;
                     for(int i=0; i<p;i++){
                         if(cancel){
                             busy= false;
@@ -95,11 +91,8 @@ void MainWindow::kill(){
             [&]()->void{
                 ui->pushButton_Run->setEnabled(false);
                 ui->pushButton_Clear->setEnabled(false);
-                cancel= true;
-                while(busy);
-                cancel= false;
+
                 //emit clear
-                busy= false;
                 ui->pushButton_Run->setEnabled(true);
                 ui->pushButton_Clear->setEnabled(true);
             });
@@ -107,6 +100,11 @@ void MainWindow::kill(){
 
 void MainWindow::on_pushButton_Debug_clicked()
 {
-    for(const auto& i:colorsp)
-        cout<<get<0>(i)<<"\t"<<get<1>(i)<<"\t"<<get<2>(i)<<endl;
+    cout<<"DEBUG"<<endl;
+}
+
+void MainWindow::clear_vectors(){
+    beginsp.clear();
+    endsp.clear();
+    colorsp.clear();
 }
