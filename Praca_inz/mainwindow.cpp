@@ -27,6 +27,7 @@ void MainWindow::on_pushButton_Run_clicked()
                 ui->pushButton_Run->setEnabled(false);
                 const int g= nr_rounds;
                 const int p= nr_players;
+                const int f= fun;
                 vector<unique_ptr<Game>> tab;
                 std::default_random_engine generator;
                 std::uniform_int_distribution<int> distribution(0,255);
@@ -36,7 +37,7 @@ void MainWindow::on_pushButton_Run_clicked()
                 beginsp.resize(p);
                 endsp.resize(p);
                 for(int i=0; i<p;i++){
-                    tab.push_back(make_unique<Game>(fun));
+                    tab.push_back(make_unique<Game>(f));
                     colorsp.push_back(make_tuple( r(), r(), r() ));
                     beginsp[i].resize(g);
                     endsp[i].resize(g);
