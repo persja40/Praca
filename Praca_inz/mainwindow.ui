@@ -42,7 +42,7 @@
       <item>
        <widget class="QPushButton" name="pushButton_Debug">
         <property name="text">
-         <string>PushButton</string>
+         <string>DEBUG</string>
         </property>
        </widget>
       </item>

@@ -1,3 +1,5 @@
 */*.user*
 *Debug*/
 *Release*/
+Multi/*.dat
+Multi/*.png
