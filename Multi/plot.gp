@@ -1,4 +1,4 @@
-set term png size 1000,1000
+set term png size 500,500
 set out 'multi.png'
 set xlabel "Game's nr"
 set ylabel 'Probability'

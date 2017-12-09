@@ -20,7 +20,7 @@ $(TARGET): main.cpp multigame.cpp $(OBJECTS)
 	$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
 
 run:
-	./program $(G) $(F)
+	./program $(G) $(P)
 
 plot:
 	gnuplot 'plot.gp'
