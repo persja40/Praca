@@ -40,13 +40,6 @@
        </spacer>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton_Debug">
-        <property name="text">
-         <string>DEBUG</string>
-        </property>
-       </widget>
-      </item>
-      <item>
        <widget class="QLabel" name="label_4">
         <property name="text">
          <string>Draw delay</string>
@@ -127,16 +120,6 @@
        <widget class="QPushButton" name="pushButton_Run">
         <property name="text">
          <string>Run</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="pushButton_Clear">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-        <property name="text">
-         <string>Clear</string>
         </property>
        </widget>
       </item>

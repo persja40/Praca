@@ -16,7 +16,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
-    kill();
+    //kill();
     delete ui;
 }
 
@@ -82,6 +82,7 @@ void MainWindow::on_spinBox_Delay_valueChanged(int arg1)
     delay= arg1;
 }
 
+/*
 void MainWindow::on_pushButton_Clear_clicked()
 {
     kill();
@@ -103,6 +104,7 @@ void MainWindow::on_pushButton_Debug_clicked()
 {
     cout<<"DEBUG"<<endl;
 }
+*/
 
 void MainWindow::clear_vectors(){
     beginsp.clear();
