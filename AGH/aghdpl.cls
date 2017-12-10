@@ -218,3 +218,7 @@ University of Science and Technology in Krakow}}}
 \setlength{\cftparskip}{2pt}
 \setlength{\cftbeforechapskip}{0mm}
 \renewcommand{\cftchappagefont}{\normalsize}
+
+%list of pictures
+\renewcommand{\cftloftitlefont}{\bfseries\LARGE}
+\renewcommand{\cftfigpagefont}{\normalsize}

@@ -3,15 +3,19 @@
 \contentsline {section}{\numberline {1.1}Cele pracy}{6}{section.1.1}
 \contentsline {section}{\numberline {1.2}Zawarto\IeC {\'s}\IeC {\'c} pracy}{6}{section.1.2}
 \contentsline {chapter}{\numberline {2}Opis teoretyczny}{7}{chapter.2}
+\contentsline {section}{\numberline {2.1}Gra 3 osobowa}{7}{section.2.1}
+\contentsline {paragraph}{O jakiej grze m\IeC {\'o}wimy}{7}{paragraph*.1}
+\contentsline {section}{\numberline {2.2}R\IeC {\'o}wnania standardowe}{7}{section.2.2}
+\contentsline {section}{\numberline {2.3}R\IeC {\'o}wnania replikator\IeC {\'o}w}{7}{section.2.3}
 \contentsline {chapter}{\numberline {3}Implementacja symulacji}{8}{chapter.3}
 \contentsline {section}{\numberline {3.1}\IeC {\'S}rodowisko QT}{8}{section.3.1}
 \contentsline {section}{\numberline {3.2}OpenGL}{8}{section.3.2}
 \contentsline {section}{\numberline {3.3}Makefile}{8}{section.3.3}
 \contentsline {section}{\numberline {3.4}Jak uruchomi\IeC {\'c}?}{8}{section.3.4}
-\contentsline {section}{\numberline {3.5}R\IeC {\'o}wnania}{8}{section.3.5}
+\contentsline {section}{\numberline {3.5}Schemat programu}{8}{section.3.5}
 \contentsline {chapter}{\numberline {4}Wyniki}{9}{chapter.4}
 \contentsline {section}{\numberline {4.1}N gier 3-osobowych niezale\IeC {\.z}nych}{9}{section.4.1}
-\contentsline {paragraph}{R\IeC {\'o}wnania standardowe}{9}{paragraph*.1}
-\contentsline {paragraph}{R\IeC {\'o}wnania replikator\IeC {\'o}w}{9}{paragraph*.2}
+\contentsline {paragraph}{R\IeC {\'o}wnania standardowe}{9}{paragraph*.2}
+\contentsline {paragraph}{R\IeC {\'o}wnania replikator\IeC {\'o}w}{9}{paragraph*.3}
 \contentsline {section}{\numberline {4.2}N gier 3-osobowych zale\IeC {\.z}nych}{9}{section.4.2}
 \contentsline {chapter}{\numberline {5}Podsumowanie}{11}{chapter.5}
