@@ -5,10 +5,39 @@
 \label{sec:3_gra}
 
 \paragraph{O jakiej grze mówimy}
-W niniejszej pracy będziemy skupiali się na grze 3-osobowej o specyficznej tabeli wypłat. 
+
+W niniejszej pracy będziemy skupiali się na grze 3-osobowej.Będziemy rozpatrywać tylko przypadki w których koalicja dwóch graczy wygrywa. Nie bierzemy pod uwagę sytuacji w których współpraca ze sobą wszystkich graczy mogłaby przynieść najlepsze korzyści. W tabelce wypłat rozważanej gry nie może pojawić się punkt równowagi wynikający ze strategii czystych. W rozważane przez nas grze celem gracza nie jest zdobycie jak największego zysku, lecz osiągnięcie jak największej liczby wygranych. Osoba znajdująca się poza koalicją przegrywa i wszyscy gracze mają taką samą wagę wyboru.
+
+Będziemy rozważali dwa przypadki: zależnej i niezależnej rozgrywki. W pierwszej części skupimy się na partiach niezależnych, a następnie wykonamy symulacje gier ze sobą powiązanych. W grach zależnych każdy gracz będzie rozgrywał partie z dwoma innymi graczami siedzącymi po obu jego stronach, będzie to przypominało grę w okręgu gdzie każdy z graczy może wybrać czy wstępuje w koalicję z swoim partnerem po prawej czy lewej stronie. W takiej sytuacji nie będzie możliwe granie z oboma partnerami. Będziemy w końcu zmuszeni wybrać z kim trzymamy stałą koalicję, a kogo odrzucimy. Wykluczamy możliwość jakiejkolwiek komunikacji między graczami poza obserwowaniem ich poprzednich zagrań. Model ten z pewnością będzie dużo bardziej dynamiczny, gdyż częstotliwości wybierania sojuszy będzie musiała zmienić zachowanie sojuszników naszych partnerów.
+
+\section{Model partii}
+OPISZ TROJKAT GRY Z PRAWD I ZROB RYSUNEK
 
 \section{Równania standardowe}
 \label{sec:r_stand}
 
+\begin{equation} \label{eq:stand}
+p_i += \alpha \cdot (1 - \frac{n_R}{nr_{games}} - \frac{n_L}{nr_{games}})
+\end{equation}
+
 \section{Równania replikatorów}
 \label{sec:r_repli}
+
+\begin{equation} \label{eq:repli}
+p_i += \alpha \cdot (p_i \cdot (1 - p_i)) \cdot (1 - \frac{n_R}{nr_{games}} - \frac{n_L}{nr_{games}})
+\end{equation}
+
+\section{Normalizacja prawdopodobieństwa}
+\label{sec:normalizacja}
+Jak zauważyliśmy powyższe równania w łatwy sposób mogą wyjść poza przedział $<-1,1>$. Aby temu zapobiec każda inkrementacja prawdopodobieństwa musi być obłożona funkcją normalizującą. Zdecydowałem się użyć następującej funkcji:
+\begin{displaymath}
+norm(p_i) = \left\{
+\begin{array}{ll}
+1 & \text{jeżeli } p_i > 1 \\
+p_i & \text{jeżeli } 1 \geq p_i \geq -1 \\
+-1 & \text{jeżeli } p_i < -1
+\end{array} 
+\right\}
+\end{displaymath}
+
+Zapewne naszą uwagę przykuł także parametr \alpha obecny w powyższych równaniach. W pierwszym z nich zdecydowałem się na 
