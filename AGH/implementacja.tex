@@ -7,6 +7,7 @@ W tym rozdziale chciałbym przedstawić technologie i narzędzia użyte do wykon
 
 \section{Środowisko QT}
 \label{sec:qt}
+Zdecydowałem się wykorzystać QT Creator IDE z kilku powodów, które zamierzam zaraz rozwinąć. Najważniejszą cechą środowiska jest udostępnienie go na kilku rodzajach licencji. Osobiście użyłem licencji LGPL, która pozwoliła mi bez ponoszenia kosztów korzystać ze środowiska. Kolejnym ważnym elementem jest multiplatformowość pozwalająca w łatwy sposób przenosić kod program między systemami operacyjnymi, o ile nie zostały użyte biblioteki dostępne tylko na jeden z systemów. Kolejną z zalet jest łatwy i intuicyjny interfejs tworzenia graficznego interfejsu użytkownika, osoba mająca wcześniej styczność z chociażby biblioteką Swing Java'y nie powinna mieć problemu z zaadaptowaniem się do  formularza QT Creatora. Wykorzystywany jest model sygnałów i slotów, polegający na emitowaniu sygnału przez zdarzenie, który następnie trafia do podłączonego slotu. Jest to w stanie znacznie ułatwić komunikację między elementami. Używanie nowoczesnego języka C++ (ja używałem wersji 14) nie sprawia problemów, lecz powinniśmy być świadomi że przykładowe uruchomienie wątków w aplikacji powinno być zrobione przy użyciu klas i funkcji z biblioteki QT.  
 
 \section{OpenGL}
 \label{sec:opengl}
