@@ -23,6 +23,8 @@ p_i += \alpha \cdot (1 - \frac{n_R}{nr_{games}} - \frac{n_L}{nr_{games}})
 \section{Równania replikatorów}
 \label{sec:r_repli}
 
+OPISAĆ SPOSÓB WYPROWADZENIA OBYDWU!!! I CZYNNIK ZMNIEJSZCZYJĄCY NA KRAŃCACH !!!
+
 \begin{equation} \label{eq:repli}
 p_i += \alpha \cdot (p_i \cdot (1 - p_i)) \cdot (1 - \frac{n_R}{nr_{games}} - \frac{n_L}{nr_{games}})
 \end{equation}
@@ -35,7 +37,7 @@ norm(p_i) = \left\{
 \begin{array}{ll}
 1 & \text{jeżeli } p_i > 1 \\
 p_i & \text{jeżeli } 1 \geq p_i \geq -1 \\
--1 & \text{jeżeli } p_i < -1
+0 & \text{jeżeli } p_i < 0
 \end{array} 
 \right\}
 \end{displaymath}

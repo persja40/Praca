@@ -9,7 +9,7 @@ MainWindow::MainWindow(QWidget *parent) :
     nr_players= 0;
     fun= 0;
     delay= 0;
-    cancel= false;
+//    cancel= false;
     busy= false;
     ui->setupUi(this);
 }
@@ -45,10 +45,10 @@ void MainWindow::on_pushButton_Run_clicked()
                 for(int j=0; j<g;j++){
                     while(!points.try_lock());
                     for(int i=0; i<p;i++){
-                        if(cancel){
-                            busy= false;
-                            throw 1;
-                        }
+//                        if(cancel){
+//                            busy= false;
+//                            throw 1;
+//                        }
                         beginsp[i].push_back(tab[i]->next());
                         endsp[i].push_back(tab[i]->prelast());
                     }

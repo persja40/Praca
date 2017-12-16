@@ -40,7 +40,7 @@ private:
     int nr_rounds;
     int fun;
     int delay;
-    volatile atomic<bool> cancel;
+//    volatile atomic<bool> cancel;
 //    void kill();
     volatile atomic<bool> busy;
     void clear_vectors();
