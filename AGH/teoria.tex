@@ -60,7 +60,7 @@ Gracz_0 = N, Gracz_1 = P, Gracz_2 = N && Gracz_0 = N, Gracz_1 = P, Gracz_2 = P\\
 \end{array}
 \right\}
 \end{align*}
-Jak widzimy prowadzi to do bardzo szybkich zmian prawdopodobieństwa, co może praktycznie uniemożliwiać jakiekolwiek zmiany sojuszy. Co jednak z równaniami replikatorów? Czy również tam potrzebny będzie nam jakiś parametr zmniejszający dynamikę? Przecież zawierają one człon postaci $x(1-x)$, czy to nie wystarczy? Weźmy założenia z poprzedniego przykładu. Przeanalizujmy przykład: 
+Schemat po lewej przedstawia pierwszą partię, a po lewej drugą. Jak widzimy prowadzi to do bardzo szybkich zmian prawdopodobieństwa, co może praktycznie uniemożliwiać jakiekolwiek zmiany sojuszy. Co jednak z równaniami replikatorów? Czy również tam potrzebny będzie nam jakiś parametr zmniejszający dynamikę? Przecież zawierają one człon postaci $x(1-x)$, czy to nie wystarczy? Weźmy założenia z poprzedniego przykładu. Przeanalizujmy przykład: {\color{red} UKŁAD}
 \begin{align*}
 Gracz_0 = N, Gracz_1 = P, Gracz_2 = N \\
 \left\{
@@ -81,6 +81,70 @@ Gracz_0 = N, Gracz_1 = P, Gracz_2 = P \\
 \right\}
 \end{align*}
 Jak widzimy najszybsza zmiana zachodzi dla pierwszego gracza, który traci 25\% zaufania do gracza o wyższym indeksie. W kolejnej partii nie widzimy już tak dużych zmian. Czy jest to na tyle dużo, aby wprowadzać parametr mający spowalniać dynamikę zmian? Zanim odpowiem chciałbym poruszyć dwie kwestie. Zgadzam się że dynamika prawdopodobieństwa jest dla mnie akceptowalna(czyli wynosi do 10\%), ale tylko dla prawdopodobieństw które oddalają się od środka przedziału, a grę rozpoczynamy właśnie w nim. Drugą sprawą jest porównanie obu równań. Porównanie wyników, w które rekurencyjnie wkładamy czynnik wymnażający zmianę nie jest najłatwiejszą rzeczą do opisania. Ale czy człon $x(1-x)$ w równaniu replikatorów nie jest takim czynnikiem? Owszem jest, ale ... właśnie jego celem jest rozwiązanie problemu supersilnych, szybko tworzących się koalicji.
-Weźmy na tapet przypadek, gdy w jednej z partii żaden z graczy nie współpracował:
 
-RYSUNKI
+Postarajmy się teraz skupić na szczególnych przypadkach, gdy w obu osobnych grach żaden z graczy nie współpracował. Użyjemy równań standardowych, prawdopodobieństwo początkowe $\frac{1}{2}$ oraz $\alpha = 1$.
+
+\begin{align*}
+Gracz_0 = N, Gracz_1 = N, Gracz_2 = N && Gracz_0 = P, Gracz_1 = P, Gracz_2 = P \\
+\left\{
+\begin{array}{ll}
+\Delta p_0 = (1 - 1 - 1) =  -1 & p_0=0\\
+\Delta p_1 = (1 - 1 - 1) =  -1 & p_1= 0\\
+\Delta p_2 = (1 - 1 - 1) =  -1 & p_2=0\\
+\end{array} 
+\right\} &&
+\left\{
+\begin{array}{ll}
+\Delta p_0 = (1 - 0 - 0) =  1 & p_0= 1\\
+\Delta p_1 = (1 - 0 - 0) =  1 & p_1= 1\\
+\Delta p_2 = (1 - 0 - 0) =  1 & p_2= 1\\
+\end{array}
+\right\}
+\end{align*}
+Przypadek ten pokaże nam skutki braku ograniczenia w prawdopodobieństwie. Wiemy że teraz każdy z graczy wykona ruch przeciwny do poprzedniego co da nam w obu grach:
+\begin{align*}
+\left\{
+\begin{array}{l}
+\Delta p_0 = (1 - \frac{1}{2} - \frac{1}{2}) =  0 \\
+\Delta p_1 = (1 - \frac{1}{2} - \frac{1}{2}) =  0 \\
+\Delta p_2 = (1 - \frac{1}{2} - \frac{1}{2}) =  0 \\
+\end{array} 
+\right\}
+\end{align*}
+Brak wpływu na zmiany, gracze dokonują wyboru jak poprzednio.
+\begin{align*}
+Gracz_0 = P, Gracz_1 = P, Gracz_2 = P && Gracz_0 = N, Gracz_1 = N, Gracz_2 = N \\
+\left\{
+\begin{array}{ll}
+\Delta p_0 = (1 - \frac{1}{3} - \frac{1}{3}) =  \frac{1}{3} & p_0= \frac{1}{3}\\
+\Delta p_1 = (1 - \frac{1}{3} - \frac{1}{3}) =  \frac{1}{3} & p_1= \frac{1}{3}\\
+\Delta p_2 = (1 - \frac{1}{3} - \frac{1}{3}) =  \frac{1}{3} & p_2= \frac{1}{3}\\
+\end{array} 
+\right\} &&
+\left\{
+\begin{array}{ll}
+\Delta p_0 = (1 - \frac{2}{3} - \frac{2}{3}) =  -\frac{1}{3} & p_0= \frac{2}{3}\\
+\Delta p_1 = (1 - \frac{2}{3} - \frac{2}{3}) =  -\frac{1}{3} & p_1= \frac{2}{3}\\
+\Delta p_2 = (1 - \frac{2}{3} - \frac{2}{3}) =  -\frac{1}{3} & p_2= \frac{2}{3}\\
+\end{array}
+\right\}
+\end{align*}
+Wróciliśmy to punktu wyjścia, tylko tym razem wyjściowym prawdopodobieństwem chęci gry na gracza z większym indeksem jest $\frac{1}{3}$ dla gry przedstawionej po lewej stronie i $\frac{2}{3}$ dla gry po prawej? Nie do końca! W pamięci każdego z graczy jest liczba rozegranych partii ze swoimi rywalami co będzie prowadziło do niekoniecznie oczywistych zachowań, gdy przeanalizujemy ścieżki gier o wyborach z większym prawdopodobieństwie.
+\begin{align*}
+Gracz_0 = P, Gracz_1 = P, Gracz_2 = P && Gracz_0 = N, Gracz_1 = N, Gracz_2 = N \\
+\left\{
+\begin{array}{ll}
+\Delta p_0 = (1 - \frac{1}{4} - \frac{1}{4}) =  \frac{1}{2} & p_0= \frac{5}{6}\\
+\Delta p_1 = (1 - \frac{1}{4} - \frac{1}{4}) =  \frac{1}{2} & p_1= \frac{5}{6}\\
+\Delta p_2 = (1 - \frac{1}{4} - \frac{1}{4}) =  \frac{1}{2} & p_2= \frac{5}{6}\\
+\end{array} 
+\right\} &&
+\left\{
+\begin{array}{ll}
+\Delta p_0 = (1 - \frac{2}{5} - \frac{2}{5}) =  -\frac{1}{2} & p_0= \frac{1}{6}\\
+\Delta p_1 = (1 - \frac{2}{5} - \frac{2}{5}) =  -\frac{1}{2} & p_1= \frac{1}{6}\\
+\Delta p_2 = (1 - \frac{2}{5} - \frac{2}{5}) =  -\frac{1}{2} & p_2= \frac{1}{6}\\
+\end{array}
+\right\}
+\end{align*}
+Widzimy zmianę zachowania graczy spowodowaną sumą częstości gier przeciwników. Sytuacja takiej fluktuacji będzie się powtarzać, lecz z czasem będziemy tracić naszą pulę graczy z powodu czynnika prawdopodobieństwa. Teoretycznie mając do dyspozycji nieskończoną populację graczy oraz nieograniczony czas, istniałby przypadek nieskończonej "sinusoidy" o zwiększającym się okresie. Sytuacja taka nie jest dla nas pożądana, co stanowi dodatkowy argument za użyciem parametru $\alpha < 1$ skutecznie niwelującego wystąpienie takich sytuacji.
