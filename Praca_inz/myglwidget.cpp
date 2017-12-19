@@ -150,7 +150,59 @@ void MyGLWidget::draw()
 //        glVertex3f(-1,-1,0);
 //        glVertex3f(0,0,1.2);
 //    glEnd();
-
+    glLineWidth(3);
+    glColor3ub(255,255,255);
+//bottom
+    glBegin(GL_LINES);
+        glVertex3f(-0.5,-0.5,-0.5);
+        glVertex3f(-0.5,0.5,-0.5);
+    glEnd();
+    glBegin(GL_LINES);
+        glVertex3f(-0.5,-0.5,-0.5);
+        glVertex3f(0.5,-0.5,-0.5);
+    glEnd();
+    glBegin(GL_LINES);
+        glVertex3f(0.5,0.5,-0.5);
+        glVertex3f(-0.5,0.5,-0.5);
+    glEnd();
+    glBegin(GL_LINES);
+        glVertex3f(0.5,0.5,-0.5);
+        glVertex3f(0.5,-0.5,-0.5);
+    glEnd();
+//top
+    glBegin(GL_LINES);
+        glVertex3f(-0.5,-0.5,0.5);
+        glVertex3f(-0.5,0.5,0.5);
+    glEnd();
+    glBegin(GL_LINES);
+        glVertex3f(-0.5,-0.5,0.5);
+        glVertex3f(0.5,-0.5,0.5);
+    glEnd();
+    glBegin(GL_LINES);
+        glVertex3f(0.5,0.5,0.5);
+        glVertex3f(-0.5,0.5,0.5);
+    glEnd();
+    glBegin(GL_LINES);
+        glVertex3f(0.5,0.5,0.5);
+        glVertex3f(0.5,-0.5,0.5);
+    glEnd();
+//columns
+    glBegin(GL_LINES);
+        glVertex3f(-0.5,-0.5,-0.5);
+        glVertex3f(-0.5,-0.5,0.5);
+    glEnd();
+    glBegin(GL_LINES);
+        glVertex3f(-0.5,0.5,-0.5);
+        glVertex3f(-0.5,0.5,0.5);
+    glEnd();
+    glBegin(GL_LINES);
+        glVertex3f(0.5,-0.5,-0.5);
+        glVertex3f(0.5,-0.5,0.5);
+    glEnd();
+    glBegin(GL_LINES);
+        glVertex3f(0.5,0.5,-0.5);
+        glVertex3f(0.5,0.5,0.5);
+    glEnd();
 }
 
 void MyGLWidget::drawLines(){
