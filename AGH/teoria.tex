@@ -13,21 +13,39 @@ Będziemy rozważali dwa przypadki: zależnej i niezależnej rozgrywki. Przez ro
 \section{Model partii}
 OPISZ TROJKAT GRY Z PRAWD I ZROB RYSUNEK
 
+\begin{equation} \label{eq:ograniczenie}
+p_i = ogr( p_i + \Delta p_i)
+\end{equation}
+
+%---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 \section{Równania standardowe}
 \label{sec:r_stand}
-
-\begin{equation} \label{eq:stand}
-p_i += \alpha \cdot (1 - \frac{n_R}{nr_{games}} - \frac{n_L}{nr_{games}})
+Podstawowym równaniem od którego wyjdziemy będzie równanie dla gracza o indeksie 0, pozostałe utworzymy analogicznie:
+\begin{equation} \label{eq:poczatek}
+\Delta p_0 = (1 - p_1) - p_2
 \end{equation}
+Dlaczego akurat to? Sposób rozumowania jest prosty. Człon $1 - p_1$ jest prawdopodobieństwem zagrania gracza 1 na gracza 0, więc prawdopodobieństwo zagrania gracza 0 na gracza 1 powinno z nim rosnąć. Co mogłoby zniechęcić gracza 0 do sympatyzowania z graczem 1? Sojusz między graczem 2 a 1? Zdecydowanie nie! Z tego właśnie powodu odejmujemy $p_2$, co ma pokazywać graczowi 0 że ma innego zawodnika, który wyciąga do niego rękę.
+
+Następnym pytaniem jest: skąd mam wiedzieć z jakim prawdopodobieństwem gra mój przeciwnik? Nie masz wiedzieć. Z tego względu zdecydowałem się wprowadzić u zawodników statystykę zagrań przeciwników, pozwalającą obliczyć prawdopodobieństwo. Czy takie coś się sprawdzi? Tak i nie, w jednej z następnych sekcji \ref{sec:ograniczenie} omówimy bardziej szczegółowo niechciane zachowania z tego wynikające, ale na chwilę obecną przyjmijmy, że potrzebujemy dodatkowego parametru $\alpha$ przyjętego na poziomie $0.1$.
+
+W poniższym równaniu $n_N$ oznacza liczbę partii zagranych przez następnego (z wyższym indeksem) gracza w kierunku jego następnego gracza. Analogicznie $n_P$ oznacza liczbę partii zagranych przez poprzedniego (z niższym indeksem) gracza w kierunku jego następnego gracza (czyli nas).
+\begin{equation} \label{eq:stand}
+\Delta p_i = \alpha \cdot (1 - \frac{n_N}{liczba_{partii}} - \frac{n_P}{liczba_{partii}})
+\end{equation}
+
+%---------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 \section{Równania replikatorów}
 \label{sec:r_repli}
 
-OPISAĆ SPOSÓB WYPROWADZENIA OBYDWU!!! I CZYNNIK ZMNIEJSZCZYJĄCY NA KRAŃCACH !!!
+OPISAĆ SPOSÓB WYPROWADZENIA OBYDWU!!! I CZYNNIK ZMNIEJSZAJĄCY NA KRAŃCACH !!!
 
 \begin{equation} \label{eq:repli}
 p_i += \alpha \cdot (p_i \cdot (1 - p_i)) \cdot (1 - \frac{n_R}{nr_{games}} - \frac{n_L}{nr_{games}})
 \end{equation}
+
+%---------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 \section{Ograniczenie prawdopodobieństwa}
 \label{sec:ograniczenie}
@@ -42,7 +60,7 @@ p_i & \text{jeżeli } 1 \geq p_i \geq 0 \\
 \right\}
 \end{displaymath}
 
-Zapewne naszą uwagę przykuł także parametr $\alpha$ obecny w powyższych równaniach. W pierwszym z nich użycie go jest konieczne, gdyż w przeciwnym przypadku szacowanie prawdopodobieństwa innych doprowadziłoby to zawiązania trwałych koalicji już po pierwszej partii. N oznacza zagranie w stronę zawododnika z wyższym numerem, natomiast P z niższym. Zapętla to się dla pierwszego i ostatniego gracza. Zobaczmy przykład dla równania standardowego, prawdopodobieństwa początkowego $\frac{1}{2}$ i $\alpha = 1$ zakładając że:
+Zapewne naszą uwagę przykuł także parametr $\alpha$ obecny w powyższych równaniach. W pierwszym z nich użycie go jest konieczne, gdyż w przeciwnym przypadku szacowanie prawdopodobieństwa innych doprowadziłoby to zawiązania trwałych koalicji już po pierwszej partii. N oznacza zagranie w stronę zawodnika z wyższym numerem, natomiast P z niższym. Zapętla to się dla pierwszego i ostatniego gracza. Zobaczmy przykład dla równania standardowego, prawdopodobieństwa początkowego $\frac{1}{2}$ i $\alpha = 1$ zakładając że:
 \begin{align*}
 Gracz_0 = N, Gracz_1 = P, Gracz_2 = N && Gracz_0 = N, Gracz_1 = P, Gracz_2 = P\\
 \left\{
@@ -147,4 +165,4 @@ Gracz_0 = P, Gracz_1 = P, Gracz_2 = P && Gracz_0 = N, Gracz_1 = N, Gracz_2 = N \
 \end{array}
 \right\}
 \end{align*}
-Widzimy zmianę zachowania graczy spowodowaną sumą częstości gier przeciwników. Sytuacja takiej fluktuacji będzie się powtarzać, lecz z czasem będziemy tracić naszą pulę graczy z powodu czynnika prawdopodobieństwa. Teoretycznie mając do dyspozycji nieskończoną populację graczy oraz nieograniczony czas, istniałby przypadek nieskończonej "sinusoidy" o zwiększającym się okresie. Sytuacja taka nie jest dla nas pożądana, co stanowi dodatkowy argument za użyciem parametru $\alpha < 1$ skutecznie niwelującego wystąpienie takich sytuacji.
+Widzimy zmianę zachowania graczy spowodowaną sumą częstości gier przeciwników. Sytuacja takiej fluktuacji będzie się powtarzać, lecz z czasem będziemy tracić naszą pulę graczy z powodu czynnika prawdopodobieństwa. Teoretycznie mając do dyspozycji nieskończoną populację graczy oraz nieograniczony czas, istniałby przypadek nieskończonej ,,sinusoidy'' o zwiększającym się okresie. Sytuacja taka nie jest dla nas pożądana, co stanowi dodatkowy argument za użyciem parametru $\alpha < 1$ skutecznie niwelującego wystąpienie takich sytuacji.
