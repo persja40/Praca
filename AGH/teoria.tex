@@ -10,13 +10,81 @@ W niniejszej pracy będziemy skupiali się na grze 3-osobowej.Będziemy rozpatry
 
 Będziemy rozważali dwa przypadki: zależnej i niezależnej rozgrywki. Przez rozgrywkę niezależną rozumiem grę w której wynik partii w żaden sposób nie zależy od innych prowadzonych gier. Grę w okręgu opisuję jako rozgrywkę zależną, gdyż wybór dokonany lokalnie przez gracza wpływa na wyniki wyniki sąsiednich gier lokalnych. W pierwszej części skupimy się na partiach niezależnych, a następnie wykonamy symulacje gier ze sobą powiązanych. W grach zależnych każdy gracz będzie rozgrywał partie z dwoma innymi graczami siedzącymi po obu jego stronach, będzie to przypominało grę w okręgu gdzie każdy z graczy może wybrać czy wstępuje w koalicję z swoim partnerem po prawej czy lewej stronie. W takiej sytuacji nie będzie możliwe granie z oboma partnerami. Będziemy w końcu zmuszeni wybrać z kim trzymamy stałą koalicję, a kogo odrzucimy. Wykluczamy możliwość jakiejkolwiek komunikacji między graczami poza obserwowaniem ich poprzednich zagrań. Model ten z pewnością będzie dużo bardziej dynamiczny, gdyż częstotliwości wybierania sojuszy będzie musiała zmienić zachowanie sojuszników naszych partnerów.
 
-\section{Model partii}
-OPISZ TROJKAT GRY Z PRAWD I ZROB RYSUNEK
+\section{Model gry}
+W niniejszej pracy będziemy potrzebowali dwóch modeli gier. Pierwszym z nich będzie model gry 3-osobowej niezależnej( brak powiązań z innymi grami). Należy to postrzegać jako izolowaną od otoczenia grę 3 zawodników. Zacznijmy od nazwania graczy odpowiednio $G_0$, $G_1$, $G_2$ (gracz pierwszy, drugi, trzeci). Każdy z nich posiada prawdopodobieństwo zagrania na gracza o wyższym indeksie (zapętlamy dla trzeciego gracza) $p_i$. Prawdopodobieństwo zagrania na gracza o niższym indeksie (zapętlamy dla pierwszego gracza) wynosi $1 - p_i$ i nie musi być przechowywane, ponieważ możemy to w łatwy sposób wyliczyć. Ponadto są one dostępne tylko dla graczy, których opisują. Żaden z zawodników nie ma dostępu do prawdopodobieństw innych graczy, lecz każdy ma dostęp do statystyki gry na którą składa się:
+\begin{itemize}
+\item $liczba_{partii}$ liczba rozegranych w grze partii
+\item $nast_i$ ilość zagrań $G_i$ na gracza $G_{i+1}$, ilość zagrań na $G_{i-1}$ możemy wziąć z $liczba_{partii} - nast_i$
+\end{itemize}
+Drugi z modeli będzie się nieznacznie różnił. Będzie to gra n-osobowa składająca się z lokalnych gier 3-osobowych. Pozostała cześć modelu się nie zmienia.
+{\color{red} UKŁAD}
+\begin{figure}
+	\centering
+	\begin{tabular}{c|c}
+	\subfloat[niezależny \label{fig:model_niezal}]{ 
+		\begin{tikzpicture}[scale=0.2]
+		\tikzstyle{every node}+=[inner sep=0pt]
+		\draw [black] (40.6,-18.2) circle (3);
+		\draw (40.6,-18.2) node {$G_0$};
+		\draw [black] (55,-34.7) circle (3);
+		\draw (55,-34.7) node {$G_1$};
+		\draw [black] (26.6,-34.7) circle (3);
+		\draw (26.6,-34.7) node {$G_2$};
+		\draw [black] (42.57,-20.46) -- (53.03,-32.44);
+		\fill [black] (53.03,-32.44) -- (52.88,-31.51) -- (52.12,-32.17);
+		\draw (47.26,-27.9) node [left] {$p_0$};
+		\draw [black] (52,-34.7) -- (29.6,-34.7);
+		\fill [black] (29.6,-34.7) -- (30.4,-35.2) -- (30.4,-34.2);
+		\draw (40.8,-34.2) node [above] {$p_1$};
+		\draw [black] (28.54,-32.41) -- (38.66,-20.49);
+		\fill [black] (38.66,-20.49) -- (37.76,-20.77) -- (38.52,-21.42);
+		\draw (34.15,-27.89) node [right] {$p_2$};
+		\end{tikzpicture}
+	} &
+	\subfloat[zależny \label{fig:model_zal}]{  
+		\begin{tikzpicture}[scale=0.2]
+		\tikzstyle{every node}+=[inner sep=0pt]
+		\draw [black] (38.2,-44.1) circle (3);
+		\draw (38.2,-44.1) node {$G_0$};
+		\draw [black] (51.9,-35.1) circle (3);
+		\draw (51.9,-35.1) node {$G_1$};
+		\draw [black] (23.5,-36.1) circle (3);
+		\draw (23.5,-36.1) node {$G_{N-1}$};
+		\draw [black] (51.9,-20.2) circle (3);
+		\draw (51.9,-20.2) node {$G_2$};
+		\draw [black] (23.5,-19.6) circle (3);
+		\draw (23.5,-19.6) node {$G_{N-2}$};
+		\draw [black] (37.6,-11.5) circle (3);
+		\draw (37.6,-11.5) node {$...$};
+		\draw [black] (40.71,-42.45) -- (49.39,-36.75);
+		\fill [black] (49.39,-36.75) -- (48.45,-36.77) -- (49,-37.6);
+		\draw (46.6,-40.1) node [below] {$p_0$};
+		\draw [black] (26.14,-37.53) -- (35.56,-42.67);
+		\fill [black] (35.56,-42.67) -- (35.1,-41.84) -- (34.62,-42.72);
+		\draw (28.91,-40.6) node [below] {$p_{N-1}$};
+		\draw [black] (23.5,-22.6) -- (23.5,-33.1);
+		\fill [black] (23.5,-33.1) -- (24,-32.3) -- (23,-32.3);
+		\draw (23,-27.85) node [left] {$p_{N-2}$};
+		\draw [black] (51.9,-32.1) -- (51.9,-23.2);
+		\fill [black] (51.9,-23.2) -- (51.4,-24) -- (52.4,-24);
+		\draw (52.4,-27.65) node [right] {$p_1$};
+		\draw [black] (49.34,-18.64) -- (40.16,-13.06);
+		\fill [black] (40.16,-13.06) -- (40.59,-13.9) -- (41.11,-13.05);
+		\draw (46.3,-15.35) node [above] {$p_2$};
+		\draw [black] (35,-12.99) -- (26.1,-18.11);
+		\fill [black] (26.1,-18.11) -- (27.04,-18.14) -- (26.55,-17.27);
+		\draw (28.6,-15.05) node [above] {$p_{N-3}$};
+		\end{tikzpicture}
+	}
+	\end{tabular}
+\caption{Modele gry}
+\label{fig:modele}
+\end{figure}
 
+Wszystkie zmiany prawdopodobieństwa muszą przejść funkcję ograniczającą, więcej o niej znajdziemy w sekcji \ref{sec:ograniczenie}. Jak uzyskać $\Delta p_i$ dowiemy się w dwóch następnych podrozdziałach.
 \begin{equation} \label{eq:ograniczenie}
 p_i = ogr( p_i + \Delta p_i)
 \end{equation}
-
 %---------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 \section{Równania standardowe}
