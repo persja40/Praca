@@ -283,14 +283,13 @@ Aby wyznaczyć stabilność równań replikatorów należy najpierw znaleźć pu
 \Rightarrow kombinacje
 \begin{array}{ll}
 (0,0,0)  & i=0 \\
-(0,0,1) & i=1 \\
-(0,1,1) & i=2 \\
-(1,1,1) & i=3 \\
-(0,1,\xi) & i=4 \\ 
+(\frac{1}{2},\frac{1}{2},\frac{1}{2}) & i=1 \\
+(1,1,1) & i=2 \\
+(0,1,\xi) & i=3 \\ 
 \end{array}
 \text{dają punkty stałe} (x^*_i, y^*_i, z^*_i)\text{, gdzie }\xi \in <0,1>
 \end{align*}
-Weźmiemy na tapet 5 przypadków, które nie są symetryczne względem siebie, ale najpierw musimy policzyć pochodne cząstkowe.
+Weźmiemy na tapet 4 przypadki, które nie są symetryczne względem siebie, ale najpierw musimy policzyć pochodne cząstkowe.
 \begin{align*}
 \begin{array}{l}
 \frac{\delta \dot{x}}{\delta x} = 1-y-z-2x+2xy+2xz\\
@@ -310,7 +309,7 @@ Weźmiemy na tapet 5 przypadków, które nie są symetryczne względem siebie, a
 \frac{\delta \dot{z}}{\delta z} = 1-x-y-2z+2xz+2yz\\
 \end{array}
 \end{align*}
-Macierz Jacobiego
+Macierz Jacobiego i wzór na wartości własne{\color{red} ZRÓB PIONOWĄ KRESKĘ PRZY =}
 \begin{align*}
 J= \left(
 \begin{array}{ccc}
@@ -318,8 +317,37 @@ J= \left(
 \frac{\delta \dot{y}}{\delta x} & \frac{\delta \dot{y}}{\delta y} & \frac{\delta \dot{y}}{\delta y} \\
 \frac{\delta \dot{z}}{\delta x} & \frac{\delta \dot{z}}{\delta y} & \frac{\delta \dot{z}}{\delta x}
 \end{array}
-\right)
+\right)_{
+	\begin{array}{c}
+		x=x^*_i\\
+		y=y^*_i\\
+		z=z^*_i\\	
+	\end{array}	
+} = J_i
+&&
+\left|
+\begin{array}{ccc}
+\frac{\delta \dot{x}}{\delta x}-\lambda & \frac{\delta \dot{x}}{\delta y} & \frac{\delta \dot{x}}{\delta z} \\
+\frac{\delta \dot{y}}{\delta x} & \frac{\delta \dot{y}}{\delta y}-\lambda & \frac{\delta \dot{y}}{\delta z} \\
+\frac{\delta \dot{z}}{\delta x} & \frac{\delta \dot{z}}{\delta y} & \frac{\delta \dot{z}}{\delta z}-\lambda
+\end{array}
+\right| = 0
 \end{align*}
+\begin{align*}
+J_{i,\lambda} = J_i - \lambda I && 
+\begin{array}{l}
+\lambda_0 = 1\\
+\lambda_1 \in {-\frac{1}{2}, \frac{1}{4}}\\
+\lambda_2 = 1\\
+\lambda_3 \in {-z, z-1}
+\end{array}
+&& \wedge &&
+Re \lambda_i < 0
+\end{align*}
+Warunek na ujemną część rzeczywistą wartości własnej eliminuje nam wszystkie lambdy poza $\lambda_3$.
+
+Opisz tabelki!!!!!!
+
 
 
 
