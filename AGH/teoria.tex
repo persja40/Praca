@@ -264,14 +264,15 @@ Do ustalenia punktów stałych potrzebujemy $\Delta p_i = 0$ oraz pomińmy wspó
 Z czego wynika że gra startująca w punkcie $(\frac{1}{2},\frac{1}{2},\frac{1}{2})$ nie powinna z niego wyjść. Byłoby tak gdyby prawdopodobieństwa użyte w równaniu były faktycznymi prawdopodobieństwami $p_i$, są one natomiast jedynie obserwacją zachowania pozostałych graczy. Jak już wcześniej wspominaliśmy jest ono dane jako $\frac{n_j}{liczba_{partii}}$, dzięki czemu gra w ogóle się odbywa.
 \section{Stabilność równań replikatorów}
 \label{sec:stab_repl}
-Aby wyznaczyć stabilność równań replikatorów należy najpierw znaleźć punkty stałe. Dla przejrzystości postanowiłem pominąć parametr $\alpha$, który nie wnosi nic do obliczeń oraz przyjąć następujące oznaczenia:
+Aby wyznaczyć stabilność równań replikatorów należy najpierw znaleźć punkty stałe. Dla przejrzystości postanowiłem pominąć parametr $\alpha$, który nie wnosi nic do obliczeń, wykorzystuję realne prawdopodobieństwa jako szacowane oraz przyjmuję następujące oznaczenia:
 {\color{red} UKŁAD}
 \begin{align*}
+\begin{array}{l}
 \dot{x} = \Delta p_0 \\
 \dot{y} = \Delta p_1 \\
 \dot{z} = \Delta p_2
-\end{align*}
-\begin{align*}
+\end{array}
+&&
 \left\{
 \begin{array}{l}
 \dot{x} = 0 \\
@@ -279,6 +280,45 @@ Aby wyznaczyć stabilność równań replikatorów należy najpierw znaleźć pu
 \dot{z} = 0 
 \end{array}
 \right.
+\Rightarrow kombinacje
+\begin{array}{ll}
+(0,0,0)  & i=0 \\
+(0,0,1) & i=1 \\
+(0,1,1) & i=2 \\
+(1,1,1) & i=3 \\
+(0,1,\xi) & i=4 \\ 
+\end{array}
+\text{dają punkty stałe} (x^*_i, y^*_i, z^*_i)\text{, gdzie }\xi \in <0,1>
+\end{align*}
+Weźmiemy na tapet 5 przypadków, które nie są symetryczne względem siebie, ale najpierw musimy policzyć pochodne cząstkowe.
+\begin{align*}
+\begin{array}{l}
+\frac{\delta \dot{x}}{\delta x} = 1-y-z-2x+2xy+2xz\\
+\frac{\delta \dot{x}}{\delta y} = x^2 - x\\
+\frac{\delta \dot{x}}{\delta z} = x^2 - x\\
+\end{array}
+&&
+\begin{array}{l}
+\frac{\delta \dot{y}}{\delta x} = y^2 - y\\
+\frac{\delta \dot{y}}{\delta y} = 1-x-z-2y+2xy+2yz\\
+\frac{\delta \dot{y}}{\delta z} = y^2 - y\\
+\end{array}
+&&
+\begin{array}{l}
+\frac{\delta \dot{z}}{\delta x} = z^2 - z\\
+\frac{\delta \dot{z}}{\delta y} = z^2 - z\\
+\frac{\delta \dot{z}}{\delta z} = 1-x-y-2z+2xz+2yz\\
+\end{array}
+\end{align*}
+Macierz Jacobiego
+\begin{align*}
+J= \left(
+\begin{array}{ccc}
+\frac{\delta \dot{x}}{\delta x} & \frac{\delta \dot{x}}{\delta y} & \frac{\delta \dot{x}}{\delta z} \\
+\frac{\delta \dot{y}}{\delta x} & \frac{\delta \dot{y}}{\delta y} & \frac{\delta \dot{y}}{\delta y} \\
+\frac{\delta \dot{z}}{\delta x} & \frac{\delta \dot{z}}{\delta y} & \frac{\delta \dot{z}}{\delta x}
+\end{array}
+\right)
 \end{align*}
 
 

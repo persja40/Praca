@@ -1,0 +1,12 @@
+x = x*(1-x)*(1-y-z)
+y = y*(1-y)*(1-x-z)
+z = z*(1-z)*(1-y-x)
+dx/x = 1 - 2 x - y + 2 x y - z + 2 x z
+dx/y = -x + x^2
+dx/z = -x + x^2
+dy/x = -y + y^2
+dy/y = 1 - x - 2 y + 2 x y - z + 2 y z
+dy/z = -y + y^2
+dz/x = -z + z^2
+dz/z = 1 - x - y - 2 z + 2 x z + 2 y z
+
