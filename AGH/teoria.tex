@@ -1,27 +1,29 @@
 \chapter{Opis teoretyczny}
 \label{cha:opis_teor}
 
-\section{Gra 3 osobowa}
-\label{sec:3_gra}
+\section{Gra}
+\label{sec:gra}
+W niniejszej pracy będziemy skupiali się na grach 3 oraz N-osobowych. Będziemy rozpatrywać tylko przypadki w których koalicja dwóch graczy wygrywa. Nie bierzemy pod uwagę sytuacji w których współpraca ze sobą wszystkich graczy mogłaby przynieść najlepsze korzyści. W tabelce wypłat rozważanej gry nie może pojawić się punkt równowagi wynikający ze strategii czystych. W rozważane przez nas grze celem gracza nie jest zdobycie jak największego zysku, lecz osiągnięcie jak największej liczby wygranych. Osoba znajdująca się poza koalicją przegrywa i wszyscy gracze mają taką samą wagę wyboru. Model gry 3-osobowej pokazuje nam, że decyzję jednego z zawodników mają bezpośredni wpływ na zachowanie sąsiadów. W modelu gry N-osobowej decyzje graczy będą propagowane na kolejne lokalne gry 3-osobowe, co będzie pośrednio wpływać na decyzję graczy w sąsiednich rozgrywkach.
 
-\paragraph{O jakiej grze mówimy}
-
-W niniejszej pracy będziemy skupiali się na grze 3-osobowej.Będziemy rozpatrywać tylko przypadki w których koalicja dwóch graczy wygrywa. Nie bierzemy pod uwagę sytuacji w których współpraca ze sobą wszystkich graczy mogłaby przynieść najlepsze korzyści. W tabelce wypłat rozważanej gry nie może pojawić się punkt równowagi wynikający ze strategii czystych. W rozważane przez nas grze celem gracza nie jest zdobycie jak największego zysku, lecz osiągnięcie jak największej liczby wygranych. Osoba znajdująca się poza koalicją przegrywa i wszyscy gracze mają taką samą wagę wyboru.
-
-Będziemy rozważali dwa przypadki: zależnej i niezależnej rozgrywki. Przez rozgrywkę niezależną rozumiem grę w której wynik partii w żaden sposób nie zależy od innych prowadzonych gier. Grę w okręgu opisuję jako rozgrywkę zależną, gdyż wybór dokonany lokalnie przez gracza wpływa na wyniki wyniki sąsiednich gier lokalnych. W pierwszej części skupimy się na partiach niezależnych, a następnie wykonamy symulacje gier ze sobą powiązanych. W grach zależnych każdy gracz będzie rozgrywał partie z dwoma innymi graczami siedzącymi po obu jego stronach, będzie to przypominało grę w okręgu gdzie każdy z graczy może wybrać czy wstępuje w koalicję z swoim partnerem po prawej czy lewej stronie. W takiej sytuacji nie będzie możliwe granie z oboma partnerami. Będziemy w końcu zmuszeni wybrać z kim trzymamy stałą koalicję, a kogo odrzucimy. Wykluczamy możliwość jakiejkolwiek komunikacji między graczami poza obserwowaniem ich poprzednich zagrań. Model ten z pewnością będzie dużo bardziej dynamiczny, gdyż częstotliwości wybierania sojuszy będzie musiała zmienić zachowanie sojuszników naszych partnerów.
+Omawiane tutaj gry są grami o niepełnej informacji. Najłatwiej to wyjaśnić opisując grę o pełnej informacji, czyli taką której:
+\begin{itemize}
+\item żaden z węzłów nie jest przypisany losowi
+\item każdy węzeł należy do osobnego zbioru informacji
+\end{itemize}
+Drzewko gry wizualizuję rozgrywkę analogicznie jak drzewko prawdopodobieństwa mogłoby pokazać wszystkie scenariusze rzutu 3 kostkami z rzędu. Jest to definicja która jest najczęściej używana, lecz my potrzebujemy innej. Jest to spowodowane tym, że omawiana przez nas gra nie jest sekwencyjna i nie możemy do niej użyć drzewka gry. W tej pracy przez grę o pełnej informacji będziemy rozumieli grę, w której wszyscy uczestnicy znają prawdopodobieństwo wyborów przeciwników, co nie jest prawdą w naszym przypadku.
 
 \section{Model gry}
-W niniejszej pracy będziemy potrzebowali dwóch modeli gier. Pierwszym z nich będzie model gry 3-osobowej niezależnej( brak powiązań z innymi grami). Należy to postrzegać jako izolowaną od otoczenia grę 3 zawodników. Zacznijmy od nazwania graczy odpowiednio $G_0$, $G_1$, $G_2$ (gracz pierwszy, drugi, trzeci). Każdy z nich posiada prawdopodobieństwo zagrania na gracza o wyższym indeksie (zapętlamy dla trzeciego gracza) $p_i$. Prawdopodobieństwo zagrania na gracza o niższym indeksie (zapętlamy dla pierwszego gracza) wynosi $1 - p_i$ i nie musi być przechowywane, ponieważ możemy to w łatwy sposób wyliczyć. Ponadto są one dostępne tylko dla graczy, których opisują. Żaden z zawodników nie ma dostępu do prawdopodobieństw innych graczy, lecz każdy ma dostęp do statystyki gry na którą składa się:
+W niniejszej pracy będziemy potrzebowali dwóch modeli gier. Pierwszym z nich będzie model gry 3-osobowej \ref{fig:model_niezal}. Zacznijmy od nazwania graczy odpowiednio $G_0$, $G_1$, $G_2$ (gracz pierwszy, drugi, trzeci). Każdy z nich posiada prawdopodobieństwo zagrania na gracza o wyższym indeksie (zapętlamy dla trzeciego gracza) $p_i$. Prawdopodobieństwo zagrania na gracza o niższym indeksie (zapętlamy dla pierwszego gracza) wynosi $1 - p_i$ i nie musi być przechowywane, ponieważ możemy to w łatwy sposób wyliczyć. Ponadto są one dostępne tylko dla graczy, których opisują. Żaden z zawodników nie ma dostępu do prawdopodobieństw innych graczy, lecz każdy ma dostęp do statystyki gry na którą składa się:
 \begin{itemize}
 \item $liczba_{partii}$ liczba rozegranych w grze partii
 \item $nast_i$ ilość zagrań $G_i$ na gracza $G_{i+1}$, ilość zagrań na $G_{i-1}$ możemy wziąć z $liczba_{partii} - nast_i$
 \end{itemize}
-Drugi z modeli będzie się nieznacznie różnił. Będzie to gra n-osobowa składająca się z lokalnych gier 3-osobowych. Pozostała cześć modelu się nie zmienia.
+Drugi z modeli \ref{fig:model_zal} będzie się nieznacznie różnił. Będzie to gra N-osobowa składająca się z lokalnych gier 3-osobowych. Pozostała cześć modelu się nie zmienia.
 {\color{red} UKŁAD}
 \begin{figure}
 	\centering
 	\begin{tabular}{c|c}
-	\subfloat[niezależny \label{fig:model_niezal}]{ 
+	\subfloat[3-osobowej \label{fig:model_niezal}]{ 
 		\begin{tikzpicture}[scale=0.2]
 		\tikzstyle{every node}+=[inner sep=0pt]
 		\draw [black] (40.6,-18.2) circle (3);
@@ -41,7 +43,7 @@ Drugi z modeli będzie się nieznacznie różnił. Będzie to gra n-osobowa skł
 		\draw (34.15,-27.89) node [right] {$p_2$};
 		\end{tikzpicture}
 	} &
-	\subfloat[zależny \label{fig:model_zal}]{  
+	\subfloat[N-osobowej \label{fig:model_zal}]{  
 		\begin{tikzpicture}[scale=0.2]
 		\tikzstyle{every node}+=[inner sep=0pt]
 		\draw [black] (38.2,-44.1) circle (3);
@@ -90,12 +92,13 @@ p_i = ogr( p_i + \Delta p_i)
 \section{Równania standardowe}
 \label{sec:r_stand}
 Podstawowym równaniem od którego wyjdziemy będzie równanie dla gracza o indeksie 0, pozostałe utworzymy analogicznie:
+{\color{red} SKĄÐ}
 \begin{equation} \label{eq:poczatek}
 \Delta p_0 = (1 - p_1) - p_2
 \end{equation}
-Dlaczego akurat to? Sposób rozumowania jest prosty. Człon $1 - p_1$ jest prawdopodobieństwem zagrania gracza 1 na gracza 0, więc prawdopodobieństwo zagrania gracza 0 na gracza 1 powinno z nim rosnąć. Co mogłoby zniechęcić gracza 0 do sympatyzowania z graczem 1? Sojusz między graczem 2 a 1? Zdecydowanie nie! Z tego właśnie powodu odejmujemy $p_2$, co ma pokazywać graczowi 0 że ma innego zawodnika, który wyciąga do niego rękę.
+Człon $1 - p_1$ jest prawdopodobieństwem zagrania gracza 1 na gracza 0, więc prawdopodobieństwo zagrania gracza 0 na gracza 1 powinno z nim rosnąć. Zniechęcić gracza 0 do sympatyzowania z graczem 1 mogłyby zagrania gracza 2 w kierunku gracza 3. Z tego właśnie powodu odejmujemy $p_2$, co ma pokazywać graczowi 0 że ma innego zawodnika, który wyciąga do niego rękę.
 
-Następnym pytaniem jest: skąd mam wiedzieć z jakim prawdopodobieństwem gra mój przeciwnik? Nie masz wiedzieć. Z tego względu zdecydowałem się wprowadzić u zawodników statystykę zagrań przeciwników, pozwalającą obliczyć prawdopodobieństwo. Czy takie coś się sprawdzi? Tak i nie, w jednej z następnych sekcji \ref{sec:ograniczenie} omówimy bardziej szczegółowo niechciane zachowania z tego wynikające, ale na chwilę obecną przyjmijmy, że potrzebujemy dodatkowego parametru $\alpha$ przyjętego na poziomie $0.1$.
+Z powodu że mamy do czynienia z grą o niepełnej informacji zdecydowałem się wprowadzić u zawodników statystykę zagrań przeciwników, pozwalającą obliczyć prawdopodobieństwo. W jednej z następnych sekcji \ref{sec:ograniczenie} omówimy bardziej szczegółowo niechciane zachowania z tego wynikające, ale na chwilę obecną przyjmijmy, że potrzebujemy dodatkowego parametru $\alpha$ przyjętego na poziomie $0.1$.
 
 W poniższym równaniu $n_N$ oznacza liczbę partii zagranych przez następnego (z wyższym indeksem) gracza w kierunku jego następnego gracza. Analogicznie $n_P$ oznacza liczbę partii zagranych przez poprzedniego (z niższym indeksem) gracza w kierunku jego następnego gracza (czyli nas).
 \begin{equation} \label{eq:stand}
@@ -106,18 +109,29 @@ W poniższym równaniu $n_N$ oznacza liczbę partii zagranych przez następnego 
 
 \section{Równania replikatorów}
 \label{sec:r_repli}
-
-OPISAĆ SPOSÓB WYPROWADZENIA OBYDWU!!! I CZYNNIK ZMNIEJSZAJĄCY NA KRAŃCACH !!!
-
-\begin{equation} \label{eq:repli}
-p_i += \alpha \cdot (p_i \cdot (1 - p_i)) \cdot (1 - \frac{n_R}{nr_{games}} - \frac{n_L}{nr_{games}})
+Model dynamiki replikatorów jest najbardziej znanym różniczkowym modelem teorii gier ewolucyjnych, przez co może stanowić dobry wybór do sterowania zachowaniem graczy. Tak jak w poprzednim przypadku przyjmijmy prawdopodobieństwa kolejno $x$, $y$ oraz $z$ pamiętając, że prawdopodobieństwa poza tym z pochodnej są szacowane. Podstawowy wzór równania wygląda następująco:
+\begin{equation}
+\dot{x} = x \cdot ( W - \overline{W})
 \end{equation}
+Gdzie $W$ jest średnią wypłatą dla strategii $x$ (dla nas prawdopodobieństwem gry na x), natomiast $\overline{W}$ jest średnią wypłatą co daje nam:
+{\color{red} UKŁAD}
+\begin{align*}
+\dot{x} = x \cdot ( \overbrace{(1-y)}^{W} - \overbrace{(x(1-y) + (1-x)z)}^{\overline{W}}) \\
+\Downarrow \\
+\dot{x} = x \cdot (1-x) \cdot (1-y-z)
+\end{align*}
+Co dla gry 3-osobowej generuje równania:
+\begin{align} \label{eq:repli}
+\Delta p_0 = \alpha p_0 \cdot (1 - p_0) \cdot (1 - \frac{n_1}{liczba_{partii}} - \frac{n_2}{liczba_{partii}}) \nonumber \\
+\Delta p_1 = \alpha p_1 \cdot (1 - p_1) \cdot (1 - \frac{n_2}{liczba_{partii}} - \frac{n_0}{liczba_{partii}}) \\
+\Delta p_2 = \alpha p_2 \cdot (1 - p_2) \cdot (1 - \frac{n_0}{liczba_{partii}} - \frac{n_1}{liczba_{partii}}) \nonumber
+\end{align} 
 
 %---------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 \section{Ograniczenie prawdopodobieństwa}
 \label{sec:ograniczenie}
-Jak zauważyliśmy powyższe równania w łatwy sposób mogą wyjść poza przedział $<0,1>$. Aby temu zapobiec każda inkrementacja prawdopodobieństwa musi być obłożona funkcją ograniczającą. Każde nowo obliczone prawdopodobieństwo podawane jest jako parametr do funkcji $ogr$, a dopiero jej rezultat jest przypisywany poszczególnym graczom. Zdecydowałem się użyć następującej funkcji:
+Jak zauważyliśmy powyższe równania w łatwy sposób mogą wyjść poza przedział $<0,1>$. Aby temu zapobiec każda inkrementacja prawdopodobieństwa musi być obłożona funkcją ograniczającą. Każde nowo obliczone prawdopodobieństwo podawane jest jako parametr do funkcji $ogr$, a dopiero jej rezultat jest przypisywany poszczególnym prawdopodobieństwom graczom. Zdecydowałem się użyć następującej funkcji:
 \begin{displaymath}
 ogr(p_i) = \left\{
 \begin{array}{ll}
@@ -125,10 +139,10 @@ ogr(p_i) = \left\{
 p_i & \text{jeżeli } 1 \geq p_i \geq 0 \\
 0 & \text{jeżeli } p_i < 0
 \end{array} 
-\right\}
+\right.
 \end{displaymath}
 
-Zapewne naszą uwagę przykuł także parametr $\alpha$ obecny w powyższych równaniach. W pierwszym z nich użycie go jest konieczne, gdyż w przeciwnym przypadku szacowanie prawdopodobieństwa innych doprowadziłoby to zawiązania trwałych koalicji już po pierwszej partii. N oznacza zagranie w stronę zawodnika z wyższym numerem, natomiast P z niższym. Zapętla to się dla pierwszego i ostatniego gracza. Zobaczmy przykład dla równania standardowego, prawdopodobieństwa początkowego $\frac{1}{2}$ i $\alpha = 1$ zakładając że:
+Zapewne naszą uwagę przykuł także parametr $\alpha$ obecny w powyższych równaniach. W pierwszym z nich użycie go jest konieczne, gdyż w przeciwnym przypadku szacowanie prawdopodobieństwa innych doprowadziłoby do zawiązania trwałych koalicji już po pierwszej partii. N oznacza zagranie w stronę zawodnika z wyższym numerem, natomiast P z niższym. Zapętla to się dla pierwszego i ostatniego gracza. Zobaczmy przykład dla równania standardowego, prawdopodobieństwa początkowego $\frac{1}{2}$ i $\alpha = 1$ zakładając że:
 \begin{align*}
 Gracz_0 = N, Gracz_1 = P, Gracz_2 = N && Gracz_0 = N, Gracz_1 = P, Gracz_2 = P\\
 \left\{
@@ -137,16 +151,16 @@ Gracz_0 = N, Gracz_1 = P, Gracz_2 = N && Gracz_0 = N, Gracz_1 = P, Gracz_2 = P\\
 \Delta p_1 = (1 - 1 - 1) =  -1 & p_1= 0\\
 \Delta p_2 = (1 - 1 - 0) =  0 & p_2=\frac{1}{2}\\
 \end{array} 
-\right\} &&
+\right. &&
 \left\{
 \begin{array}{ll}
 \Delta p_0 = (1 - 0 - \frac{1}{2}) =  0 & p_0=\frac{3}{4}\\
 \Delta p_1 = (1 - \frac{1}{2} - 1) =  -\frac{1}{2} & p_1= 0\\
 \Delta p_2 = (1 - 0 - \frac{1}{2}) =  \frac{1}{2} & p_2=\frac{3}{4}\\
 \end{array}
-\right\}
+\right.
 \end{align*}
-Schemat po lewej przedstawia pierwszą partię, a po lewej drugą. Jak widzimy prowadzi to do bardzo szybkich zmian prawdopodobieństwa, co może praktycznie uniemożliwiać jakiekolwiek zmiany sojuszy. Co jednak z równaniami replikatorów? Czy również tam potrzebny będzie nam jakiś parametr zmniejszający dynamikę? Przecież zawierają one człon postaci $x(1-x)$, czy to nie wystarczy? Weźmy założenia z poprzedniego przykładu. Przeanalizujmy przykład: {\color{red} UKŁAD}
+Schemat po lewej przedstawia pierwszą partię, a po lewej drugą. Jak widzimy prowadzi to do bardzo szybkich zmian prawdopodobieństwa, co może praktycznie uniemożliwiać jakiekolwiek zmiany sojuszy. Wartym rozważenia jest czy w równaniach replikatorów potrzebny będzie jakiś parametr zmniejszający dynamikę skoro posiadają człon postaci $x(1-x)$. Weźmy założenia z poprzedniego przykładu. Przeanalizujmy przykład: {\color{red} UKŁAD}
 \begin{align*}
 Gracz_0 = N, Gracz_1 = P, Gracz_2 = N \\
 \left\{
@@ -155,7 +169,7 @@ Gracz_0 = N, Gracz_1 = P, Gracz_2 = N \\
 \Delta p_1 = \frac{1}{2} \cdot (1 - \frac{1}{2}) \cdot (1 - 1 - 1) =  0 & p_1= \frac{1}{4}\\
 \Delta p_2 = \frac{1}{2} \cdot (1 - \frac{1}{2}) \cdot (1 - 0 - 1) =  0 & p_2=\frac{1}{2}\\
 \end{array} 
-\right\}
+\right.
 \\
 Gracz_0 = N, Gracz_1 = P, Gracz_2 = P \\
 \left\{
@@ -164,9 +178,9 @@ Gracz_0 = N, Gracz_1 = P, Gracz_2 = P \\
 \Delta p_1 = \frac{1}{4} \cdot (1 - \frac{1}{4}) \cdot (1 - \frac{1}{2} - 1) = -\frac{1}{32} & p_1= \frac{7}{32}\\
 \Delta p_2 = \frac{1}{2} \cdot (1 - \frac{1}{2}) \cdot (1 - 0 - \frac{1}{2}) = \frac{1}{8}  & p_2=\frac{5}{8}\\
 \end{array}
-\right\}
+\right.
 \end{align*}
-Jak widzimy najszybsza zmiana zachodzi dla pierwszego gracza, który traci 25\% zaufania do gracza o wyższym indeksie. W kolejnej partii nie widzimy już tak dużych zmian. Czy jest to na tyle dużo, aby wprowadzać parametr mający spowalniać dynamikę zmian? Zanim odpowiem chciałbym poruszyć dwie kwestie. Zgadzam się że dynamika prawdopodobieństwa jest dla mnie akceptowalna(czyli wynosi do 10\%), ale tylko dla prawdopodobieństw które oddalają się od środka przedziału, a grę rozpoczynamy właśnie w nim. Drugą sprawą jest porównanie obu równań. Porównanie wyników, w które rekurencyjnie wkładamy czynnik wymnażający zmianę nie jest najłatwiejszą rzeczą do opisania. Ale czy człon $x(1-x)$ w równaniu replikatorów nie jest takim czynnikiem? Owszem jest, ale ... właśnie jego celem jest rozwiązanie problemu supersilnych, szybko tworzących się koalicji.
+Jak widzimy najszybsza zmiana zachodzi dla pierwszego gracza, który traci 25\% zaufania do gracza o wyższym indeksie. W kolejnej partii nie widzimy już tak dużych zmian. Należy odpowiedzieć na pytanie czy jest to na tyle dużo, aby wprowadzać parametr mający spowalniać dynamikę zmian. Powinno się poruszyć dwie kwestie. Zgadzam się że dynamika prawdopodobieństwa jest dla mnie akceptowalna(czyli wynosi do 10\%), ale tylko dla prawdopodobieństw które oddalają się od środka przedziału, a grę rozpoczynamy właśnie w nim. Drugą sprawą jest porównanie obu równań. Porównanie wyników, w które rekurencyjnie wkładamy czynnik wymnażający zmianę nie jest najłatwiejszą rzeczą do opisania. Celem członu $x(1-x)$ w równaniu replikatorów jest rozwiązanie problemu supersilnych, szybko tworzących się koalicji.
 
 Postarajmy się teraz skupić na szczególnych przypadkach, gdy w obu osobnych grach żaden z graczy nie współpracował. Użyjemy równań standardowych, prawdopodobieństwo początkowe $\frac{1}{2}$ oraz $\alpha = 1$.
 
@@ -178,14 +192,14 @@ Gracz_0 = N, Gracz_1 = N, Gracz_2 = N && Gracz_0 = P, Gracz_1 = P, Gracz_2 = P \
 \Delta p_1 = (1 - 1 - 1) =  -1 & p_1= 0\\
 \Delta p_2 = (1 - 1 - 1) =  -1 & p_2=0\\
 \end{array} 
-\right\} &&
+\right. &&
 \left\{
 \begin{array}{ll}
 \Delta p_0 = (1 - 0 - 0) =  1 & p_0= 1\\
 \Delta p_1 = (1 - 0 - 0) =  1 & p_1= 1\\
 \Delta p_2 = (1 - 0 - 0) =  1 & p_2= 1\\
 \end{array}
-\right\}
+\right.
 \end{align*}
 Przypadek ten pokaże nam skutki braku ograniczenia w prawdopodobieństwie. Wiemy że teraz każdy z graczy wykona ruch przeciwny do poprzedniego co da nam w obu grach:
 \begin{align*}
@@ -195,7 +209,7 @@ Przypadek ten pokaże nam skutki braku ograniczenia w prawdopodobieństwie. Wiem
 \Delta p_1 = (1 - \frac{1}{2} - \frac{1}{2}) =  0 \\
 \Delta p_2 = (1 - \frac{1}{2} - \frac{1}{2}) =  0 \\
 \end{array} 
-\right\}
+\right.
 \end{align*}
 Brak wpływu na zmiany, gracze dokonują wyboru jak poprzednio.
 \begin{align*}
@@ -206,16 +220,16 @@ Gracz_0 = P, Gracz_1 = P, Gracz_2 = P && Gracz_0 = N, Gracz_1 = N, Gracz_2 = N \
 \Delta p_1 = (1 - \frac{1}{3} - \frac{1}{3}) =  \frac{1}{3} & p_1= \frac{1}{3}\\
 \Delta p_2 = (1 - \frac{1}{3} - \frac{1}{3}) =  \frac{1}{3} & p_2= \frac{1}{3}\\
 \end{array} 
-\right\} &&
+\right. &&
 \left\{
 \begin{array}{ll}
 \Delta p_0 = (1 - \frac{2}{3} - \frac{2}{3}) =  -\frac{1}{3} & p_0= \frac{2}{3}\\
 \Delta p_1 = (1 - \frac{2}{3} - \frac{2}{3}) =  -\frac{1}{3} & p_1= \frac{2}{3}\\
 \Delta p_2 = (1 - \frac{2}{3} - \frac{2}{3}) =  -\frac{1}{3} & p_2= \frac{2}{3}\\
 \end{array}
-\right\}
+\right.
 \end{align*}
-Wróciliśmy to punktu wyjścia, tylko tym razem wyjściowym prawdopodobieństwem chęci gry na gracza z większym indeksem jest $\frac{1}{3}$ dla gry przedstawionej po lewej stronie i $\frac{2}{3}$ dla gry po prawej? Nie do końca! W pamięci każdego z graczy jest liczba rozegranych partii ze swoimi rywalami co będzie prowadziło do niekoniecznie oczywistych zachowań, gdy przeanalizujemy ścieżki gier o wyborach z większym prawdopodobieństwie.
+Nie wróciliśmy to punktu wyjścia, w którym wyjściowym prawdopodobieństwem chęci gry na gracza z większym indeksem jest $\frac{1}{3}$ dla gry przedstawionej po lewej stronie i $\frac{2}{3}$ dla gry po prawej. W pamięci każdego z graczy jest liczba rozegranych partii ze swoimi rywalami co będzie prowadziło do niekoniecznie oczywistych zachowań, gdy przeanalizujemy ścieżki gier o wyborach z większym prawdopodobieństwie.
 \begin{align*}
 Gracz_0 = P, Gracz_1 = P, Gracz_2 = P && Gracz_0 = N, Gracz_1 = N, Gracz_2 = N \\
 \left\{
@@ -224,13 +238,60 @@ Gracz_0 = P, Gracz_1 = P, Gracz_2 = P && Gracz_0 = N, Gracz_1 = N, Gracz_2 = N \
 \Delta p_1 = (1 - \frac{1}{4} - \frac{1}{4}) =  \frac{1}{2} & p_1= \frac{5}{6}\\
 \Delta p_2 = (1 - \frac{1}{4} - \frac{1}{4}) =  \frac{1}{2} & p_2= \frac{5}{6}\\
 \end{array} 
-\right\} &&
+\right. &&
 \left\{
 \begin{array}{ll}
 \Delta p_0 = (1 - \frac{2}{5} - \frac{2}{5}) =  -\frac{1}{2} & p_0= \frac{1}{6}\\
 \Delta p_1 = (1 - \frac{2}{5} - \frac{2}{5}) =  -\frac{1}{2} & p_1= \frac{1}{6}\\
 \Delta p_2 = (1 - \frac{2}{5} - \frac{2}{5}) =  -\frac{1}{2} & p_2= \frac{1}{6}\\
 \end{array}
-\right\}
+\right.
 \end{align*}
 Widzimy zmianę zachowania graczy spowodowaną sumą częstości gier przeciwników. Sytuacja takiej fluktuacji będzie się powtarzać, lecz z czasem będziemy tracić naszą pulę graczy z powodu czynnika prawdopodobieństwa. Teoretycznie mając do dyspozycji nieskończoną populację graczy oraz nieograniczony czas, istniałby przypadek nieskończonej ,,sinusoidy'' o zwiększającym się okresie. Sytuacja taka nie jest dla nas pożądana, co stanowi dodatkowy argument za użyciem parametru $\alpha < 1$ skutecznie niwelującego wystąpienie takich sytuacji.
+
+\section{Stabilność równań standardowych}
+\label{sec:stab_stand}
+Do ustalenia punktów stałych potrzebujemy $\Delta p_i = 0$ oraz pomińmy współczynnik $\alpha$. Należy rozwiązać układ równań, gdzie przyjmijmy że kolejne prawdopodobieństwa $x$, $y$, $z$:
+\begin{equation}
+\left\{
+\begin{array}{c}
+1 - y - z = 0 \\
+1 - x - z = 0 \\
+1 - x - y = 0
+\end{array}
+\right. \Rightarrow p_0 = p_1 = p_2 = \frac{1}{2}
+\end{equation}
+Z czego wynika że gra startująca w punkcie $(\frac{1}{2},\frac{1}{2},\frac{1}{2})$ nie powinna z niego wyjść. Byłoby tak gdyby prawdopodobieństwa użyte w równaniu były faktycznymi prawdopodobieństwami $p_i$, są one natomiast jedynie obserwacją zachowania pozostałych graczy. Jak już wcześniej wspominaliśmy jest ono dane jako $\frac{n_j}{liczba_{partii}}$, dzięki czemu gra w ogóle się odbywa.
+\section{Stabilność równań replikatorów}
+\label{sec:stab_repl}
+Aby wyznaczyć stabilność równań replikatorów należy najpierw znaleźć punkty stałe. Dla przejrzystości postanowiłem pominąć parametr $\alpha$, który nie wnosi nic do obliczeń oraz przyjąć następujące oznaczenia:
+{\color{red} UKŁAD}
+\begin{align*}
+\dot{x} = \Delta p_0 \\
+\dot{y} = \Delta p_1 \\
+\dot{z} = \Delta p_2
+\end{align*}
+\begin{align*}
+\left\{
+\begin{array}{l}
+\dot{x} = 0 \\
+\dot{y} = 0 \\
+\dot{z} = 0 
+\end{array}
+\right.
+\end{align*}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
