@@ -3,22 +3,17 @@
 
 \section{Gra}
 \label{sec:gra}
-W niniejszej pracy będziemy skupiali się na grach 3 oraz N-osobowych. Będziemy rozpatrywać tylko przypadki w których koalicja dwóch graczy wygrywa. Nie bierzemy pod uwagę sytuacji w których współpraca ze sobą wszystkich graczy mogłaby przynieść najlepsze korzyści. W tabelce wypłat rozważanej gry nie może pojawić się punkt równowagi wynikający ze strategii czystych. W rozważane przez nas grze celem gracza nie jest zdobycie jak największego zysku, lecz osiągnięcie jak największej liczby wygranych. Osoba znajdująca się poza koalicją przegrywa i wszyscy gracze mają taką samą wagę wyboru. Model gry 3-osobowej pokazuje nam, że decyzję jednego z zawodników mają bezpośredni wpływ na zachowanie sąsiadów. W modelu gry N-osobowej decyzje graczy będą propagowane na kolejne lokalne gry 3-osobowe, co będzie pośrednio wpływać na decyzję graczy w sąsiednich rozgrywkach.
-
-Omawiane tutaj gry są grami o niepełnej informacji. Najłatwiej to wyjaśnić opisując grę o pełnej informacji, czyli taką której:
-\begin{itemize}
-\item żaden z węzłów nie jest przypisany losowi
-\item każdy węzeł należy do osobnego zbioru informacji
-\end{itemize}
-Drzewko gry wizualizuję rozgrywkę analogicznie jak drzewko prawdopodobieństwa mogłoby pokazać wszystkie scenariusze rzutu 3 kostkami z rzędu. Jest to definicja która jest najczęściej używana, lecz my potrzebujemy innej. Jest to spowodowane tym, że omawiana przez nas gra nie jest sekwencyjna i nie możemy do niej użyć drzewka gry. W tej pracy przez grę o pełnej informacji będziemy rozumieli grę, w której wszyscy uczestnicy znają prawdopodobieństwo wyborów przeciwników, co nie jest prawdą w naszym przypadku.
+W niniejszej pracy będziemy skupiali się na grach wieloosobowych, których szczególnym przypadkiem jest gra 3-osobowa. Model gry 3-osobowej pokazuje, że decyzję jednego z zawodników mają bezpośredni wpływ na zachowanie sąsiadów. W modelu gry N-osobowej decyzje graczy będą wpływać nie tylko na najbliższych sąsiadów, ale pośrednio także na decyzję graczy niesąsiadujących.
+Omawiane tutaj gry są grami o niepełnej informacji, w tej pracy oznacza to grę, w której nie wszyscy uczestnicy znają prawdopodobieństwo wyborów przeciwników. Prawdopodobieństwo gry przeciwników będzie szacowane na podstawie obserwacji historii ich zagrań.
 
 \section{Model gry}
-W niniejszej pracy będziemy potrzebowali dwóch modeli gier. Pierwszym z nich będzie model gry 3-osobowej \ref{fig:model_niezal}. Zacznijmy od nazwania graczy odpowiednio $G_0$, $G_1$, $G_2$ (gracz pierwszy, drugi, trzeci). Każdy z nich posiada prawdopodobieństwo zagrania na gracza o wyższym indeksie (zapętlamy dla trzeciego gracza) $p_i$. Prawdopodobieństwo zagrania na gracza o niższym indeksie (zapętlamy dla pierwszego gracza) wynosi $1 - p_i$ i nie musi być przechowywane, ponieważ możemy to w łatwy sposób wyliczyć. Ponadto są one dostępne tylko dla graczy, których opisują. Żaden z zawodników nie ma dostępu do prawdopodobieństw innych graczy, lecz każdy ma dostęp do statystyki gry na którą składa się:
+\label{sec:model}
+Jak wcześniej było wspomniane będą potrzebne dwa modele gier. Pierwszym z nich będzie model gry 3-osobowej \ref{fig:model_niezal}. Niech gracze nazywają się odpowiednio $G_0$, $G_1$, $G_2$ (gracz zerowy, pierwszy, drugi). Każdy z nich posiada prawdopodobieństwo zagrania, mającego na celu nawiązanie koalicji z graczem o wyższym indeksie. To prawdopodobieństwo oznaczone jest jako $p_i$ ($i$ jest indeksem gracza), przy czym dla $G_2$ gracz o wyższym indeksie to $G_0$. Prawdopodobieństwo zagrania, mającego na celu nawiązanie koalicji z graczem o niższym indeksie to $1 - p_i$, co nie będzie przechowywane z powodu że można w łatwy sposób to wyliczyć. Analogicznie jak wcześniej dla $G_0$ gracz o niższym indeksie to $G_2$. Ze względu że omawiana jest gra o niepełnej informacji żaden z zawodników nie ma dostępu do prawdopodobieństw innych graczy, lecz każdy ma dostęp do statystyki gry na którą składa się:
 \begin{itemize}
 \item $liczba_{partii}$ liczba rozegranych w grze partii
-\item $nast_i$ ilość zagrań $G_i$ na gracza $G_{i+1}$, ilość zagrań na $G_{i-1}$ możemy wziąć z $liczba_{partii} - nast_i$
+\item $nast_i$ ilość zagrań $G_i$ w celu zawiązania sojuszu z $G_{i+1}$, ilość zagrań $G_{i}$ aby nawiązać sojusz z $G_{i-1}$ wyraża się jako $liczba_{partii} - nast_i$
 \end{itemize}
-Drugi z modeli \ref{fig:model_zal} będzie się nieznacznie różnił. Będzie to gra N-osobowa składająca się z lokalnych gier 3-osobowych. Pozostała cześć modelu się nie zmienia.
+Model gry N-osobowe \ref{fig:model_zal} będzie dysponował takimi samymi danymi jak model gry 3-osobowej. Różnicą między tymi modelami będzie ustawienie graczy w okręgu, co będzie prowadziło do konsekwencji decyzji nieograniczających się do najbliższych sąsiadów.
 {\color{red} UKŁAD}
 \begin{figure}
 	\centering
@@ -82,27 +77,24 @@ Drugi z modeli \ref{fig:model_zal} będzie się nieznacznie różnił. Będzie t
 \caption{Modele gry}
 \label{fig:modele}
 \end{figure}
-
-Wszystkie zmiany prawdopodobieństwa muszą przejść funkcję ograniczającą, więcej o niej znajdziemy w sekcji \ref{sec:ograniczenie}. Jak uzyskać $\Delta p_i$ dowiemy się w dwóch następnych podrozdziałach.
-\begin{equation} \label{eq:ograniczenie}
-p_i = ogr( p_i + \Delta p_i)
-\end{equation}
 %---------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 \section{Równania standardowe}
 \label{sec:r_stand}
-Podstawowym równaniem od którego wyjdziemy będzie równanie dla gracza o indeksie 0, pozostałe utworzymy analogicznie:
-{\color{red} SKĄÐ}
-\begin{equation} \label{eq:poczatek}
-\Delta p_0 = (1 - p_1) - p_2
+W tym typie równań celem będzie maksymalizacja zysku( zyskiem jest prawdopodobieństwo ) w czasie. Wyprowadzenie będzie przeprowadzone dla $G_0$, przy założeniu gry o pełnej informacji. Pozostałe dwa równania można wyprowadzić analogicznie. Niech $x=p_0$, $y=p_1$, $z=p_2$. Wypłata dana jest przez:
+\begin{equation}\label{eq:wypl_stand}
+W = \underbrace{x(1-y)}_{\text{wypłata sojuszu $G_0$ z $G_1$}} + \overbrace{(1-x)z}^{\text{wypłata sojuszu $G_0$ z $G_2$}} \\
 \end{equation}
-Człon $1 - p_1$ jest prawdopodobieństwem zagrania gracza 1 na gracza 0, więc prawdopodobieństwo zagrania gracza 0 na gracza 1 powinno z nim rosnąć. Zniechęcić gracza 0 do sympatyzowania z graczem 1 mogłyby zagrania gracza 2 w kierunku gracza 3. Z tego właśnie powodu odejmujemy $p_2$, co ma pokazywać graczowi 0 że ma innego zawodnika, który wyciąga do niego rękę.
+Chcemy znaleźć dynamikę, więc różniczkujemy wypłatę po $\delta x$, co daje nam dynamikę wypłaty dla $G_0$ od czasu.
+\begin{align}\label{eq:dynam_stand}
+\frac{\delta W_x}{\delta t} = 1-y-z \nonumber\\
+\delta W_x = \delta t (1-y-z)
+\end{align}
+W dalszej części będzie stosowane oznaczenie $\alpha = \delta t$. Równanie wygląda obiecująco, gdyż człon $1 - y$ jest prawdopodobieństwem zagrania $G_1$ aby zawiązać sojusz z $G_0$. Podobnie $-z$ prowadzi do sojuszu $G_2$ z $G_0$, minus przy $z$ powoduje ubytek dla $x$, ponieważ prawdopodobieństwo zagrania $G_0$ w celu zawarcia sojuszu z $G_2$ jest dane przez $1-x$.
 
-Z powodu że mamy do czynienia z grą o niepełnej informacji zdecydowałem się wprowadzić u zawodników statystykę zagrań przeciwników, pozwalającą obliczyć prawdopodobieństwo. W jednej z następnych sekcji \ref{sec:ograniczenie} omówimy bardziej szczegółowo niechciane zachowania z tego wynikające, ale na chwilę obecną przyjmijmy, że potrzebujemy dodatkowego parametru $\alpha$ przyjętego na poziomie $0.1$.
-
-W poniższym równaniu $n_N$ oznacza liczbę partii zagranych przez następnego (z wyższym indeksem) gracza w kierunku jego następnego gracza. Analogicznie $n_P$ oznacza liczbę partii zagranych przez poprzedniego (z niższym indeksem) gracza w kierunku jego następnego gracza (czyli nas).
+Z powodu że tematem jest gra o niepełnej informacji należy zmodyfikować równanie \ref{eq:dynam_stand}. Opis użytych parametrów można znaleźć w podrozdziale \ref{sec:model}.
 \begin{equation} \label{eq:stand}
-\Delta p_i = \alpha \cdot (1 - \frac{n_N}{liczba_{partii}} - \frac{n_P}{liczba_{partii}})
+\Delta p_i = \alpha \cdot (1 - \frac{nast_{i+1}}{liczba_{partii}} - \frac{nast_{i-1}}{liczba_{partii}})
 \end{equation}
 
 %---------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -131,6 +123,11 @@ Co dla gry 3-osobowej generuje równania:
 
 \section{Ograniczenie prawdopodobieństwa}
 \label{sec:ograniczenie}
+Wszystkie zmiany prawdopodobieństwa muszą przejść funkcję ograniczającą, więcej o niej znajdziemy w sekcji \ref{sec:ograniczenie}. Jak uzyskać $\Delta p_i$ dowiemy się w dwóch następnych podrozdziałach.
+\begin{equation} \label{eq:ograniczenie}
+p_i = ogr( p_i + \Delta p_i)
+\end{equation}
+
 Jak zauważyliśmy powyższe równania w łatwy sposób mogą wyjść poza przedział $<0,1>$. Aby temu zapobiec każda inkrementacja prawdopodobieństwa musi być obłożona funkcją ograniczającą. Każde nowo obliczone prawdopodobieństwo podawane jest jako parametr do funkcji $ogr$, a dopiero jej rezultat jest przypisywany poszczególnym prawdopodobieństwom graczom. Zdecydowałem się użyć następującej funkcji:
 \begin{displaymath}
 ogr(p_i) = \left\{
