@@ -5,6 +5,7 @@
 \label{sec:gra}
 W niniejszej pracy będziemy skupiali się na grach wieloosobowych, których szczególnym przypadkiem jest gra 3-osobowa. Model gry 3-osobowej pokazuje, że decyzję jednego z zawodników mają bezpośredni wpływ na zachowanie sąsiadów. W modelu gry N-osobowej decyzje graczy będą wpływać nie tylko na najbliższych sąsiadów, ale pośrednio także na decyzję graczy niesąsiadujących.
 Omawiane tutaj gry są grami o niepełnej informacji, w tej pracy oznacza to grę, w której nie wszyscy uczestnicy znają prawdopodobieństwo wyborów przeciwników. Prawdopodobieństwo gry przeciwników będzie szacowane na podstawie obserwacji historii ich zagrań.
+Opisywane gry będą także grami ewolucyjnymi, czyli mającymi możliwość przewidywania i uczenia się na podstawie zachowań graczy.
 
 \section{Model gry}
 \label{sec:model}
@@ -85,12 +86,17 @@ W tym typie równań celem będzie maksymalizacja zysku( zyskiem jest prawdopodo
 \begin{equation}\label{eq:wypl_stand}
 W = \underbrace{x(1-y)}_{\text{wypłata sojuszu $G_0$ z $G_1$}} + \overbrace{(1-x)z}^{\text{wypłata sojuszu $G_0$ z $G_2$}} \\
 \end{equation}
-Chcemy znaleźć dynamikę, więc różniczkujemy wypłatę po $\delta x$, co daje nam dynamikę wypłaty dla $G_0$ od czasu.
+Aby znaleźć dynamikę należy zróżniczkować wypłatę po $\delta x$.
+\begin{align*}
+\frac{\delta W}{\delta x} = 1-x-y = W_x
+\end{align*}
+Schematu różnicowy na wypłatę od czasu daje:
 \begin{align}\label{eq:dynam_stand}
-\frac{\delta W_x}{\delta t} = 1-y-z \nonumber\\
-\delta W_x = \delta t (1-y-z)
+W_x(t) &= \frac{W(t+dt)-W(t)}{\Delta t} \nonumber\\
+W_x(t) \Delta t &= W(t+dt)-W(t) = \Delta p_0 \nonumber\\
+\Delta p_0 &= \Delta t (1-y-z)
 \end{align}
-W dalszej części będzie stosowane oznaczenie $\alpha = \delta t$. Równanie wygląda obiecująco, gdyż człon $1 - y$ jest prawdopodobieństwem zagrania $G_1$ aby zawiązać sojusz z $G_0$. Podobnie $-z$ prowadzi do sojuszu $G_2$ z $G_0$, minus przy $z$ powoduje ubytek dla $x$, ponieważ prawdopodobieństwo zagrania $G_0$ w celu zawarcia sojuszu z $G_2$ jest dane przez $1-x$.
+W dalszej części będzie stosowane oznaczenie $\alpha = \Delta t$. Równanie wygląda obiecująco, gdyż człon $1 - y$ jest prawdopodobieństwem zagrania $G_1$ aby zawiązać sojusz z $G_0$. Podobnie $-z$ prowadzi do sojuszu $G_2$ z $G_0$, minus przy $z$ powoduje ubytek dla $x$, ponieważ prawdopodobieństwo zagrania $G_0$ w celu zawarcia sojuszu z $G_2$ jest dane przez $1-x$.
 
 Z powodu że tematem jest gra o niepełnej informacji należy zmodyfikować równanie \ref{eq:dynam_stand}. Opis użytych parametrów można znaleźć w podrozdziale \ref{sec:model}.
 \begin{equation} \label{eq:stand}
@@ -101,18 +107,22 @@ Z powodu że tematem jest gra o niepełnej informacji należy zmodyfikować rów
 
 \section{Równania replikatorów}
 \label{sec:r_repli}
-Model dynamiki replikatorów jest najbardziej znanym różniczkowym modelem teorii gier ewolucyjnych, przez co może stanowić dobry wybór do sterowania zachowaniem graczy. Tak jak w poprzednim przypadku przyjmijmy prawdopodobieństwa kolejno $x$, $y$ oraz $z$ pamiętając, że prawdopodobieństwa poza tym z pochodnej są szacowane. Podstawowy wzór równania wygląda następująco:
+Model dynamiki replikatorów jest najbardziej znanym różniczkowym modelem teorii gier ewolucyjnych, przez co może stanowić dobry wybór do sterowania zachowaniem graczy. Tak jak w poprzednim przypadku przyjmijmy prawdopodobieństwa $x=p_0$, $y=p_0$ oraz $z=p_0$ pamiętając, że prawdopodobieństwa przeciwników w symulacji są szacowane. Podstawowy wzór równania replikatorów wygląda następująco:
 \begin{equation}
-\dot{x} = x \cdot ( W - \overline{W})
+\dot{x} = x \cdot ( W_x - \overline{W})
 \end{equation}
-Gdzie $W$ jest średnią wypłatą dla strategii $x$ (dla nas prawdopodobieństwem gry na x), natomiast $\overline{W}$ jest średnią wypłatą co daje nam:
-{\color{red} UKŁAD}
-\begin{align*}
-\dot{x} = x \cdot ( \overbrace{(1-y)}^{W} - \overbrace{(x(1-y) + (1-x)z)}^{\overline{W}}) \\
+Gdzie $W_x$ jest średnią wypłatą dla strategii $x$ (prawdopodobieństw strategii $x$), natomiast $\overline{W}$ jest średnią wypłatą co daje:
+\begin{gather*}
+\dot{x} = x \cdot ( \overbrace{(1-y)}^{W_x} - \overbrace{(x(1-y) + (1-x)z)}^{\overline{W}}) \\
 \Downarrow \\
 \dot{x} = x \cdot (1-x) \cdot (1-y-z)
-\end{align*}
-Co dla gry 3-osobowej generuje równania:
+\end{gather*}
+Jak poprzednio schemat różnicowy od czasu wyznaczy $\Delta p_0$:
+\begin{align*}
+\dot{x}(t) &= \frac{\dot{x}(t+\Delta t)-\dot{x}(t)}{\Delta t} \\
+\dot{x}(t) \Delta t &= \dot{x}(t+\Delta t)-\dot{x}(t) = \Delta p_0
+\end{align*} 
+W dalszej części tej pracy $\alpha=\Delta t$. Co dla gry 3-osobowej generuje równania:
 \begin{align} \label{eq:repli}
 \Delta p_0 = \alpha p_0 \cdot (1 - p_0) \cdot (1 - \frac{n_1}{liczba_{partii}} - \frac{n_2}{liczba_{partii}}) \nonumber \\
 \Delta p_1 = \alpha p_1 \cdot (1 - p_1) \cdot (1 - \frac{n_2}{liczba_{partii}} - \frac{n_0}{liczba_{partii}}) \\
@@ -123,12 +133,11 @@ Co dla gry 3-osobowej generuje równania:
 
 \section{Ograniczenie prawdopodobieństwa}
 \label{sec:ograniczenie}
-Wszystkie zmiany prawdopodobieństwa muszą przejść funkcję ograniczającą, więcej o niej znajdziemy w sekcji \ref{sec:ograniczenie}. Jak uzyskać $\Delta p_i$ dowiemy się w dwóch następnych podrozdziałach.
+Wszystkie zmiany prawdopodobieństwa muszą zostać poddane funkcji ograniczającej.
 \begin{equation} \label{eq:ograniczenie}
 p_i = ogr( p_i + \Delta p_i)
 \end{equation}
-
-Jak zauważyliśmy powyższe równania w łatwy sposób mogą wyjść poza przedział $<0,1>$. Aby temu zapobiec każda inkrementacja prawdopodobieństwa musi być obłożona funkcją ograniczającą. Każde nowo obliczone prawdopodobieństwo podawane jest jako parametr do funkcji $ogr$, a dopiero jej rezultat jest przypisywany poszczególnym prawdopodobieństwom graczom. Zdecydowałem się użyć następującej funkcji:
+W przeciwny przypadku równania z poprzednich podrozdziałów mogą wyjść poza przedział $<0,1>$. Każde nowo obliczone prawdopodobieństwo podawane jest jako parametr do funkcji $ogr$, a dopiero jej rezultat jest przypisywany poszczególnym prawdopodobieństwom graczy. Funkcja dbająca o pozostanie prawdopodobieństwa w dziedzinie wygląda następująco:
 \begin{displaymath}
 ogr(p_i) = \left\{
 \begin{array}{ll}
@@ -138,28 +147,31 @@ p_i & \text{jeżeli } 1 \geq p_i \geq 0 \\
 \end{array} 
 \right.
 \end{displaymath}
-
-Zapewne naszą uwagę przykuł także parametr $\alpha$ obecny w powyższych równaniach. W pierwszym z nich użycie go jest konieczne, gdyż w przeciwnym przypadku szacowanie prawdopodobieństwa innych doprowadziłoby do zawiązania trwałych koalicji już po pierwszej partii. N oznacza zagranie w stronę zawodnika z wyższym numerem, natomiast P z niższym. Zapętla to się dla pierwszego i ostatniego gracza. Zobaczmy przykład dla równania standardowego, prawdopodobieństwa początkowego $\frac{1}{2}$ i $\alpha = 1$ zakładając że:
+Dotąd nic nie było powiedziane na temat wartości $\alpha$, która została przyjęta jako $0.1$. Jest to wartość przyjęta autorytarnie aby spowolnić rozgrywkę oraz umożliwić łatwiejszą zmianę koalicji. Najpierw przeanalizowane zostaną równania standardowe dla gry 3-osobowej o prawdopodobieństwie początkowym $\frac{1}{2}$ i $\alpha = 1$. Gdzie $N$ oznacza zagranie $G_i$ mające na celu zawiązania sojuszu z $G_{i+1}$, a $P$ ilość zagranie$G_i$ mające na celu zawiązania sojuszu z $G_{i-1}$.
+{\color{red} UKŁAD}
 \begin{align*}
-Gracz_0 = N, Gracz_1 = P, Gracz_2 = N && Gracz_0 = N, Gracz_1 = P, Gracz_2 = P\\
+G_0 = N, G_1 = P, G_2 = N && G_0 = N, G_1 = P, G_2 = P\\
 \left\{
-\begin{array}{ll}
+\begin{array}{cc}
 \Delta p_0 = (1 - 0 - 1) =  0 & p_0=\frac{1}{2}\\
 \Delta p_1 = (1 - 1 - 1) =  -1 & p_1= 0\\
 \Delta p_2 = (1 - 1 - 0) =  0 & p_2=\frac{1}{2}\\
 \end{array} 
 \right. &&
 \left\{
-\begin{array}{ll}
+\begin{array}{cc}
 \Delta p_0 = (1 - 0 - \frac{1}{2}) =  0 & p_0=\frac{3}{4}\\
 \Delta p_1 = (1 - \frac{1}{2} - 1) =  -\frac{1}{2} & p_1= 0\\
 \Delta p_2 = (1 - 0 - \frac{1}{2}) =  \frac{1}{2} & p_2=\frac{3}{4}\\
 \end{array}
 \right.
 \end{align*}
-Schemat po lewej przedstawia pierwszą partię, a po lewej drugą. Jak widzimy prowadzi to do bardzo szybkich zmian prawdopodobieństwa, co może praktycznie uniemożliwiać jakiekolwiek zmiany sojuszy. Wartym rozważenia jest czy w równaniach replikatorów potrzebny będzie jakiś parametr zmniejszający dynamikę skoro posiadają człon postaci $x(1-x)$. Weźmy założenia z poprzedniego przykładu. Przeanalizujmy przykład: {\color{red} UKŁAD}
-\begin{align*}
-Gracz_0 = N, Gracz_1 = P, Gracz_2 = N \\
+Schemat przedstawia dwie osobne tury: po lewej pierwszą, a po prawej drugą. Parametr $\alpha=1$ powoduje szybkie zawiązanie mocnych koalicji, których przerwanie staje się mało prawdopodobne, co może praktycznie uniemożliwiać jakiekolwiek zmiany sojuszy.
+
+%										REPLIKATORY
+Wartym rozważenia jest czy w równaniach replikatorów potrzebna będzie $\alpha < 1$, skoro posiadają człon postaci $x(1-x)$ gasnący na krańcach przedziału prawdopodobieństwa. Założenia zostały zaczerpnięte z poprzedniego przykładu.
+\begin{gather*}
+G_0 = N, G_1 = P, G_2 = N \\
 \left\{
 \begin{array}{ll}
 \Delta p_0 = \frac{1}{2} \cdot (1 - \frac{1}{2}) \cdot (1 - 0 - 1) =  0 & p_0=\frac{1}{2}\\
@@ -168,7 +180,7 @@ Gracz_0 = N, Gracz_1 = P, Gracz_2 = N \\
 \end{array} 
 \right.
 \\
-Gracz_0 = N, Gracz_1 = P, Gracz_2 = P \\
+G_0 = N, G_1 = P, G_2 = P \\
 \left\{
 \begin{array}{ll}
 \Delta p_0 = \frac{1}{2} \cdot (1 - \frac{1}{2}) \cdot (1 - 0 - \frac{1}{2}) = \frac{1}{8} & p_0=\frac{5}{8}\\
@@ -176,13 +188,15 @@ Gracz_0 = N, Gracz_1 = P, Gracz_2 = P \\
 \Delta p_2 = \frac{1}{2} \cdot (1 - \frac{1}{2}) \cdot (1 - 0 - \frac{1}{2}) = \frac{1}{8}  & p_2=\frac{5}{8}\\
 \end{array}
 \right.
-\end{align*}
-Jak widzimy najszybsza zmiana zachodzi dla pierwszego gracza, który traci 25\% zaufania do gracza o wyższym indeksie. W kolejnej partii nie widzimy już tak dużych zmian. Należy odpowiedzieć na pytanie czy jest to na tyle dużo, aby wprowadzać parametr mający spowalniać dynamikę zmian. Powinno się poruszyć dwie kwestie. Zgadzam się że dynamika prawdopodobieństwa jest dla mnie akceptowalna(czyli wynosi do 10\%), ale tylko dla prawdopodobieństw które oddalają się od środka przedziału, a grę rozpoczynamy właśnie w nim. Drugą sprawą jest porównanie obu równań. Porównanie wyników, w które rekurencyjnie wkładamy czynnik wymnażający zmianę nie jest najłatwiejszą rzeczą do opisania. Celem członu $x(1-x)$ w równaniu replikatorów jest rozwiązanie problemu supersilnych, szybko tworzących się koalicji.
+\end{gather*}
+Jak widać najszybsza zmiana zachodzi dla pierwszego gracza, który traci 25\% z prawdopodobieństwa sojuszu z graczem o wyższym indeksie. W kolejnej partii nie widzimy już tak dużych zmian. Należy odpowiedzieć na pytanie czy jest to na tyle dużo, aby zastosować $\alpha$ taką jak w równaniach standardowych. Powinno się poruszyć dwie kwestie. Dynamika prawdopodobieństwa jest dla akceptowalna(wynosi do 10\%), ale tylko dla prawdopodobieństw które oddalają się od środka przedziału, a grę rozpoczynamy właśnie w nim. Drugą sprawą jest porównanie obu równań. Porównanie wyników, o różnym kroku czasowym nie jest najłatwiejszą rzeczą do opisania. Celem członu $x(1-x)$ w równaniu replikatorów jest rozwiązanie problemu supersilnych, szybko tworzących się koalicji.
 
-Postarajmy się teraz skupić na szczególnych przypadkach, gdy w obu osobnych grach żaden z graczy nie współpracował. Użyjemy równań standardowych, prawdopodobieństwo początkowe $\frac{1}{2}$ oraz $\alpha = 1$.
+%                                                   BRAK WSPÓŁPRACY
+
+Umówiony teraz zostanie szczególny przypadek, gdy w dwóch osobnych grach żaden z graczy nie współpracował. Użyte będą równania standardowe, prawdopodobieństwo początkowe $\frac{1}{2}$ oraz $\alpha = 1$.
 
 \begin{align*}
-Gracz_0 = N, Gracz_1 = N, Gracz_2 = N && Gracz_0 = P, Gracz_1 = P, Gracz_2 = P \\
+G_0 = N, G_1 = N, G_2 = N && G_0 = P, G_1 = P, G_2 = P \\
 \left\{
 \begin{array}{ll}
 \Delta p_0 = (1 - 1 - 1) =  -1 & p_0=0\\
@@ -198,7 +212,7 @@ Gracz_0 = N, Gracz_1 = N, Gracz_2 = N && Gracz_0 = P, Gracz_1 = P, Gracz_2 = P \
 \end{array}
 \right.
 \end{align*}
-Przypadek ten pokaże nam skutki braku ograniczenia w prawdopodobieństwie. Wiemy że teraz każdy z graczy wykona ruch przeciwny do poprzedniego co da nam w obu grach:
+Przypadek ten pokazuje skutki braku ograniczenia kroku czasowego. Następny ruch jest z góry znany, każdy z graczy wykona ruch przeciwny do poprzedniego co daje w obu grach:
 \begin{align*}
 \left\{
 \begin{array}{l}
@@ -208,9 +222,9 @@ Przypadek ten pokaże nam skutki braku ograniczenia w prawdopodobieństwie. Wiem
 \end{array} 
 \right.
 \end{align*}
-Brak wpływu na zmiany, gracze dokonują wyboru jak poprzednio.
+Brak zmian prawdopodobieństw, gracze dokonują wyboru jak poprzednio.
 \begin{align*}
-Gracz_0 = P, Gracz_1 = P, Gracz_2 = P && Gracz_0 = N, Gracz_1 = N, Gracz_2 = N \\
+G_0 = P, G_1 = P, G_2 = P && G_0 = N, G_1 = N, G_2 = N \\
 \left\{
 \begin{array}{ll}
 \Delta p_0 = (1 - \frac{1}{3} - \frac{1}{3}) =  \frac{1}{3} & p_0= \frac{1}{3}\\
@@ -226,29 +240,32 @@ Gracz_0 = P, Gracz_1 = P, Gracz_2 = P && Gracz_0 = N, Gracz_1 = N, Gracz_2 = N \
 \end{array}
 \right.
 \end{align*}
-Nie wróciliśmy to punktu wyjścia, w którym wyjściowym prawdopodobieństwem chęci gry na gracza z większym indeksem jest $\frac{1}{3}$ dla gry przedstawionej po lewej stronie i $\frac{2}{3}$ dla gry po prawej. W pamięci każdego z graczy jest liczba rozegranych partii ze swoimi rywalami co będzie prowadziło do niekoniecznie oczywistych zachowań, gdy przeanalizujemy ścieżki gier o wyborach z większym prawdopodobieństwie.
+Nie jest to powrót do punktu wyjścia, w którym wyjściowym prawdopodobieństwem jest $\frac{1}{3}$ dla gry przedstawionej po lewej stronie i $\frac{2}{3}$ dla gry po prawej. W pamięci każdego z graczy jest liczba rozegranych partii ze swoimi rywalami co będzie prowadziło do niekoniecznie oczywistych zachowań.
+Od teraz dokonywany wybór będzie tym o większym prawdopodobieństwie.
+
 \begin{align*}
-Gracz_0 = P, Gracz_1 = P, Gracz_2 = P && Gracz_0 = N, Gracz_1 = N, Gracz_2 = N \\
+G_0 = P, G_1 = P, G_2 = P && G_0 = N, G_1 = N, G_2 = N \\
 \left\{
-\begin{array}{ll}
+\begin{array}{cc}
 \Delta p_0 = (1 - \frac{1}{4} - \frac{1}{4}) =  \frac{1}{2} & p_0= \frac{5}{6}\\
 \Delta p_1 = (1 - \frac{1}{4} - \frac{1}{4}) =  \frac{1}{2} & p_1= \frac{5}{6}\\
 \Delta p_2 = (1 - \frac{1}{4} - \frac{1}{4}) =  \frac{1}{2} & p_2= \frac{5}{6}\\
 \end{array} 
 \right. &&
 \left\{
-\begin{array}{ll}
+\begin{array}{cc}
 \Delta p_0 = (1 - \frac{2}{5} - \frac{2}{5}) =  -\frac{1}{2} & p_0= \frac{1}{6}\\
 \Delta p_1 = (1 - \frac{2}{5} - \frac{2}{5}) =  -\frac{1}{2} & p_1= \frac{1}{6}\\
 \Delta p_2 = (1 - \frac{2}{5} - \frac{2}{5}) =  -\frac{1}{2} & p_2= \frac{1}{6}\\
 \end{array}
 \right.
 \end{align*}
-Widzimy zmianę zachowania graczy spowodowaną sumą częstości gier przeciwników. Sytuacja takiej fluktuacji będzie się powtarzać, lecz z czasem będziemy tracić naszą pulę graczy z powodu czynnika prawdopodobieństwa. Teoretycznie mając do dyspozycji nieskończoną populację graczy oraz nieograniczony czas, istniałby przypadek nieskończonej ,,sinusoidy'' o zwiększającym się okresie. Sytuacja taka nie jest dla nas pożądana, co stanowi dodatkowy argument za użyciem parametru $\alpha < 1$ skutecznie niwelującego wystąpienie takich sytuacji.
+Obserwowana jest zmiana zachowania graczy spowodowana częstością gier przeciwników. Sytuacja takiej fluktuacji może się powtarzać. Dysponując odpowiednio dużą grupą instancji gry oraz dostatecznie długą rozgrywką możliwe byłoby zaobserwowanie funkcji prawdopodobieństwa od czasu (równą dla wszystkich graczy instancji) w kształcie sinusoidy o rosnącym okresie.
+Sytuacja taka nie jest dla nas pożądana, co stanowi dodatkowy argument za użyciem $\alpha < 1$ skutecznie niwelującego wystąpienie takich sytuacji.
 
 \section{Rozwiązanie stacjonarne równań standardowych}
 \label{sec:stab_stand}
-Do ustalenia punktów stałych potrzebujemy $\Delta p_i = 0$ oraz pomińmy współczynnik $\alpha$. Należy rozwiązać układ równań, gdzie przyjmijmy że kolejne prawdopodobieństwa $x$, $y$, $z$:
+Do ustalenia punktów stałych potrzebny jest zanik dynamiki $\Delta p_i = 0$. Krok czasowy zostanie pominięty, gdyż nie daje wkładu do obliczeń. Należy rozwiązać układ równań, gdzie przyjęte jest $x=p_0$, $y=p_1$, $z=p_2$:
 \begin{equation}
 \left\{
 \begin{array}{c}
@@ -258,18 +275,11 @@ Do ustalenia punktów stałych potrzebujemy $\Delta p_i = 0$ oraz pomińmy wspó
 \end{array}
 \right. \Rightarrow p_0 = p_1 = p_2 = \frac{1}{2}
 \end{equation}
-Z czego wynika że gra startująca w punkcie $(\frac{1}{2},\frac{1}{2},\frac{1}{2})$ nie powinna z niego wyjść. Byłoby tak gdyby prawdopodobieństwa użyte w równaniu były faktycznymi prawdopodobieństwami $p_i$, są one natomiast jedynie obserwacją zachowania pozostałych graczy. Jak już wcześniej wspominaliśmy jest ono dane jako $\frac{n_j}{liczba_{partii}}$, dzięki czemu gra w ogóle się odbywa.
+Z czego wynika że gra startująca w punkcie $(\frac{1}{2},\frac{1}{2},\frac{1}{2})$ nie powinna z niego wyjść. Byłoby tak gdyby prawdopodobieństwa użyte w równaniu były faktycznymi prawdopodobieństwami $p_i$, są one natomiast jedynie obserwacją zachowania pozostałych graczy. Jak było wcześniej wspomniane są ono dane jako $\frac{nast_j}{liczba_{partii}}$, dzięki czemu gra w ogóle się odbywa.
 \section{Stabilność równań replikatorów}
 \label{sec:stab_repl}
-Aby wyznaczyć stabilność równań replikatorów należy najpierw znaleźć punkty stałe. Dla przejrzystości postanowiłem pominąć parametr $\alpha$, który nie wnosi nic do obliczeń, wykorzystuję realne prawdopodobieństwa jako szacowane oraz przyjmuję następujące oznaczenia:
-{\color{red} UKŁAD}
+Aby wyznaczyć stabilność równań replikatorów należy najpierw znaleźć punkty stałe, jak poprzednio krok czasowy zostanie pominięty.  Przyjęte zostały następujące oznaczenia $\dot{x} = \Delta p_0$, $\dot{y} = \Delta p_1$, $\dot{z} = \Delta p_2$.
 \begin{align*}
-\begin{array}{l}
-\dot{x} = \Delta p_0 \\
-\dot{y} = \Delta p_1 \\
-\dot{z} = \Delta p_2
-\end{array}
-&&
 \left\{
 \begin{array}{l}
 \dot{x} = 0 \\
@@ -286,7 +296,7 @@ Aby wyznaczyć stabilność równań replikatorów należy najpierw znaleźć pu
 \end{array}
 \text{dają punkty stałe} (x^*_i, y^*_i, z^*_i)\text{, gdzie }\xi \in <0,1>
 \end{align*}
-Weźmiemy na tapet 4 przypadki, które nie są symetryczne względem siebie, ale najpierw musimy policzyć pochodne cząstkowe.
+Przeanalizowane zostaną 4 przypadki, które nie są symetryczne względem siebie, ale najpierw należy policzyć pochodne cząstkowe.
 \begin{align*}
 \begin{array}{l}
 \frac{\delta \dot{x}}{\delta x} = 1-y-z-2x+2xy+2xz\\
@@ -299,14 +309,16 @@ Weźmiemy na tapet 4 przypadki, które nie są symetryczne względem siebie, ale
 \frac{\delta \dot{y}}{\delta y} = 1-x-z-2y+2xy+2yz\\
 \frac{\delta \dot{y}}{\delta z} = y^2 - y\\
 \end{array}
-&&
+\end{align*}
+\begin{align*}
 \begin{array}{l}
 \frac{\delta \dot{z}}{\delta x} = z^2 - z\\
 \frac{\delta \dot{z}}{\delta y} = z^2 - z\\
 \frac{\delta \dot{z}}{\delta z} = 1-x-y-2z+2xz+2yz\\
 \end{array}
 \end{align*}
-Macierz Jacobiego i wzór na wartości własne{\color{red} ZRÓB PIONOWĄ KRESKĘ PRZY =}
+Kolejnym krokiem jest znalezienie wartości własnych.
+{\color{red} ZRÓB PIONOWĄ KRESKĘ PRZY =}
 \begin{align*}
 J= \left(
 \begin{array}{ccc}
@@ -328,23 +340,19 @@ J= \left(
 \frac{\delta \dot{y}}{\delta x} & \frac{\delta \dot{y}}{\delta y}-\lambda & \frac{\delta \dot{y}}{\delta z} \\
 \frac{\delta \dot{z}}{\delta x} & \frac{\delta \dot{z}}{\delta y} & \frac{\delta \dot{z}}{\delta z}-\lambda
 \end{array}
-\right| = 0
+\right| = J_i - \lambda I = J_{i,\lambda} 
 \end{align*}
-\begin{align*}
-J_{i,\lambda} = J_i - \lambda I && 
+\begin{equation*}
+J_{i,\lambda} = 0 \Rightarrow 
 \begin{array}{l}
 \lambda_0 = 1\\
 \lambda_1 \in \{-\frac{1}{2}, \frac{1}{4}\}\\
 \lambda_2 = 1\\
 \lambda_3 \in \{-z, z-1\}
 \end{array}
-&& \wedge &&
-Re \lambda_i < 0
-\end{align*}
-Warunek na ujemną część rzeczywistą wartości własnej eliminuje nam wszystkie lambdy poza $\lambda_3$. Możemy powiedzieć, że:
-\begin{equation}
-\lambda_3 \text{ jest marginalnie stabilna} \iff \xi \in \{ 0, 1\}
-\end{equation}
+\end{equation*}
+Warunkiem na stabilność punktu jest $Re \lambda_i < 0$, co eliminuje nam wszystkie lambdy poza $\lambda_3$, która jest marginalnie stabilna.
+
 Jako że analiza matematyczna nie przyniosła nam odpowiedzi co do stabilności spróbujmy przeanalizować równanie $\dot{z}$. W pierwszym wierszu widzimy jak $x$ ani $y$ nie mogą nawiązać sojuszu i w tym przypadku punkt $(0,0,1)$ będzie punktem stabilności w którym $z$ będzie pewnym zwycięzcą. W przypadku gdy $x$ i $y$ mają przeciwne wartości występuje trwała koalicja co nie daje szansy na wejście w żaden sojusz.
 \begin{wraptable}{rh}{0.5\textwidth}
     \centering
