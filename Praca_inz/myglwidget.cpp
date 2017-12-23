@@ -63,6 +63,7 @@ void MyGLWidget::copy(){
 
 void MyGLWidget::initializeGL()
 {
+    qglClearColor(Qt::white);
 //    qglClearColor(Qt::black);
 //    glEnable(GL_DEPTH_TEST);
 //    glEnable(GL_CULL_FACE);
@@ -151,7 +152,7 @@ void MyGLWidget::draw()
 //        glVertex3f(0,0,1.2);
 //    glEnd();
     glLineWidth(3);
-    glColor3ub(255,255,255);
+    glColor3ub(0,0,0);
 //bottom
     glBegin(GL_LINES);
         glVertex3f(-0.5,-0.5,-0.5);
