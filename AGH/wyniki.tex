@@ -10,19 +10,11 @@
     \centering
     \includegraphics[width=0.5\textwidth]{pict/wyniki/stand100_10.png}   
     \caption{Równania standardowe: 100 partii, 10 instancji}
-	\label{fig:stand50_10} 
+	\label{fig:stand100_10} 
 \end{wrapfigure}
 
-Postaramy się teraz przeanalizować wyniki symulacji z użyciem równań standardowych. 
-
-Z analizy teoretycznej równań spodziewamy się zawiązania koalicji pomiędzy dwójką z graczy, wynikiem tego jest dążenie funkcji do krawędzi sześcianu. Po osiągnięcia trwałej koalicji trzeci gracz bezskutecznie stara się grać na jednego z koalicjantów. Jest to widoczne poprzez poruszanie się funkcji po krawędzi sześcianu dążącej do jego wierzchołków. Widać że funkcje idące od centrum zachowują się w miarę stabilnie idąc w kierunku jakiejś krawędzi nie zmieniają monotoniczności. Istnieją niewielkie wahania wynikające z prawdopodobieństwa, ale nie mają one większego wpływu w dążeniu do jednej z krawędzi i zmianę ich decyzji. 
-
-Tak naprawdę koalicje zawiązują się tuż po zaczęciu gry i dążą bezpośrednio do stanu ustalonego,  ponieważ na początku gry szacowane prawdopodobieństwo u innych graczy jest bardzo duże. Wynika to z tego szacowane prawdopodobieństwo w pierwszej grze wynosi 0\% albo 100\% co definitywnie wskazuje aby grać na jednego z zawodników. Było to powodem dla którego wprowadziłem współczynnik $\alpha$ równy 0.1, który ma za zadanie blokować sytuacje w których od razu po pierwszej grze jesteśmy w trwałej koalicji.
-
-Jeśli chcielibyśmy uzyskać szybszą grę powinniśmy używać większych współczynników $\alpha$, co skutkować będzie mniejszą szansą na zerwanie koalicji. Jeśli natomiast chcielibyśmy żeby gra przebiegała wolniej moglibyśmy obniżyć współczynnik $\alpha$, co doprowadziłoby do większej liczby zmian partnerów.
-
-
-%\lipsum[1-5]
+Analiza teoretyczna równań wskazała $(\frac{1}{2},\frac{1}{2},\frac{1}{2})$ jako punkt stabilny. Wynikało to z założenia gry o pełnej informacji, co nie jest spełnione dla symulacji, której funkcje opuszczają centrum sześcianu. Osiągnięcie przez funkcję krawędzi sześcianu oznacza zawiązanie koalicji, po czym funkcja przesuwa się po krawędzi dążąc do wierzchołka. Analizując tabelkę \ref{tab:krawedz_prawd} można ją także odnieść do równań standardowych by dojść do wniosku że funkcja powinna osiągać punkt stabilności na krawędzi i nie poruszać się dalej. Byłoby tak gdyby błąd szacowania prawdopodobieństw przeciwników był odpowiednio mały. Szacowanie prawdopodobieństw dane jest przez $\frac{nast_{j}}{liczba_{partii}}$. Wynika z tego, że wystarczy kilka zagrań przeciwników niezgodnych z zawartą koalicją, aby gracz szacujący ich prawdopodobieństwa nie mógł stwierdzić, że ich realne prawdopodobieństwa wynoszą 0 lub 1. Co pokazuje rysunek \ref{fig:stand100_10}, na którym widać funkcje o wielu punktach przegięcia. Szybkość dążenia do wierzchołków będzie malała wraz z czasem spędzonym na krawędzi, gdyż 
+\[\lim_{nast_j\rightarrow liczba_{partii} \wedge liczba_{partii} \rightarrow \infty} \frac{nast_j}{liczba_{partii}} \in \{0,1\} \]
 
 %---------------------------------------------------------------------------------------------------------------------------------------------------------
 \paragraph{Równania replikatorów}
@@ -32,7 +24,7 @@ Jeśli chcielibyśmy uzyskać szybszą grę powinniśmy używać większych wsp�
 	\centering
 	\begin{tabular}{c|c}
 		\centering
-		\subfloat[50 partii \label{fig:repl100_10}]{\includegraphics[width=.45\textwidth]{pict/wyniki/repl100_10.png}} 
+		\subfloat[100 partii \label{fig:repl100_10}]{\includegraphics[width=.45\textwidth]{pict/wyniki/repl100_10.png}} 
 		&
 		\subfloat[250 partii \label{fig:repl250_10}]{\includegraphics[width=.45\textwidth]{pict/wyniki/repl250_10.png}}
 		\\ \hline
@@ -43,35 +35,18 @@ Jeśli chcielibyśmy uzyskać szybszą grę powinniśmy używać większych wsp�
 \caption{Równania replikatorów: 10 instancji}
 \label{fig:repl_10}
 \end{figure}
-
-Od równania tego rodzaju spodziewamy się mniejszego wkładu, a jest to spowodowane tym że człon z własnym prawdopodobieństwem jest funkcja kwadratową $x(1-x)$ której maksimum ma wartości 0.5 i wynosi ono 0.25. Na krańcach dziedziny funkcji $<0,1>$ przyjmuje wartość 0 (przypomina wielomian węzłowy Lagrange'a). Co jest znacznym ograniczeniem dynamiki funkcji w stosunku do równań standardowych. Dobrym tego przykładem jest rysunek \ref{fig:repl50_10} na którym widać jak dla 50 gier prawdopodobieństwa zachowujemy się dużo wolniej w porównaniu z równaniami standardowymi co jest bezpośrednim wynikiem omawianego członu. Ograniczenie zmiany prawdopodobieństwa wprowadza możliwość zmiany koalicji, ponieważ prawdopodobieństwo przejścia między koalicjami wzrasta ze spadkiem maksymalnej pojedynczej jego zmiany. Widoczne na rysunku \ref{fig:repl50_10} kiedy to w początkowej fazie kilka koalicji rozwiązuje się i zmieniają partnerów, co nie było widoczne dla równań standardowych. Na rysunku \ref{fig:repl250_10} widzimy że tak samo jak dla równania standardowych i w tym przypadku funkcje prawdopodobieństwa dążą do krawędzi sześcianu, jednak dzieje się to znacznie wolniej gdyż człon równania z własnym prawdopodobieństwem dąży do 0. Dopiero dla 1000 gier zaczynamy obserwować sytuację podobną do 50 gier dla równań standardowych kiedy to funkcje prawdopodobieństwa dochodzą do krawędzi sześcianu i jeden z osamotniony graczy za wszelką cenę stara się grać tylko na jednego z partnerów aby wybić go ze stanu równowagi, co prowadzi do zmierzania do wierzchołków sześcianu, gdzie stan ustalony wygląda jako koalicja dwóch graczy z jednym wyobcowanym zawodnikiem, który jest zdecydowany na grę z jednym graczem lecz partner nie odwzajemnia jego chęci. Aż 10000 gier było wymagane aby prawdopodobieństwa doszły do wierzchołka gdzie mamy wcześniej opisaną sytuację.
-%\lipsum[1-5]
+Równań replikatorów charakteryzują się mniejszej dynamiką gry w stosunku do równań standardowych. Przyczyną jest człon $x(1-x)$, którego maksimum wynosi $0.25$. Daje to czterokrotnie mniejsze $\Delta p$ w punkcie $(\frac{1}{2}, \frac{1}{2}, \frac{1}{2})$. Na krańcach dziedziny $<0,1>$ wspomniany człon szybko dąży do 0 (przypomina wielomian węzłowy Lagrange'a), co znacznie opóźnia osiągnięcie koalicji. Widać to porównując rysunki \ref{fig:stand100_10} oraz \ref{fig:repl100_10}. Dopiero rysunki \ref{fig:stand100_10} oraz \ref{fig:repl10000_10}, gdzie gra używająca równań replikatorów wykonała ich 100 razy więcej niż gra używająca równań standardowych pokazują liczbę partii potrzebną do osiągnięcia podobnych miejsc w przestrzeni sześcianu.
+\begin{wrapfigure}{rh}{0.5\textwidth}
+    \centering
+    \includegraphics[width=0.5\textwidth]{pict/wyniki/repl_realp_mp_300_10.png}   
+    \caption{Równania replikatorów, gra o pełnej informacji: 300 partii, 10 instancji}
+	\label{fig:realp} 
+\end{wrapfigure}
+Analiza stabilności pokazała, że każda krawędź sześcianu powinna być punktem stabilnym, potwierdza to rysunek \ref{fig:realp}. Natomiast symulacja \ref{fig:repl1000_10} pokazuje przemieszczanie się funkcji ku wierzchołkom. Znów powodem jest błąd w szacowaniu prawdopodobieństwa przeciwników. Nie występuje on jednak we wszystkich instancjach gry, na przykład w jasno-zielonej rozgrywce \ref{fig:repl1000_10} widać, że funkcja nieznacznie porusza się po krawędzi, co świadczy o mniejszym błędzie szacowania prawdopodobieństwa w stosunku do innych rozgrywek. Analiza stabilności wskazuje, że punkty $(0,0,0)$ oraz $(1,1,1)$ nie są stabilne, czego dowodem jest iż żądna z symulacji do nich nie zmierza. Co więcej pierwszy i ostatni wiersz tabelki \ref{tab:krawedz_prawd} nie może wystąpić w symulacji. Osiągnięcie punktu $(0,0,\xi )$ lub $(1,1,\xi )$, gdzie $\xi$ nie jest w pobliżu $0$ lub $1$, nie jest możliwe w symulacji. Oznaczałoby to zawiązanie sojuszu pomiędzy graczami, których zagrania nie mają na celu zawiązania między nimi koalicji. Potwierdzają to symulacje z których żadna nie dochodzi do krawędzi wychodzących z punktów $(0,0,0)$ oraz $(1,1,1)$.
 
 %---------------------------------------------------------------------------------------------------------------------------------------------------------
 \section{Gry N-osobowe}
 \label{sec:N3zal}
-\begin{wrapfigure}{rh}{0.5\textwidth}
-    \centering
-    \includegraphics[width=0.5\textwidth]{pict/wyniki/g500p20}   
-    \caption{Gra w okręgu: 500 partii, 20 graczy}
-	\label{fig:podst} 
-\end{wrapfigure}
-
-Chciałbym teraz przeanalizować wyniki jednej z symulacji \ref{fig:podst}. Jak już wcześniej zaobserwowaliśmy równania replikatorów dają dużo mniejszą dynamikę decyzji graczy.
-
-Peleton graczy tworzy stabilne koalicje około 300 partii które nie są w stanie ulec zmianie. Pozostałe przypadki tworzą niestabilne koalicje, które zmieniają się w czasie. Najlepszym tego przykładem jest gracz który początkowo gra w kierunku swojego prawego sąsiada, a później zapewne przez jego niechęć po kilku fluktuacjach zaczyna drastycznie zmieniać partnera swojej gry - zaznaczonych kolorem fioletowym. Czynnik losowy graczy utrudnia grę tylko z jednym wybranym partnerem, dlatego jak widzimy podczas pierwszych 50 gier dochodzi do dużej liczby zmian zachowań graczy. Szczególnie widoczne jest to w pierwszych 50 partiach, gdzie gracze dopiero szacują zachowanie sąsiadów. W kolejnych 50 partiach gracze zachowują się coraz bardziej liniowo, gdyż błąd przewidywanego i realnego prawdopodobieństwa przeciwnika spada. Nie wchodzący w stałą koalicja mogą należeć do łańcucha graczy niezdecydowanych lub jednostek znajdujących się pomiędzy dwoma silnymi koalicjami które nie dają szansy na przyłączenie się do żadnej. Wartym zauważenia jest fakt że ostatnia zmiana monotoniczności funkcji zachodzi dopiero około 300 gry.
-
-\begin{wrapfigure}{rh}{0.5\textwidth}
-    \centering
-    \includegraphics[width=0.5\textwidth]{pict/wyniki/g10000p200}   
-    \caption{Gra w okręgu: 10000 partii, 200 graczy}
-	\label{fig:niechciani} 
-\end{wrapfigure}
-
-Rozpatrzmy teraz dużo dłuższą grę w której zaangażowanych jest więcej graczy, co może pokazać nam przypadki szczególne. Na rysunku widzimy że większość zawodników osiąga stabilne koalicję przed grą 1000. Występuje grupka kilku graczy którzy pomimo tak dużej ilości gier nie byli w stanie zawiązać trwałych koalicji.
-
-Mogło to wynikać z dwóch faktów. Po pierwsze mogli znaleźć się między graczami znajdującymi się w trwały w sojuszach którzy nie byli zainteresowani wchodzeniem w nowe. Drugą przyczyną może być nieznajomość prawdziwego prawdopodobieństwa podejmowania decyzji przez sąsiadów które jest tylko wartością znaną z rozgrywki różnica pomiędzy faktycznym prawdopodobieństwem gry sąsiada a tym co reprezentował. W rozgrywce może się znacząco różnić wpływając na mylną ocenę prawdopodobieństwa gry zawodników i mogących ustalić stabilnej koalicji. Rysunek \ref{fig:niechciani} pokazuje przypadek w którym dwóch silnych koalicjantów nie jest zainteresowanych wejście w sojusz z osamotnionym zawodnikiem między nimi, który jak widać z tabelki !!!REF!!! ZRÓB TABELKĘ !!! powoli próbuje dążyć do stałej koalicji z jednym z graczy.
-
 \begin{figure}
 	\centering
 	\begin{tabular}{c|c}
@@ -87,4 +62,39 @@ Mogło to wynikać z dwóch faktów. Po pierwsze mogli znaleźć się między gr
 \caption{Gry N-osobowe}
 \label{fig:repl_10}
 \end{figure}
+W grze gdzie ustawionych w okręgu jest $N$ graczy, spodziewamy się że istotnym czynnikiem będzie parzystość ich liczby. Teoretyczna liczba graczy mogących nie znaleźć koalicjanta wynosi $< N\text{ mod }2, \left\lfloor \frac{N}{3} \right\rfloor >$. W grze o parzystej liczbie graczy zawsze istnieje rozwiązanie, które gwarantuje każdemu graczowi przynależność do koalicji. Natomiast w grach o nieparzystej liczbie graczy musi istnieć co najmniej jeden zawodnik, który nie zawrze sojuszu (posiadanie prawdopodobieństwa 0 lub 1, nie jest równoznaczne z byciem w sojuszu, co pokazały symulacje dla 3-graczy, kiedy funkcje dążyły do wierzchołków). Maksymalna liczba graczy bez sojuszu może być maksymalnie połową liczby graczy będących w sojuszy( maksymalnie co trzeci gracz może być bez sojuszy z zaokrągleniem w dół ). Gdyby była większa oznaczałoby to że istnieją pary sąsiadujących graczy, którzy nie są w żadnej koalicji. Tak sytuacja nie może mieć miejsca, ponieważ omawiane pary stałyby się koalicjami. 
+
+Przy dużej ilości gier jednocześnie można zaobserwować sytuacje, w których sąsiedzi zawodnika stosują w przewadze jedną taktykę. Co prowadzi do dokładnego szacowania ich prawdopodobieństw. Skutkiem tego jest gracz nie dokonujący zmian w swoim zachowaniu, co wynika z tabelki \ref{tab:krawedz_prawd}. Przypadek taki można zaobserwować na rysunku \ref{fig:Nrepl_g10000p200}, oznaczony kolorem czarnym.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
