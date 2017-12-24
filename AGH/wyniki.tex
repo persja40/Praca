@@ -13,7 +13,9 @@
 	\label{fig:stand50_10} 
 \end{wrapfigure}
 
-Postaramy się teraz przeanalizować wyniki symulacji z użyciem równań standardowych. Z analizy teoretycznej równań spodziewamy się zawiązania koalicji pomiędzy dwójką z graczy, wynikiem tego jest dążenie funkcji do krawędzi sześcianu. Po osiągnięcia trwałej koalicji trzeci gracz bezskutecznie stara się grać na jednego z koalicjantów. Jest to widoczne poprzez poruszanie się funkcji po krawędzi sześcianu dążącej do jego wierzchołków. Widać że funkcje idące od centrum zachowują się w miarę stabilnie idąc w kierunku jakiejś krawędzi nie zmieniają monotoniczności. Istnieją niewielkie wahania wynikające z prawdopodobieństwa, ale nie mają one większego wpływu w dążeniu do jednej z krawędzi i zmianę ich decyzji. 
+Postaramy się teraz przeanalizować wyniki symulacji z użyciem równań standardowych. 
+
+Z analizy teoretycznej równań spodziewamy się zawiązania koalicji pomiędzy dwójką z graczy, wynikiem tego jest dążenie funkcji do krawędzi sześcianu. Po osiągnięcia trwałej koalicji trzeci gracz bezskutecznie stara się grać na jednego z koalicjantów. Jest to widoczne poprzez poruszanie się funkcji po krawędzi sześcianu dążącej do jego wierzchołków. Widać że funkcje idące od centrum zachowują się w miarę stabilnie idąc w kierunku jakiejś krawędzi nie zmieniają monotoniczności. Istnieją niewielkie wahania wynikające z prawdopodobieństwa, ale nie mają one większego wpływu w dążeniu do jednej z krawędzi i zmianę ich decyzji. 
 
 Tak naprawdę koalicje zawiązują się tuż po zaczęciu gry i dążą bezpośrednio do stanu ustalonego,  ponieważ na początku gry szacowane prawdopodobieństwo u innych graczy jest bardzo duże. Wynika to z tego szacowane prawdopodobieństwo w pierwszej grze wynosi 0\% albo 100\% co definitywnie wskazuje aby grać na jednego z zawodników. Było to powodem dla którego wprowadziłem współczynnik $\alpha$ równy 0.1, który ma za zadanie blokować sytuacje w których od razu po pierwszej grze jesteśmy w trwałej koalicji.
 
@@ -68,5 +70,21 @@ Peleton graczy tworzy stabilne koalicje około 300 partii które nie są w stani
 
 Rozpatrzmy teraz dużo dłuższą grę w której zaangażowanych jest więcej graczy, co może pokazać nam przypadki szczególne. Na rysunku widzimy że większość zawodników osiąga stabilne koalicję przed grą 1000. Występuje grupka kilku graczy którzy pomimo tak dużej ilości gier nie byli w stanie zawiązać trwałych koalicji.
 
-Mogło to wynikać z dwóch faktów. Po pierwsze mogli znaleźć się między graczami znajdującymi się w trwały w sojuszach którzy nie byli zainteresowani wchodzeniem w nowe. Drugą przyczyną może być nieznajomość prawdziwego prawdopodobieństwa podejmowania decyzji przez sąsiadów które jest tylko wartością znaną z rozgrywki różnica pomiędzy faktycznym prawdopodobieństwem gry sąsiada a tym co reprezentował. W rozgrywce może się znacząco różnić wpływając na mylną ocenę prawdopodobieństwa gry zawodników i mogących ustalić stabilnej koalicji. Rysunek \ref{fig:niechciani} pokazuje przypadek w którym dwóch silnych koalicjantów nie jest zainteresowanych wejście w sojusz z osamotnionym zawodnikiem między nimi, który jak widać z tabelki !!!REF!!! ZRÓB TABELKĘ !!! powoli próbuje dążyć do stałej koalicji z jednym z graczy.  
+Mogło to wynikać z dwóch faktów. Po pierwsze mogli znaleźć się między graczami znajdującymi się w trwały w sojuszach którzy nie byli zainteresowani wchodzeniem w nowe. Drugą przyczyną może być nieznajomość prawdziwego prawdopodobieństwa podejmowania decyzji przez sąsiadów które jest tylko wartością znaną z rozgrywki różnica pomiędzy faktycznym prawdopodobieństwem gry sąsiada a tym co reprezentował. W rozgrywce może się znacząco różnić wpływając na mylną ocenę prawdopodobieństwa gry zawodników i mogących ustalić stabilnej koalicji. Rysunek \ref{fig:niechciani} pokazuje przypadek w którym dwóch silnych koalicjantów nie jest zainteresowanych wejście w sojusz z osamotnionym zawodnikiem między nimi, który jak widać z tabelki !!!REF!!! ZRÓB TABELKĘ !!! powoli próbuje dążyć do stałej koalicji z jednym z graczy.
+
+\begin{figure}
+	\centering
+	\begin{tabular}{c|c}
+		\centering
+		\subfloat[500 partii, 19 graczy \label{fig:Nrepl_g500p19}]{\includegraphics[width=.45\textwidth]{pict/wyniki/g500p19.png}} 
+		&
+		\subfloat[500 partii, 20 graczy \label{fig:Nrepl_g500p20}]{\includegraphics[width=.45\textwidth]{pict/wyniki/g500p20.png}}
+		\\ \hline
+		\subfloat[500 partii, 21 graczy \label{fig:Nrepl_g500p21}]{\includegraphics[width=.45\textwidth]{pict/wyniki/g500p21.png}}
+		&
+		\subfloat[10000 partii, 200 graczy \label{fig:Nrepl_g10000p200}]{\includegraphics[width=.45\textwidth]{pict/wyniki/g10000p200.png}}
+	\end{tabular}
+\caption{Gry N-osobowe}
+\label{fig:repl_10}
+\end{figure}
 

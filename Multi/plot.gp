@@ -1,6 +1,6 @@
 set term png size 500,500 font "Helvetica,20"
 set out 'multi.png'
-set xlabel "Numer gry"
+set xlabel "Numer partii"
 set ylabel 'Prawdopodobieństwo'
 set logscale x
 #plot 'multi.dat' w lines notitle
