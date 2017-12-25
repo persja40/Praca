@@ -92,8 +92,8 @@ Aby znaleźć dynamikę należy zróżniczkować wypłatę po $\delta x$.
 \end{align*}
 Iloraz różnicowy na zmianę wypłaty od czasu daje:
 \begin{align}\label{eq:dynam_stand}
-z(t) &= \frac{W_x(t+dt)-W_x(t)}{\Delta t} \nonumber\\
-z(t) \Delta t &= W_x(t+dt)-W_x(t) = \Delta p_0 \nonumber\\
+W_x(t) &= \frac{W_x(t+dt)-W_x(t)}{\Delta t} \nonumber\\
+W_x(t) \Delta t &= W_x(t+dt)-W_x(t) = \Delta p_0 \nonumber\\
 \Delta p_0 &= \Delta t (1-y-z)
 \end{align}
 W dalszej części będzie stosowane oznaczenie $\alpha = \Delta t$. Równanie wygląda obiecująco, gdyż człon $1 - y$ jest prawdopodobieństwem zagrania $G_1$ aby zawiązać sojusz z $G_0$. Podobnie $-z$ prowadzi do sojuszu $G_2$ z $G_0$, minus przy $z$ powoduje ubytek dla $x$, ponieważ prawdopodobieństwo zagrania $G_0$ w celu zawarcia sojuszu z $G_2$ jest dane przez $1-x$.
@@ -119,8 +119,8 @@ Gdzie $W_x$ jest średnią wypłatą dla strategii $x$ (prawdopodobieństw strat
 \end{gather*}
 Iloraz różnicowy zmiany wypłaty od czasu ponownie wyznaczy $\Delta p_0$:
 \begin{align*}
-z(t) &= \frac{\dot{x}(t+\Delta t)-\dot{x}(t)}{\Delta t} \\
-z(t) \Delta t &= \dot{x}(t+\Delta t)-\dot{x}(t) = \Delta p_0
+\dot{x}(t) &= \frac{\dot{x}(t+\Delta t)-\dot{x}(t)}{\Delta t} \\
+\dot{x}(t) \Delta t &= \dot{x}(t+\Delta t)-\dot{x}(t) = \Delta p_0
 \end{align*} 
 W dalszej części tej pracy $\alpha=\Delta t$. Co dla gry 3-osobowej generuje równania:
 \begin{align} \label{eq:repli}
