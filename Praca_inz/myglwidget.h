@@ -40,10 +40,6 @@ private:
     int yRot;
     int zRot;
     QPoint lastPos;
-    vector<vector<tup3<double>>>begin;
-    vector<vector<tup3<double>>>end;
-    vector<tup3<int>> color;
-    mutex drawable;
 };
 
 #endif // MYGLWIDGET_H

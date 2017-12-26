@@ -51,27 +51,12 @@ void MyGLWidget::setZRotation(int angle)
 }
 
 void MyGLWidget::copy(){
-    while(!points.try_lock());
-    while(!drawable.try_lock());
-    begin= beginsp;
-    end= endsp;
-    color= colorsp;
-    drawable.unlock();
-    points.unlock();
     updateGL();
 }
 
 void MyGLWidget::initializeGL()
 {
     qglClearColor(Qt::white);
-//    qglClearColor(Qt::black);
-//    glEnable(GL_DEPTH_TEST);
-//    glEnable(GL_CULL_FACE);
-//    glShadeModel(GL_SMOOTH);
-//    glEnable(GL_LIGHTING);
-//    glEnable(GL_LIGHT0);
-//    static GLfloat lightPosition[4] = { 0, 0, 10, 1.0 };
-//    glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
 }
 
 void MyGLWidget::paintGL()
@@ -118,39 +103,6 @@ void MyGLWidget::mouseMoveEvent(QMouseEvent *event)
 
 void MyGLWidget::draw()
 {
-//    qglColor(Qt::red);
-//    glBegin(GL_QUADS);
-//        glNormal3f(0,0,-1);
-//        glVertex3f(-1,-1,0);
-//        glVertex3f(-1,1,0);
-//        glVertex3f(1,1,0);
-//        glVertex3f(1,-1,0);
-
-//    glEnd();
-//    glBegin(GL_TRIANGLES);
-//        glNormal3f(0,-1,0.707);
-//        glVertex3f(-1,-1,0);
-//        glVertex3f(1,-1,0);
-//        glVertex3f(0,0,1.2);
-//    glEnd();
-//    glBegin(GL_TRIANGLES);
-//        glNormal3f(1,0, 0.707);
-//        glVertex3f(1,-1,0);
-//        glVertex3f(1,1,0);
-//        glVertex3f(0,0,1.2);
-//    glEnd();
-//    glBegin(GL_TRIANGLES);
-//        glNormal3f(0,1,0.707);
-//        glVertex3f(1,1,0);
-//        glVertex3f(-1,1,0);
-//        glVertex3f(0,0,1.2);
-//    glEnd();
-//    glBegin(GL_TRIANGLES);
-//        glNormal3f(-1,0,0.707);
-//        glVertex3f(-1,1,0);
-//        glVertex3f(-1,-1,0);
-//        glVertex3f(0,0,1.2);
-//    glEnd();
     glLineWidth(3);
     glColor3ub(0,0,0);
 //bottom
@@ -207,20 +159,20 @@ void MyGLWidget::draw()
 }
 
 void MyGLWidget::drawLines(){
-    while(!drawable.try_lock());
+    while(!points.try_lock());
     glLineWidth(3);
-    for(unsigned int p=0; p<begin.size();p++){
-        glColor3ub(get<0>(color[p]), get<1>(color[p]), get<2>(color[p]));
-        for(unsigned int l=0; l<begin[0].size(); l++){
-            tup3<double> b=begin[p][l];
-            tup3<double> e=end[p][l];
+    for(unsigned int p=0; p<beginsp.size();p++){
+        glColor3ub(get<0>(colorsp[p]), get<1>(colorsp[p]), get<2>(colorsp[p]));
+        for(unsigned int l=0; l<beginsp[0].size(); l++){
+            tup3<double> b=beginsp[p][l];
+            tup3<double> e=endsp[p][l];
             glBegin(GL_LINES);
                 glVertex3f(get<0>(b)-0.5, get<1>(b)-0.5, get<2>(b)-0.5);
                 glVertex3f(get<0>(e)-0.5, get<1>(e)-0.5, get<2>(e)-0.5);
             glEnd();
         }
     }
-    drawable.unlock();
+    points.unlock();
 }
 
 void MyGLWidget::clear(){

@@ -45,10 +45,6 @@ void MainWindow::on_pushButton_Run_clicked()
                 for(int j=0; j<g;j++){
                     while(!points.try_lock());
                     for(int i=0; i<p;i++){
-//                        if(cancel){
-//                            busy= false;
-//                            throw 1;
-//                        }
                         beginsp[i].push_back(tab[i]->next());
                         endsp[i].push_back(tab[i]->prelast());
                     }
@@ -81,30 +77,6 @@ void MainWindow::on_spinBox_Delay_valueChanged(int arg1)
 {
     delay= arg1;
 }
-
-/*
-void MainWindow::on_pushButton_Clear_clicked()
-{
-    kill();
-}
-
-void MainWindow::kill(){
-    QtConcurrent::run(
-            [&]()->void{
-                ui->pushButton_Run->setEnabled(false);
-                ui->pushButton_Clear->setEnabled(false);
-
-                //emit clear
-                ui->pushButton_Run->setEnabled(true);
-                ui->pushButton_Clear->setEnabled(true);
-            });
-}
-
-void MainWindow::on_pushButton_Debug_clicked()
-{
-    cout<<"DEBUG"<<endl;
-}
-*/
 
 void MainWindow::clear_vectors(){
     beginsp.clear();
