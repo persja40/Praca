@@ -82,6 +82,12 @@ Model gry N-osobowe \ref{fig:model_zal} będzie dysponował takimi samymi danymi
 
 \section{Równania standardowe}
 \label{sec:r_stand}
+Pomysł na równania standardowe został zaczerpnięty ze wzoru na siłę w polu potencjału.
+\begin{equation}
+\overrightarrow{F}(\overrightarrow{r})=-\nabla \varphi (\overrightarrow{r})
+\end{equation}
+Z tym że będziemy chcieli maksymalizacji, a nie minimalizacji odpowiednika energii potencjalnej. Z tego powodu należy zmienić znak.
+
 W tym typie równań celem będzie maksymalizacja zysku( zyskiem jest prawdopodobieństwo ) w czasie. Wyprowadzenie będzie przeprowadzone dla $G_0$, przy założeniu gry o pełnej informacji. Pozostałe dwa równania można wyprowadzić analogicznie. Niech $x=p_0$, $y=p_1$, $z=p_2$. Wypłata dana jest przez:
 \begin{equation}\label{eq:wypl_stand}
 W = \underbrace{x(1-y)}_{\text{wypłata sojuszu $G_0$ z $G_1$}} + \overbrace{(1-x)z}^{\text{wypłata sojuszu $G_0$ z $G_2$}} \\
@@ -92,8 +98,8 @@ Aby znaleźć dynamikę należy zróżniczkować wypłatę po $\delta x$.
 \end{align*}
 Iloraz różnicowy na zmianę wypłaty od czasu daje:
 \begin{align}\label{eq:dynam_stand}
-W_x(t) &= \frac{W_x(t+dt)-W_x(t)}{\Delta t} \nonumber\\
-W_x(t) \Delta t &= W_x(t+dt)-W_x(t) = \Delta p_0 \nonumber\\
+W_x(t) &= \frac{W_x(t+\Delta t)-W_x(t)}{\Delta t} \nonumber\\
+W_x(t) \Delta t &= W_x(t+\Delta t)-W_x(t) = \Delta p_0 \nonumber\\
 \Delta p_0 &= \Delta t (1-y-z)
 \end{align}
 W dalszej części będzie stosowane oznaczenie $\alpha = \Delta t$. Równanie wygląda obiecująco, gdyż człon $1 - y$ jest prawdopodobieństwem zagrania $G_1$ aby zawiązać sojusz z $G_0$. Podobnie $-z$ prowadzi do sojuszu $G_2$ z $G_0$, minus przy $z$ powoduje ubytek dla $x$, ponieważ prawdopodobieństwo zagrania $G_0$ w celu zawarcia sojuszu z $G_2$ jest dane przez $1-x$.
@@ -199,7 +205,7 @@ Jak widać najszybsza zmiana zachodzi dla pierwszego gracza, który traci 25\% z
 
 %                                                   BRAK WSPÓŁPRACY
 
-Omówiony teraz zostanie szczególny przypadek, gdy w dwóch osobnych grach żaden z graczy nie współpracował. Użyte będą równania standardowe, prawdopodobieństwo początkowe $\frac{1}{2}$ oraz $\alpha = 1$.
+Omówiony teraz zostanie szczególny przypadek, gdy w dwóch osobnych grach żadna para graczy nie nawiązała koalicji. Użyte będą równania standardowe, prawdopodobieństwo początkowe $\frac{1}{2}$ oraz $\alpha = 1$.
 
 \begin{align*}
 G_0 = N, G_1 = N, G_2 = N && G_0 = P, G_1 = P, G_2 = P \\
