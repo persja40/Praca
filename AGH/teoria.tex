@@ -119,8 +119,8 @@ Gdzie $W_x$ jest średnią wypłatą dla strategii $x$ (prawdopodobieństw strat
 \end{gather*}
 Iloraz różnicowy zmiany wypłaty od czasu ponownie wyznaczy $\Delta p_0$:
 \begin{align*}
-\dot{x}(t) &= \frac{\dot{x}(t+\Delta t)-\dot{x}(t)}{\Delta t} \\
-\dot{x}(t) \Delta t &= \dot{x}(t+\Delta t)-\dot{x}(t) = \Delta p_0
+x(t) &= \frac{x(t+\Delta t)-x(t)}{\Delta t} \\
+x(t) \Delta t &= x(t+\Delta t)-x(t) = \Delta p_0
 \end{align*} 
 W dalszej części tej pracy $\alpha=\Delta t$. Co dla gry 3-osobowej generuje równania:
 \begin{align} \label{eq:repli}
@@ -147,7 +147,13 @@ p_i & \text{jeżeli } 1 \geq p_i \geq 0 \\
 \end{array} 
 \right.
 \end{displaymath}
-Wyjaśnienia wymaga wartość $\alpha$, która została przyjęta jako $0.1$. Jest to wartość przyjęta autorytarnie aby spowolnić rozgrywkę oraz umożliwić łatwiejszą zmianę koalicji. Najpierw przeanalizowane zostaną równania standardowe dla gry 3-osobowej o prawdopodobieństwie początkowym $\frac{1}{2}$ i $\alpha = 1$. Gdzie $N$ oznacza zagranie $G_i$ mające na celu zawiązanie sojuszu z $G_{i+1}$, a $P$ ilość zagranie$G_i$ mające na celu zawiązanie sojuszu z $G_{i-1}$.
+Wyjaśnienia wymaga wartość $\alpha$, która została przyjęta jako $0.1$. Jest to wartość przyjęta arbitralnie aby spowolnić rozgrywkę oraz umożliwić łatwiejszą zmianę koalicji. 
+
+%---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+\section{Ograniczenie prawdopodobieństwa - przykłady}
+\label{sec:ograniczenie_przyk}
+Najpierw przeanalizowane zostaną równania standardowe dla gry 3-osobowej o prawdopodobieństwie początkowym $\frac{1}{2}$ i $\alpha = 1$. Gdzie $N$ oznacza zagranie $G_i$ mające na celu zawiązanie sojuszu z $G_{i+1}$, a $P$ ilość zagranie$G_i$ mające na celu zawiązanie sojuszu z $G_{i-1}$.
 {\color{red} UKŁAD}
 \begin{align*}
 G_0 = N, G_1 = P, G_2 = N && G_0 = N, G_1 = P, G_2 = P\\
@@ -189,7 +195,7 @@ G_0 = N, G_1 = P, G_2 = P \\
 \end{array}
 \right.
 \end{gather*}
-Jak widać najszybsza zmiana zachodzi dla pierwszego gracza, który traci 25\% z prawdopodobieństwa sojuszu z graczem o wyższym indeksie. W kolejnej partii nie widzimy już tak dużych zmian. Należy odpowiedzieć na pytanie czy jest to na tyle dużo, aby zastosować $\alpha$ taką jak w równaniach standardowych. Powinno się poruszyć dwie kwestie. Dynamika prawdopodobieństwa jest akceptowalna(wynosi do 10\%), ale tylko dla prawdopodobieństw które oddalają się od środka przedziału, a grę rozpoczynamy właśnie w nim. Drugą sprawą jest porównanie obu równań. Porównanie wyników, o różnym kroku czasowym nie jest najłatwiejszą rzeczą do opisania. Celem członu $x(1-x)$ w równaniu replikatorów jest rozwiązanie problemu supersilnych, szybko tworzących się koalicji.
+Jak widać najszybsza zmiana zachodzi dla pierwszego gracza, który traci 25\% z prawdopodobieństwa sojuszu z graczem o wyższym indeksie. W kolejnej partii nie widzimy już tak dużych zmian. Należy odpowiedzieć na pytanie czy jest to na tyle dużo, aby zastosować $\alpha$ taką jak w równaniach standardowych. Powinno się poruszyć dwie kwestie. Dynamika prawdopodobieństwa jest akceptowalna(wynosi do 10\%), ale tylko dla prawdopodobieństw które oddalają się od środka przedziału, a grę rozpoczynamy właśnie w nim. Drugą sprawą jest porównanie obu równań. Porównanie wyników, o różnym kroku czasowym nie jest najłatwiejszą rzeczą do opisania.
 
 %                                                   BRAK WSPÓŁPRACY
 
@@ -275,10 +281,10 @@ Do ustalenia punktów stałych potrzebny jest zanik dynamiki $\Delta p_i = 0$. K
 \end{array}
 \right. \Rightarrow p_0 = p_1 = p_2 = \frac{1}{2}
 \end{equation}
-Z czego wynika że gra startująca w punkcie $(\frac{1}{2},\frac{1}{2},\frac{1}{2})$ nie powinna z niego wyjść. Byłoby tak gdyby prawdopodobieństwa użyte w równaniu były faktycznymi prawdopodobieństwami $p_i$, są one natomiast jedynie obserwacją zachowania pozostałych graczy. Są ono dane jako $\frac{nast_j}{liczba_{partii}}$, dzięki czemu gra w ogóle się odbywa.
+Z czego wynika że gra startująca w punkcie $(\frac{1}{2},\frac{1}{2},\frac{1}{2})$ nie powinna z niego wyjść. Byłoby tak gdyby prawdopodobieństwa użyte w równaniu były faktycznymi prawdopodobieństwami $p_i$, są one natomiast jedynie obserwacją zachowania pozostałych graczy. Są ono dane jako $\frac{nast_j}{liczba_{partii}}$. Użycie prawdopodobieństw obserwowanych umożliwia opuszczenie punktu stałego.
 \section{Stabilność równań replikatorów}
 \label{sec:stab_repl}
-Aby wyznaczyć stabilność równań replikatorów należy najpierw znaleźć punkty stałe, jak poprzednio krok czasowy zostanie pominięty.  Przyjęte zostały następujące oznaczenia $\dot{x} = \Delta p_0$, $\dot{y} = \Delta p_1$, $\dot{z} = \Delta p_2$.
+Aby wyznaczyć stabilność równań replikatorów należy najpierw znaleźć punkty stałe.  Przyjęte zostały następujące oznaczenia $\dot{x} = \Delta p_0$, $\dot{y} = \Delta p_1$, $\dot{z} = \Delta p_2$.
 \begin{align*}
 \left\{
 \begin{array}{l}
@@ -290,7 +296,7 @@ Aby wyznaczyć stabilność równań replikatorów należy najpierw znaleźć pu
 \Rightarrow kombinacje
 \begin{array}{ll}
 (0,0,0)  & i=0 \\
-(\frac{1}{2},\frac{1}{2},\frac{1}{2}) & i=1 \\
+\frac{1}{2},\frac{1}{2},\frac{1}{2}) & i=1 \\
 (1,1,1) & i=2 \\
 (0,1,\xi) & i=3 \\ 
 \end{array}
@@ -345,10 +351,10 @@ J= \left(
 \begin{equation*}
 J_{i,\lambda} = 0 \Rightarrow 
 \begin{array}{l}
-\lambda_0 = 1\\
-\lambda_1 \in \{-\frac{1}{2}, \frac{1}{4}\}\\
-\lambda_2 = 1\\
-\lambda_3 \in \{-z, z-1\}
+\lambda_0 =\in \{1,1,1\}\\
+\lambda_1 \in \{-\frac{1}{2}, \frac{1}{4}, \frac{1}{4}\}\\
+\lambda_2 =\in \{1,1,1\}\\
+\lambda_3 \in \{0,-z, z-1\}
 \end{array}
 \end{equation*}
 \begin{wraptable}{rh}{0.35\textwidth}

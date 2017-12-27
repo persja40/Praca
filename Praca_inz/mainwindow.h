@@ -30,19 +30,12 @@ private slots:
 
   void on_spinBox_Delay_valueChanged(int arg1);
 
-//  void on_pushButton_Clear_clicked();
-
-//  void on_pushButton_Debug_clicked();
-
 private:
     Ui::MainWindow *ui;
     int nr_players;
     int nr_rounds;
     int fun;
     int delay;
-//    volatile atomic<bool> cancel;
-//    void kill();
-    volatile atomic<bool> busy;
     void clear_vectors();
 };
 

@@ -23,9 +23,13 @@ Zdecydowałem się wykorzystać QT Creator IDE z kilku powodów, które zamierza
 
 \section{Kod}
 \label{sec::kod}
-W tym podrozdziale będą opisane kluczowe fragmenty kodu, niezbędne do zrozumienia implementacji programu. W kodzie będzie używany następujący alias:
+W tym podrozdziale będą opisane kluczowe fragmenty kodu, niezbędne do zrozumienia implementacji programu. W kodzie będą używane oznaczenia:{\color{red} ZASTANÓW SIĘ}
 \begin{lstlisting}
 template<typename T> using tup3= tuple<T,T,T>;
+vector<vector<tup3<double>>> beginsp; //wektor punktów początkowych odcinków
+vector<vector<tup3<double>>> endsp; //wektor punktów końcowych odcinków
+vector<tup3<int>>colorsp;
+mutex points;
 \end{lstlisting}
 
 \paragraph{Interfejs klasy \textit{Game}}
@@ -83,7 +87,7 @@ tup3<double> Game::next(){
 }
 \end{lstlisting}
 
-\paragraph{Implementacja wątku symulującego} \textit{QtConcurrent::run} jest funkcją uruchamiającą w osobnym wątku funkcję podaną jako parametr. Zwraca ona obiekt \textit{QFuture}, który nie może przerwać lub wstrzymać wątku. {\color{red} TU}
+\paragraph{Implementacja wątku symulującego} \textit{QtConcurrent::run} jest funkcją uruchamiającą w osobnym wątku funkcję podaną jako parametr. Zwraca ona obiekt \textit{QFuture}, który nie może przerwać lub wstrzymać wątku. Poprzez \texttt{beginsp[i].resize(p)} tworzony jest wektor posiadający p pustych elementów(wektorów krotek), ponieważ już w pierwszej partii będziemy potrzebować osobnego wektora dla każdej instancji gry. Natomiast \texttt{beginsp[i].reserve(g)} rezerwuje pamięć dla g partii, gdyby ta funkcja nie została użyta prawdopodobnie wystąpiłaby realokacja pamięci, w celu zapewnienia jej ciągłości. Przekładałoby się to na spowolnienie działania programu. Napisałem prawdopodobnie, ponieważ standard języka nie precyzuje ilości pamięci domyślnie rezerwowanej przez wektor, co jest zostawione po stronie implementacji. Przed wykonaniem każdej partii wątek czeka na dostęp do zasobu. Funkcja \texttt{try\_lock()} zwróci \texttt{true} w przypadku udanego przydzielenia zasobu, w przeciwnym razie zwróci \texttt{false}. 
 \begin{lstlisting}
 QtConcurrent::run(
             [&]()->void{
@@ -95,44 +99,28 @@ QtConcurrent::run(
                 std::default_random_engine generator;
                 std::uniform_int_distribution<int> distribution(0,255);
                 auto r= bind(distribution, generator);
-                clear_vectors(); //czyści wspólne zasoby przed symulacją
-                chrono::milliseconds d(delay); //zadane opóźnienie
+                clear_vectors(); //czyści beginsp, endsp, colorsp
+                chrono::milliseconds d(delay);
                 beginsp.resize(p);
                 endsp.resize(p);
                 for(int i=0; i<p;i++){
                     tab.push_back(make_unique<Game>(f));
                     colorsp.push_back(make_tuple( r(), r(), r() ));
-                    beginsp[i].resize(g);
-                    endsp[i].resize(g);
+                    beginsp[i].reserve(g);
+                    endsp[i].reserve(g);
                 }
                 for(int j=0; j<g;j++){
-                    while(!points.try_lock());
+                    while(!points.try_lock()); // próba blokady dostępu do zasobów
                     for(int i=0; i<p;i++){
                         beginsp[i].push_back(tab[i]->next());
                         endsp[i].push_back(tab[i]->prelast());
                     }
-                    points.unlock();
+                    points.unlock(); //zwolnienie dostępu do zasobów
                     emit copy();
                     this_thread::sleep_for(d);
                 }
-                busy= false;
                 ui->pushButton_Run->setEnabled(true);
-                cout<<"FINISH"<<endl;
             });
-\end{lstlisting}
-
-%------------------------------------------------------------------------------------------------------------------------------------------------------------
-%GRA N OSOWBOWA
-%------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-\begin{lstlisting}
-void Multigame::next(){
-    (...)
-    p[0]+= 0.1*(p[0]*(1-p[0])*(1-static_cast<double>(nr_r[1])/current-static_cast<double>(nr_r[players-1])/current));
-    for(int i=1; i<players-1; i++)
-        p[i]+= 0.1*(p[i]*(1-p[i])*(1-static_cast<double>(nr_r[i+1])/current-static_cast<double>(nr_r[i-1])/current));
-    p[players-1]+= 0.1*(p[players-1]*(1-p[players-1])*(1-static_cast<double>(nr_r[0])/current-static_cast<double>(nr_r[players-2])/current));
-}
 \end{lstlisting}
 
 %-------------------------------------------------------------------------------------------------------------------------------------------------------------

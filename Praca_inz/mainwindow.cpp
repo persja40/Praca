@@ -9,8 +9,6 @@ MainWindow::MainWindow(QWidget *parent) :
     nr_players= 0;
     fun= 0;
     delay= 0;
-//    cancel= false;
-    busy= false;
     ui->setupUi(this);
 }
 
@@ -39,8 +37,8 @@ void MainWindow::on_pushButton_Run_clicked()
                 for(int i=0; i<p;i++){
                     tab.push_back(make_unique<Game>(f));
                     colorsp.push_back(make_tuple( r(), r(), r() ));
-                    beginsp[i].resize(g);
-                    endsp[i].resize(g);
+                    beginsp[i].reserve(g);
+                    endsp[i].reserve(g);
                 }
                 for(int j=0; j<g;j++){
                     while(!points.try_lock());
@@ -52,7 +50,6 @@ void MainWindow::on_pushButton_Run_clicked()
                     emit copy();
                     this_thread::sleep_for(d);
                 }
-                busy= false;
                 ui->pushButton_Run->setEnabled(true);
                 cout<<"FINISH"<<endl;
             });
