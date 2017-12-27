@@ -15,7 +15,7 @@ tup3<double> Game::next(){
 //Change mind
     pre= make_tuple(p[0],p[1],p[2]);
     current++;
-    array<double,3> choices= {(double) rand()/RAND_MAX, (double) rand()/RAND_MAX, (double) rand()/RAND_MAX};
+    array<double,3> choices= {static_cast<double>(rand())/RAND_MAX, static_cast<double>(rand())/RAND_MAX, static_cast<double>(rand())/RAND_MAX};
     for(int i=0; i<3; i++)
         if(choices[i]<p[i])
             nr[i]++;
