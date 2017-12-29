@@ -83,18 +83,20 @@ Model gry N-osobowe \ref{fig:model_zal} będzie dysponował takimi samymi danymi
 \section{Równania standardowe}
 \label{sec:r_stand}
 Pomysł na równania standardowe został zaczerpnięty ze wzoru na siłę w polu potencjału.
-\begin{equation}
+\begin{equation}\label{eq:fiz_stand}
 \overrightarrow{F}(\overrightarrow{r})=-\nabla \varphi (\overrightarrow{r})
 \end{equation}
-Z tym że będziemy chcieli maksymalizacji, a nie minimalizacji odpowiednika energii potencjalnej. Z tego powodu należy zmienić znak.
-
+Z tym że żądana jest maksymalizacja, a nie minimalizacja odpowiednika energii potencjalnej. Z tego powodu należy zmienić znak. Co przekłada się na ogólny wzór, gdzie $\beta$ jest zmienną funkcji W:
+\begin{equation}\label{eq:basic_stand}
+W_\beta = \frac{\delta W}{\delta \beta}
+\end{equation}
 W tym typie równań celem będzie maksymalizacja zysku( zyskiem jest prawdopodobieństwo ) w czasie. Wyprowadzenie będzie przeprowadzone dla $G_0$, przy założeniu gry o pełnej informacji. Pozostałe dwa równania można wyprowadzić analogicznie. Niech $x=p_0$, $y=p_1$, $z=p_2$. Wypłata dana jest przez:
 \begin{equation}\label{eq:wypl_stand}
 W = \underbrace{x(1-y)}_{\text{wypłata sojuszu $G_0$ z $G_1$}} + \overbrace{(1-x)z}^{\text{wypłata sojuszu $G_0$ z $G_2$}} \\
 \end{equation}
-Aby znaleźć dynamikę należy zróżniczkować wypłatę po $\delta x$.
+W równaniu \ref{eq:basic_stand} podstawiamy $x$ jako $\beta$.
 \begin{align*}
-\frac{\delta W}{\delta x} = 1-x-y = W_x
+W_x = \frac{\delta W}{\delta x} = 1-x-y
 \end{align*}
 Iloraz różnicowy na zmianę wypłaty od czasu daje:
 \begin{align}\label{eq:dynam_stand}
@@ -290,7 +292,13 @@ Do ustalenia punktów stałych potrzebny jest zanik dynamiki $\Delta p_i = 0$. K
 Z czego wynika że gra startująca w punkcie $(\frac{1}{2},\frac{1}{2},\frac{1}{2})$ nie powinna z niego wyjść. Byłoby tak gdyby prawdopodobieństwa użyte w równaniu były faktycznymi prawdopodobieństwami $p_i$, są one natomiast jedynie obserwacją zachowania pozostałych graczy. Są ono dane jako $\frac{nast_j}{liczba_{partii}}$. Użycie prawdopodobieństw obserwowanych umożliwia opuszczenie punktu stałego.
 \section{Stabilność równań replikatorów}
 \label{sec:stab_repl}
-Aby wyznaczyć stabilność równań replikatorów należy najpierw znaleźć punkty stałe.  Przyjęte zostały następujące oznaczenia $\dot{x} = \Delta p_0$, $\dot{y} = \Delta p_1$, $\dot{z} = \Delta p_2$.
+Stabilność równań replikatorów będzie badana poprzez znalezienie ich wartości własnych. Najpierw przyjmijmy oznaczenia:
+\begin{align*}
+\dot{x} &= f(x,y,z) = \Delta p_0 = x(1-x)(1-y-z)\\
+\dot{y} &= g(x,y,z) = \Delta p_1 = y(1-y)(1-x-z)\\
+\dot{z} &= h(x,y,z) = \Delta p_2 = z(1-z)(1-x-y)
+\end{align*}
+Punkty stałe wymagają zanikania pochodnych.
 \begin{align*}
 \left\{
 \begin{array}{l}
@@ -299,16 +307,39 @@ Aby wyznaczyć stabilność równań replikatorów należy najpierw znaleźć pu
 \dot{z} = 0 
 \end{array}
 \right.
-\Rightarrow kombinacje
+\Rightarrow
+x_i^*, y_i^*, z_i^*
+\end{align*}
+Punkty stałe dane są jako:
+\begin{align*}
+(x^*_i, y^*_i, z^*_i) = \left\{
 \begin{array}{ll}
 (0,0,0)  & i=0 \\
-\frac{1}{2},\frac{1}{2},\frac{1}{2}) & i=1 \\
+(\frac{1}{2},\frac{1}{2},\frac{1}{2}) & i=1 \\
 (1,1,1) & i=2 \\
-(0,1,\xi) & i=3 \\ 
+P_3 \{0,1,\xi \} & i=3 \text{, permutacja gdzie }\xi \in <0,1>\\ 
 \end{array}
-\text{dają punkty stałe} (x^*_i, y^*_i, z^*_i)\text{, gdzie }\xi \in <0,1>
+\right.
 \end{align*}
-Przeanalizowane zostaną 4 przypadki, które nie są symetryczne względem siebie, wpierw  jednak należy policzyć pochodne cząstkowe.
+Przeanalizowane zostaną wyżej wymienione przypadki, przy czym w ostatnim przypadku będzie uwzględniony tylko jeden, ze względu na symetrię.
+Do znalezienia wartości własnych będzie potrzebna macierz Jacoby'ego (macierz pochodnych cząstkowych funkcji).
+\begin{align*}
+J_i= \left. \left(
+\begin{array}{ccc}
+\frac{\delta \dot{x}}{\delta x} & \frac{\delta \dot{x}}{\delta y} & \frac{\delta \dot{x}}{\delta z} \\
+\frac{\delta \dot{y}}{\delta x} & \frac{\delta \dot{y}}{\delta y} & \frac{\delta \dot{y}}{\delta y} \\
+\frac{\delta \dot{z}}{\delta x} & \frac{\delta \dot{z}}{\delta y} & \frac{\delta \dot{z}}{\delta x}
+\end{array}
+\right)
+\right|_{
+	\begin{array}{c}
+		x=x^*_i\\
+		y=y^*_i\\
+		z=z^*_i\\	
+	\end{array}	
+}
+\end{align*}
+Pochodne cząstkowe:
 \begin{align*}
 \begin{array}{l}
 \frac{\delta \dot{x}}{\delta x} = 1-y-z-2x+2xy+2xz\\
@@ -329,39 +360,27 @@ Przeanalizowane zostaną 4 przypadki, które nie są symetryczne względem siebi
 \frac{\delta \dot{z}}{\delta z} = 1-x-y-2z+2xz+2yz\\
 \end{array}
 \end{align*}
-Kolejnym krokiem jest znalezienie wartości własnych.
-{\color{red} ZRÓB PIONOWĄ KRESKĘ PRZY =}
+Wyznaczenie wartości własnych.
 \begin{align*}
-J= \left(
-\begin{array}{ccc}
-\frac{\delta \dot{x}}{\delta x} & \frac{\delta \dot{x}}{\delta y} & \frac{\delta \dot{x}}{\delta z} \\
-\frac{\delta \dot{y}}{\delta x} & \frac{\delta \dot{y}}{\delta y} & \frac{\delta \dot{y}}{\delta y} \\
-\frac{\delta \dot{z}}{\delta x} & \frac{\delta \dot{z}}{\delta y} & \frac{\delta \dot{z}}{\delta x}
-\end{array}
-\right)_{
-	\begin{array}{c}
-		x=x^*_i\\
-		y=y^*_i\\
-		z=z^*_i\\	
-	\end{array}	
-} = J_i
-&&
+J_{i,\lambda} = J_i - \lambda I = 
 \left|
 \begin{array}{ccc}
 \frac{\delta \dot{x}}{\delta x}-\lambda & \frac{\delta \dot{x}}{\delta y} & \frac{\delta \dot{x}}{\delta z} \\
 \frac{\delta \dot{y}}{\delta x} & \frac{\delta \dot{y}}{\delta y}-\lambda & \frac{\delta \dot{y}}{\delta z} \\
 \frac{\delta \dot{z}}{\delta x} & \frac{\delta \dot{z}}{\delta y} & \frac{\delta \dot{z}}{\delta z}-\lambda
 \end{array}
-\right| = J_i - \lambda I = J_{i,\lambda} 
+\right|
 \end{align*}
 \begin{equation*}
-J_{i,\lambda} = 0 \Rightarrow 
+J_{i,\lambda} = 0 \Rightarrow
+\left\{
 \begin{array}{l}
-\lambda_0 =\in \{1,1,1\}\\
+\lambda_0 \in \{1,1,1\}\\
 \lambda_1 \in \{-\frac{1}{2}, \frac{1}{4}, \frac{1}{4}\}\\
-\lambda_2 =\in \{1,1,1\}\\
+\lambda_2 \in \{1,1,1\}\\
 \lambda_3 \in \{0,-z, z-1\}
 \end{array}
+\right.
 \end{equation*}
 \begin{wraptable}{rh}{0.35\textwidth}
     \centering
@@ -376,6 +395,7 @@ x & y & 1-x-y & $\dot{z}$       \\ \hline
 \end{tabular}
 \end{wraptable}
 Warunkiem na stabilność punktu jest $Re \lambda_i < 0$, co eliminuje nam wszystkie lambdy poza $\lambda_3$. Pokazuje to że punkty o kombinacji $(0,1,\xi)$ są marginalnie stabilne.
+
 Ponieważ analiza matematyczna nie przyniosła jednoznacznej odpowiedzi co do stabilności, można spróbować przeanalizować równanie $\dot{z}$, dla sytuacji gdy $p_i$ dwóch z graczy dojdą do granicy prawdopodobieństwa.
 W pierwszym wierszu tabelki \ref{tab:krawedz_prawd} widać, że $x$ dąży do zawarcia sojuszu z $z$, natomiast $y$ gra aby osiągnąć sojusz z $x$. W tej sytuacji prawdopodobieństwo strategii $z$ będzie rosło do zawiązania koalicji z $x$. W kolejnych dwóch wierszach są stany ustalone. W wierszu drugim zmiana $\dot{z}$ nie ma znaczenia gdyż obaj przeciwnicy są w wyłącznej koalicji z $z$. Wiersz trzeci pokazuje przeciwną sytuację, w której jakakolwiek zmiana $\dot{z}$ nie wniesie nic do gry ze względu na trwały sojusz między $x$ a $y$. Ostatni wiersz pokazuje przypadek symetryczny do pierwszego, z tym że jedynym możliwym sojusznikiem dla $z$ jest $y$. Oczywiście omawiany teraz przykład do osiągnięcia stabilności wymagałby braku zmian decyzji pozostałych graczy. Musieli by oni znać realne prawdopodobieństwo przeciwników.
 

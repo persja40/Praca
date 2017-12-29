@@ -30,8 +30,8 @@ vector<tup3<int>>colorsp;
 mutex points;
 \end{lstlisting}
 
-\paragraph{Interfejs klasy \textit{Game}}
-Cała symulacja przeprowadzana jest w klasie \textit{Game}, dlatego chciałbym ją teraz omówić. Reprezentuje ona jedną instancję gry 3-osobowej. Parametrem konstruktora jest indeks tablicy \textit{decision\_funs}, której element zostaje przypisany do \textit{decision}. \textit{function} jest wrapperem biblioteki standardowej dla dowolnej funkcji, wyrażenia lambda, wyrażenia bind, funkcjonału lub wskaźników do funkcji. W poniższym kodzie \textit{function} jest parametryzowany bezargumentowym, bezwynikowym zachowaniem. Funkcja \textit{next} przeprowadza rozgrywkę jednej partii. Jej implementacja zostanie przedstawiona później. Zmienna \textit{current} odpowiada $liczba_{partii}$, natomiast \textit{nr[i]} odpowiada $nast_i$ (opisano w podrozdziale \ref{sec:model}). Funkcja \textit{checker} jest odpowiednikiem funkcji $ogr$ (opisano w podrozdziale \ref{sec:ograniczenie}). Tablica \textit{decision\_funs} zawiera funkcje lambda mające dostęp do prywatnych zmiennych klasy \textit{Game}. W tablicach \textit{result} znajdują się obliczone $\Delta p_i$, które następnie poddawane są funkcji ograniczającej. 
+\paragraph{Interfejs klasy \texttt{Game}}
+Cała symulacja przeprowadzana jest w klasie \texttt{Game}, dlatego chciałbym ją teraz omówić. Reprezentuje ona jedną instancję gry 3-osobowej. Parametrem konstruktora jest indeks tablicy \texttt{decision\_funs}, której element zostaje przypisany do \texttt{decision}. \texttt{function} jest wrapperem biblioteki standardowej dla dowolnej funkcji, wyrażenia lambda, wyrażenia bind, funkcjonału lub wskaźników do funkcji. W poniższym kodzie \texttt{function} jest parametryzowany bezargumentowym, bezwynikowym zachowaniem. Funkcja \texttt{next} przeprowadza rozgrywkę jednej partii. Jej implementacja zostanie przedstawiona później. Zmienna \texttt{current} odpowiada $liczba_{partii}$, natomiast \texttt{nr[i]} odpowiada $nast_i$ (opisano w podrozdziale \ref{sec:model}). Funkcja \texttt{checker} jest odpowiednikiem funkcji $ogr$ (opisano w podrozdziale \ref{sec:ograniczenie}). Tablica \texttt{decision\_funs} zawiera funkcje lambda mające dostęp do prywatnych zmiennych klasy \texttt{Game}. W tablicach \texttt{result} znajdują się obliczone $\Delta p_i$, które następnie poddawane są funkcji ograniczającej. 
 
 \begin{lstlisting}
 class Game{
@@ -70,8 +70,8 @@ private:
 };
 \end{lstlisting}
 
-\paragraph{Implementacja \textit{Game::next}}
-Tablica \textit{choices} zawiera losowe wartości dla każdego z zawodników, na podstawie których dokonywane jest losowanie sojusznika.
+\paragraph{Implementacja \texttt{Game::next}}
+Tablica \texttt{choices} zawiera losowe wartości dla każdego z zawodników, na podstawie których dokonywane jest losowanie sojusznika.
 \begin{lstlisting}
 tup3<double> Game::next(){
     pre= make_tuple(p[0],p[1],p[2]);
@@ -85,7 +85,7 @@ tup3<double> Game::next(){
 }
 \end{lstlisting}
 
-\paragraph{Implementacja wątku symulującego} \textit{QtConcurrent::run} jest funkcją uruchamiającą w osobnym wątku funkcję podaną jako parametr. Zwraca ona obiekt \textit{QFuture}, który nie może przerwać lub wstrzymać wątku. Poprzez \texttt{beginsp[i].resize(p)} tworzony jest wektor posiadający p pustych elementów(wektorów krotek), ponieważ już w pierwszej partii będziemy potrzebować osobnego wektora dla każdej instancji gry. Natomiast \texttt{beginsp[i].reserve(g)} rezerwuje pamięć dla g partii, gdyby ta funkcja nie została użyta prawdopodobnie wystąpiłaby realokacja pamięci, w celu zapewnienia jej ciągłości. Przekładałoby się to na spowolnienie działania programu. Napisałem prawdopodobnie, ponieważ standard języka nie precyzuje ilości pamięci domyślnie rezerwowanej przez wektor, co jest zostawione po stronie implementacji. Przed wykonaniem każdej partii wątek czeka na dostęp do zasobu. Funkcja \texttt{try\_lock()} zwróci \texttt{true} w przypadku udanego przydzielenia zasobu, w przeciwnym razie zwróci \texttt{false}. 
+\paragraph{Implementacja wątku symulującego} \texttt{QtConcurrent::run} jest funkcją uruchamiającą w osobnym wątku funkcję podaną jako parametr. Zwraca ona obiekt \texttt{QFuture}, który nie może przerwać lub wstrzymać wątku. Poprzez \texttt{beginsp.resize(p)} tworzony jest wektor posiadający p pustych elementów(wektorów krotek), ponieważ już w pierwszej partii będziemy potrzebować osobnego wektora dla każdej instancji gry. Natomiast \texttt{beginsp[i].reserve(g)} rezerwuje pamięć dla g partii, gdyby ta funkcja nie została użyta prawdopodobnie wystąpiłaby realokacja pamięci, w celu zapewnienia jej ciągłości. Przekładałoby się to na spowolnienie działania programu. Napisałem prawdopodobnie, ponieważ standard języka nie precyzuje ilości pamięci domyślnie rezerwowanej przez wektor, co jest zostawione po stronie implementacji. Przed wykonaniem każdej partii wątek czeka na dostęp do zasobu. Funkcja \texttt{try\_lock()} zwróci \texttt{true} w przypadku udanego przydzielenia zasobu, w przeciwnym razie zwróci \texttt{false}. 
 \begin{lstlisting}
 QtConcurrent::run(
             [&]()->void{
@@ -130,7 +130,7 @@ QtConcurrent::run(
 
 \section{Makefile}
 \label{sec::makefile}
-Symulując grę w okręgu postanowiłem rysować wykresy funkcji prawdopodobieństwa od numeru partii. Do tego celu uznałem, że najbardziej odpowiedni będzie plik \textit{Makefile}, który wykona kompilację, uruchomienie oraz narysowanie wykresu przy pomocy programu gnuplot. Aby uruchomić program należy podać argument: G - ilość partii do rozegrania oraz P - ilość graczy. Poniżej przykładowe polecenie do wykonania symulacji dla 100 partii rozegranych przez 20 zawodników.
+Symulując grę w okręgu postanowiłem rysować wykresy funkcji prawdopodobieństwa od numeru partii. Do tego celu uznałem, że najbardziej odpowiedni będzie plik \texttt{Makefile}, który wykona kompilację, uruchomienie oraz narysowanie wykresu przy pomocy programu gnuplot. Aby uruchomić program należy podać argument: G - ilość partii do rozegrania oraz P - ilość graczy. Poniżej przykładowe polecenie do wykonania symulacji dla 100 partii rozegranych przez 20 zawodników.
 \begin{verbatim}
 make G=100 P=20
 \end{verbatim}
