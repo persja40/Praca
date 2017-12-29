@@ -10,11 +10,12 @@ MainWindow::MainWindow(QWidget *parent) :
     fun= 0;
     delay= 0;
     ui->setupUi(this);
+    quit= false;
 }
 
 MainWindow::~MainWindow()
 {
-    //kill();
+    quit= true;
     delete ui;
 }
 
@@ -41,6 +42,7 @@ void MainWindow::on_pushButton_Run_clicked()
                     endsp[i].reserve(g);
                 }
                 for(int j=0; j<g;j++){
+                    if(quit) return;
                     while(!points.try_lock());
                     for(int i=0; i<p;i++){
                         beginsp[i].push_back(tab[i]->next());

@@ -37,6 +37,7 @@ private:
     int fun;
     int delay;
     void clear_vectors();
+    atomic<bool> quit;
 };
 
 #endif // MAINWINDOW_H

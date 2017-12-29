@@ -17,7 +17,22 @@ Zdecydowałem się wykorzystać QT Creator IDE z kilku powodów, które zamierza
 
 \section{Schemat programu}
 \label{sec::schemat}
+Rysunek \ref{fig:schemat} przedstawia poglądowy schemat działania programu. Dzieląc rysunek na lewą i prawą część możemy wyodrębnić dwa wątki. Po lewej wątek odpowiadający za wykonanie symulacji, po prawej wątek odpowiadający za rysowanie. Określeniem "Zasób" opisuję współdzielone dane ( opisane w podrozdziale \ref{sec::kod}) między wątkami, którymi jest historia symulacji. 
 
+Podczas startu programu zostaje narysowany sześcian, po czym program przechodzi w stan nasłuchiwania na sygnały. Przykładowymi sygnałami mogą być zmiana rozmiaru okna aplikacji, bądź obrót figury. Po wykryciu takowego, następują próby zablokowania dostępu do zasobu dopóki nie zostanie to wykonane (zasób może być zablokowany przez inny wątek). Następnie na podstawie historii symulacji i/lub sygnału dokonywane jest nowe rysowanie. Po czym zasób zostaje zwolniony, a główny wątek (odpowiedzialny za rysowanie) wraca do stanu nasłuchiwania. 
+\begin{figure}
+    \centering
+    \includegraphics[width=0.9\textwidth]{pict/schemat.png}   
+    \caption{Schemat programu}
+	\label{fig:schemat} 
+\end{figure}
+Podczas startu symulacji (spowodowanej naciśnięciem przycisku \texttt{RUN}) identycznie poprzednio musi być uzyskany dostęp do zasobów. Dopiero po tym możliwe jest przeprowadzenie symulacji po jednej partii dla każdej instancji gry. Następnie zostaje to zapisane do zasobów, które zostają zwolnione. Równocześnie do wątku głównego wysyłany jest sygnał mówiący o aktualizacji historii symulacji. Jeśli była to ostatnia planowana partia wątek kończy swoje działanie. Nie można uruchomić naraz więcej niż jednego wątku symulującego (dla jednego procesu).
+%-------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+\section{Sygnały, sloty i mutex}
+\label{sec::sig_slot}
+
+%-------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 \section{Kod}
 \label{sec::kod}
