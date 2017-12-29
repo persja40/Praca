@@ -10,7 +10,7 @@ Zdecydowałem się wykorzystać QT Creator IDE z kilku powodów, które zamierza
 
 %-------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-\section{GLWidget}
+\section{QGLWidget}
 \label{sec:glwidget}
 
 %-------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -26,7 +26,7 @@ Podczas startu programu zostaje narysowany sześcian, po czym program przechodzi
     \caption{Schemat programu}
 	\label{fig:schemat} 
 \end{figure}
-Podczas startu symulacji (spowodowanej naciśnięciem przycisku \texttt{RUN}) identycznie poprzednio musi być uzyskany dostęp do zasobów. Dopiero po tym możliwe jest przeprowadzenie symulacji po jednej partii dla każdej instancji gry. Następnie zostaje to zapisane do zasobów, które zostają zwolnione. Równocześnie do wątku głównego wysyłany jest sygnał mówiący o aktualizacji historii symulacji. Jeśli była to ostatnia planowana partia wątek kończy swoje działanie. Nie można uruchomić naraz więcej niż jednego wątku symulującego (dla jednego procesu).
+Podczas startu symulacji (spowodowanej naciśnięciem przycisku \texttt{RUN}) identycznie poprzednio musi być uzyskany dostęp do zasobów. Dopiero po tym możliwe jest przeprowadzenie symulacji po jednej partii dla każdej instancji gry. Następnie zostaje to zapisane do zasobów, które zostają zwolnione. Równocześnie do wątku głównego wysyłany jest sygnał mówiący o aktualizacji historii symulacji. Jeśli była to ostatnia planowana partia wątek kończy swoje działanie.
 %-------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 \section{Sygnały, sloty i mutex}
@@ -36,7 +36,7 @@ Podczas startu symulacji (spowodowanej naciśnięciem przycisku \texttt{RUN}) id
 
 \section{Kod}
 \label{sec::kod}
-W tym podrozdziale będą opisane kluczowe fragmenty kodu, niezbędne do zrozumienia implementacji programu. W kodzie będą używane oznaczenia:{\color{red} ZASTANÓW SIĘ}
+W tym podrozdziale będą opisane kluczowe fragmenty kodu, niezbędne do zrozumienia implementacji programu. Współdzielonymi zasobami są:
 \begin{lstlisting}
 template<typename T> using tup3= tuple<T,T,T>;
 vector<vector<tup3<double>>> beginsp; //wektor punktów początkowych odcinków
@@ -112,7 +112,7 @@ QtConcurrent::run(
                 std::default_random_engine generator;
                 std::uniform_int_distribution<int> distribution(0,255);
                 auto r= bind(distribution, generator);
-                clear_vectors(); //czyści beginsp, endsp, colorsp
+                clear_vectors();
                 chrono::milliseconds d(delay);
                 beginsp.resize(p);
                 endsp.resize(p);
@@ -123,12 +123,13 @@ QtConcurrent::run(
                     endsp[i].reserve(g);
                 }
                 for(int j=0; j<g;j++){
-                    while(!points.try_lock()); // próba blokady dostępu do zasobów
+                    if(quit) return;
+                    while(!points.try_lock());
                     for(int i=0; i<p;i++){
                         beginsp[i].push_back(tab[i]->next());
                         endsp[i].push_back(tab[i]->prelast());
                     }
-                    points.unlock(); //zwolnienie dostępu do zasobów
+                    points.unlock();
                     emit copy();
                     this_thread::sleep_for(d);
                 }
@@ -149,3 +150,4 @@ Symulując grę w okręgu postanowiłem rysować wykresy funkcji prawdopodobień
 \begin{verbatim}
 make G=100 P=20
 \end{verbatim}
+Wymagany kompilator g++ ver.5+ oraz gnuplot. 
