@@ -20,7 +20,6 @@ tup3<double> Game::next(){
         if(choices[i]<p[i])
             nr[i]++;
     decision();
-    //cout<<p[0]<<"\t\t"<<p[1]<<"\t\t"<<p[2]<<"\t\t"<<endl;
     return make_tuple(p[0],p[1],p[2]);
 }
 

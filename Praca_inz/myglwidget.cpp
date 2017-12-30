@@ -15,9 +15,9 @@ MyGLWidget::~MyGLWidget()
 static void qNormalizeAngle(int &angle)
 {
     while (angle < 0)
-        angle += 360 * 16;
+        angle += 360;
     while (angle > 360)
-        angle -= 360 * 16;
+        angle -= 360;
 }
 
 void MyGLWidget::setXRotation(int angle)
@@ -74,9 +74,9 @@ void MyGLWidget::resizeGL(int width, int height)
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
 #ifdef QT_OPENGL_ES_1
-    glOrthof(-2, +2, -2, +2, 1.0, 15.0);
+    glOrthof(-1.5, +1.5, -1.5, +1.5, 1.0, 15.0);
 #else
-    glOrtho(-2, +2, -2, +2, 1.0, 15.0);
+    glOrtho(-1.5, +1.5, -1.5, +1.5, 1.0, 15.0);
 #endif
     glMatrixMode(GL_MODELVIEW);
 }
@@ -91,11 +91,11 @@ void MyGLWidget::mouseMoveEvent(QMouseEvent *event)
     int dx = event->x() - lastPos.x();
     int dy = event->y() - lastPos.y();
     if (event->buttons() & Qt::LeftButton) {
-        setXRotation(xRot + 8 * dy);
-        setYRotation(yRot + 8 * dx);
+        setXRotation(xRot + 0.5 * dy);
+        setYRotation(yRot + 0.5 * dx);
     } else if (event->buttons() & Qt::RightButton) {
-        setXRotation(xRot + 8 * dy);
-        setZRotation(zRot + 8 * dx);
+        setXRotation(xRot + 0.5 * dy);
+        setZRotation(zRot + 0.5 * dx);
     }
 
     lastPos = event->pos();
@@ -179,7 +179,7 @@ void MyGLWidget::clear(){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
     glTranslatef(0.0, 0.0, -10.0);
-    glRotatef(xRot / 16.0, 1.0, 0.0, 0.0);
-    glRotatef(yRot / 16.0, 0.0, 1.0, 0.0);
-    glRotatef(zRot / 16.0, 0.0, 0.0, 1.0);
+    glRotatef(xRot , 1.0, 0.0, 0.0);
+    glRotatef(yRot , 0.0, 1.0, 0.0);
+    glRotatef(zRot , 0.0, 0.0, 1.0);
 }
