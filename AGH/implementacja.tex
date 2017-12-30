@@ -1,7 +1,12 @@
 \chapter{Implementacja symulacji}
 \label{cha:implementacja}
-W tym rozdziale chciałbym przedstawić technologie i narzędzia użyte do wykonania symulacji oraz sposoby ich uruchomienia.
-%---------------------------------------------------------------------------
+
+\section{Opis problemu}
+\label{sec:opis_problemu}
+Symulacja gry 3-osobowej będzie przedstawiona jako sześcian. Każdy z jego wierzchołków będzie miał współrzędną składającą się z kombinacji 0 i 1, co ma obrazować prawdopodobieństwo gracza. Odpowiednio prawdopodobieństwo gracza pierwszego przedstawia oś x, drugiego oś y, trzeciego oś z. Każda funkcja reprezentuje jedną instancję gry 3-osobowej. Rysowane funkcje będą przedstawiały prawdopodobieństwa graczy ($\Delta p_i$) wynikające z używanych równań i zachowania przeciwników. 
+
+Symulacja gry N-osobowej, w której gracze ustawieni są w okręgu będzie obrazowana jako funkcje prawdopodobieństwa każdego gracza od numeru partii.
+%-------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 \section{Środowisko QT}
 \label{sec:qt}
@@ -139,16 +144,61 @@ QtConcurrent::run(
 \section{Rysowanie 3D}
 \label{sec::3d}
 \paragraph{Rysowanie}
-
-\paragraph{Rozciąganie}
-
+Rysowanie sześcianu oraz funkcji zostało wykonane jako rysowanie odcinków. Ze względu na ograniczony krok czasowy symulacji funkcje wyglądają na wygładzone. Środek sześcianu jest środkiem układu współrzędnych.
+\paragraph{Rozszerzanie}
+Do rozszerzania ekranu został użyta następująca funkcja:
+\begin{lstlisting}
+void MyGLWidget::resizeGL(int width, int height){
+    int side = qMin(width, height);
+    glViewport((width - side) / 2, (height - side) / 2, side, side);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+#ifdef QT_OPENGL_ES_1
+    glOrthof(-1, +1, -1, +1, 1.0, 15.0);
+#else
+    glOrtho(-1, +1, -1, +1, 1.0, 15.0);
+#endif
+    glMatrixMode(GL_MODELVIEW);
+}
+\end{lstlisting}
+Oknem widgetu jest widoczny na ekranie prostokąt. Oknem roboczym widgetu jest obszar, na którym przeprowadzane są operacje. Oba okna nie muszą się pokrywać, mogą istnieć sytuacje, w których rysowane są elementy poza widokiem użytkownika. Posiadając żądane wymiary nowego okna należy wyznaczyć nowe położenie i wymiary nowego okna roboczego tak, aby zachować proporcje sześcianu oraz przedstawić go w całości. Argumentami funkcji \texttt{glViewport} są kolejno: współrzędne x i y lewego dolnego rogu widoku, szerokość i wysokość widoku. Okno robocze musi być dopasowane do najkrótszego wymiaru widgetu, aby figury nie znalazły się poza oknem widgetu. Aby zapewnić wycentrowanie widoku roboczego należy dobrać punkt początkowy okna roboczego (lewy, dolny narożnik). Musi on mieć współrzędną punktu początkowego krótszej krawędzi jako 0, ponieważ chcemy wykorzystać ją całą. Współrzędna punktu początkowego dłuższej krawędzi okna roboczego musi być oddalona od punktu początkowego okna widgetu o połowę niewykorzystanej długości. Prowadzi to do wzoru na punkt początkowy okna roboczego: 
+\begin{equation}
+p_0=(\frac{1}{2}(\text{szerokość}-min(\text{szerokość}, \text{wysokość}),\frac{1}{2}(\text{wysokość}-min(\text{szerokość}, \text{wysokość}))
+\end{equation}
+Mając okno robocze o odpowiednich wymiarach zostało tylko przesunięcie układu współrzędnych do centrum okna roboczego przy pomocy funkcji \texttt{glOrtho}.
 \paragraph{Obracanie}
+\begin{wrapfigure}{rh}{0.2\textwidth}
+    \centering
+    \begin{tikzpicture}[scale=0.2]
+		\tikzstyle{every node}+=[inner sep=0pt]
+		\draw (34.9,-30) node {$(x_0,y_0)$};
+		\draw (47.6,-23) node {$(x_1,y_1)$};
+		\draw [black] (37.53,-28.55) -- (44.97,-24.45);
+		\fill [black] (44.97,-24.45) -- (44.03,-24.4) -- (44.51,-25.27);
+	\end{tikzpicture}
+    \caption{Obrót - ruch myszy}
+	\label{fig:obrot} 
+\end{wrapfigure}
+Kąt obrotu figury jest wyznaczany na podstawie punkty, gdzie klawisz myszy został wciśnięty $(x_0,y_0)$ a punktem w którym jest nadal wciśnięty $(x_1,y_1)$.
+Lewy przycisk myszki ma priorytet nad prawym. Lewego przycisk myszy generuje obrót względem osi x i y o odpowiednio $\Delta$ y i $\Delta$ x stopni, natomiast prawy przycisk generuje obrót względem osi x i z o odpowiednio $\Delta$ y i $\Delta$ x stopni. Obrót jest ograniczony od $0^\circ$ do $360^\circ$ . Jednocześnie delty są wymnażane przez czynnik mający na celu spowolnić obrót.
+
+
 %-------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 \section{Makefile}
 \label{sec::makefile}
-Symulując grę w okręgu postanowiłem rysować wykresy funkcji prawdopodobieństwa od numeru partii. Do tego celu uznałem, że najbardziej odpowiedni będzie plik \texttt{Makefile}, który wykona kompilację, uruchomienie oraz narysowanie wykresu przy pomocy programu gnuplot. Aby uruchomić program należy podać argument: G - ilość partii do rozegrania oraz P - ilość graczy. Poniżej przykładowe polecenie do wykonania symulacji dla 100 partii rozegranych przez 20 zawodników.
+Do rysowania wykresu funkcji prawdopodobieństw od numeru partii został użyty plik \texttt{Makefile}, który wykona kompilację, uruchomienie oraz narysowanie wykresu przy pomocy programu gnuplot. Aby uruchomić program należy podać argument: G - ilość partii do rozegrania oraz P - ilość graczy. Poniżej przykładowe polecenie do wykonania symulacji dla 100 partii rozegranych przez 20 zawodników.
 \begin{verbatim}
 make G=100 P=20
 \end{verbatim}
-Wymagany kompilator g++ ver.5+ oraz gnuplot. 
+Podanie nierealnych wartości nie da wyniku. Główną różnicą w implementacja gry N-osobowej jest funkcja \texttt{Game::next()}.
+\begin{lstlisting}
+void Multigame::next() {
+    ...
+    p[0]+= 0.1*(p[0]*(1-p[0])*(1-static_cast<double>(nr_r[1])/current-static_cast<double>(nr_r[players-1])/current));
+    for(int i=1; i<players-1; i++)
+        p[i]+= 0.1*(p[i]*(1-p[i])*(1-static_cast<double>(nr_r[i+1])/current-static_cast<double>(nr_r[i-1])/current));
+    p[players-1]+= 0.1*(p[players-1]*(1-p[players-1])*(1-static_cast<double>(nr_r[0])/current-static_cast<double>(nr_r[players-2])/current));
+}
+\end{lstlisting}
+Szacowanie prawdopodobieństw musi być wykonane w pętli, ze względu na nieznaną liczę graczy.

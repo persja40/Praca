@@ -68,15 +68,15 @@ void MyGLWidget::paintGL()
 
 void MyGLWidget::resizeGL(int width, int height)
 {
-    int side = qMax(width, height);
+    int side = qMin(width, height);
     glViewport((width - side) / 2, (height - side) / 2, side, side);
 
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
 #ifdef QT_OPENGL_ES_1
-    glOrthof(-1.5, +1.5, -1.5, +1.5, 1.0, 15.0);
+    glOrthof(-1, +1, -1, +1, 1.0, 15.0);
 #else
-    glOrtho(-1.5, +1.5, -1.5, +1.5, 1.0, 15.0);
+    glOrtho(-1, +1, -1, +1, 1.0, 15.0);
 #endif
     glMatrixMode(GL_MODELVIEW);
 }
