@@ -3,21 +3,20 @@
 
 \section{Opis problemu}
 \label{sec:opis_problemu}
-Symulacja gry 3-osobowej będzie przedstawiona jako sześcian. Każdy z jego wierzchołków będzie miał współrzędną składającą się z kombinacji 0 i 1, co ma obrazować prawdopodobieństwo gracza. Odpowiednio prawdopodobieństwo gracza pierwszego przedstawia oś x, drugiego oś y, trzeciego oś z. Każda funkcja reprezentuje jedną instancję gry 3-osobowej. Rysowane funkcje będą przedstawiały prawdopodobieństwa graczy ($\Delta p_i$) wynikające z używanych równań i zachowania przeciwników. 
+Symulacja gry 3-osobowej będzie przedstawiona jako sześcian. Każdy z jego wierzchołków będzie miał współrzędną składającą się z kombinacji 0 i 1, co ma obrazować prawdopodobieństwo gracza. Odpowiednio prawdopodobieństwo gracza pierwszego przedstawia oś x, drugiego oś y, trzeciego oś z. Każda funkcja reprezentuje jedną instancję gry 3-osobowej. Rysowane funkcje będą przedstawiały prawdopodobieństwa graczy ($p_i$) wynikające z używanych równań i zachowania przeciwników. 
 
 Symulacja gry N-osobowej, w której gracze ustawieni są w okręgu będzie obrazowana jako funkcje prawdopodobieństwa każdego gracza od numeru partii.
 %-------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 \section{Środowisko QT}
 \label{sec:qt}
-{\color{red} CHECK}
-Zdecydowałem się wykorzystać QT Creator IDE z kilku powodów, które zamierzam zaraz rozwinąć. Najważniejszą cechą środowiska jest udostępnienie go na kilku rodzajach licencji. Osobiście użyłem licencji LGPL, która pozwoliła mi bez ponoszenia kosztów korzystać ze środowiska. Kolejnym ważnym elementem jest multiplatformowość pozwalająca w łatwy sposób przenosić kod program między systemami operacyjnymi, o ile nie zostały użyte biblioteki dostępne tylko na jeden z systemów. Kolejną z zalet jest łatwy i intuicyjny interfejs tworzenia graficznego interfejsu użytkownika, osoba mająca wcześniej styczność z chociażby biblioteką Swing Java'y nie powinna mieć problemu z zaadaptowaniem się do  formularza QT Creatora. Wykorzystywany jest model sygnałów i slotów, polegający na emitowaniu sygnału przez zdarzenie, który następnie trafia do podłączonego slotu. Jest to w stanie znacznie ułatwić komunikację między elementami. Używanie nowoczesnego języka C++ (ja używałem wersji 14) nie sprawia problemów, lecz powinniśmy być świadomi że przykładowe uruchomienie wątków w aplikacji powinno być zrobione przy użyciu klas i funkcji z biblioteki QT.
+Do stworzenia programu wykorzystano QT Creator IDE z kilku powodów, które zaraz zostaną rozwinięte. Najważniejszą cechą środowiska jest udostępnienie go na kilku rodzajach licencji, z czego użyta tu została licencji LGPL. Pozwala ona na darmowe użytkowanie i modyfikowanie plików źródłowych, lecz udostępnienie własnego programu musi odbyć się na tej samej licencji. Kolejnym ważnym elementem jest multiplatformowość pozwalająca w łatwy sposób przenosić kod programu między systemami operacyjnymi, o ile nie zostały użyte biblioteki dostępne tylko na jeden z systemów. Kolejną z zalet jest łatwy i intuicyjny interfejs tworzenia graficznego interfejsu użytkownika, osoba mająca wcześniej styczność z na przykład biblioteką Swing Java'y nie powinna mieć problemu z zaadaptowaniem się do  formularza QT Creatora. Używanie nowoczesnego języka C++ (w pracy użyto wersji 14) nie sprawia problemów. Przed użyciem klas z bibliotek standardowych C++ warto sprawdzić czy biblioteka QT nie zawiera specjalnych klas opakowujących je. Przykładem może być \texttt{pthread} i \texttt{QThread}.
 
 %-------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 \section{Schemat programu}
 \label{sec::schemat}
-Rysunek \ref{fig:schemat} przedstawia poglądowy schemat działania programu. Dzieląc rysunek na lewą i prawą część możemy wyodrębnić dwa wątki. Po lewej wątek odpowiadający za wykonanie symulacji, po prawej wątek odpowiadający za rysowanie. Określeniem "Zasób" opisuję współdzielone dane ( opisane w podrozdziale \ref{sec::kod}) między wątkami, którymi jest historia symulacji. 
+Rysunek \ref{fig:schemat} przedstawia poglądowy schemat działania programu. Dzieląc rysunek na lewą i prawą część możemy wyodrębnić dwa wątki. Po lewej wątek odpowiadający za wykonanie symulacji, po prawej wątek odpowiadający za rysowanie. Określeniem \textit{Zasób} są opisane współdzielone dane ( opisane w podrozdziale \ref{sec::kod}) między wątkami, którymi jest historia symulacji. 
 
 Podczas startu programu zostaje narysowany sześcian, po czym program przechodzi w stan nasłuchiwania na sygnały. Przykładowymi sygnałami mogą być zmiana rozmiaru okna aplikacji, bądź obrót figury. Po wykryciu takowego, następują próby zablokowania dostępu do zasobu dopóki nie zostanie to wykonane (zasób może być zablokowany przez inny wątek). Następnie na podstawie historii symulacji i/lub sygnału dokonywane jest nowe rysowanie. Po czym zasób zostaje zwolniony, a główny wątek (odpowiedzialny za rysowanie) wraca do stanu nasłuchiwania. 
 \begin{figure}
@@ -26,14 +25,14 @@ Podczas startu programu zostaje narysowany sześcian, po czym program przechodzi
     \caption{Schemat programu}
 	\label{fig:schemat} 
 \end{figure}
-Podczas startu symulacji (spowodowanej naciśnięciem przycisku \texttt{RUN}) identycznie poprzednio musi być uzyskany dostęp do zasobów. Dopiero po tym możliwe jest przeprowadzenie symulacji po jednej partii dla każdej instancji gry. Następnie zostaje to zapisane do zasobów, które zostają zwolnione. Równocześnie do wątku głównego wysyłany jest sygnał mówiący o aktualizacji historii symulacji. Jeśli była to ostatnia planowana partia wątek kończy swoje działanie.
+Podczas startu symulacji (spowodowanej naciśnięciem przycisku \texttt{RUN}) identycznie jak poprzednio musi być uzyskany dostęp do zasobów. Dopiero po tym możliwe jest przeprowadzenie symulacji jednej partii dla każdej instancji gry. Następnie wyniki zostają zapisane do zasobów, po czym zasoby zostają zwolnione. Równocześnie do wątku głównego wysyłany jest sygnał mówiący o aktualizacji historii symulacji. Jeśli była to ostatnia planowana partia wątek symulacyjny kończy swoje działanie.
 %-------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 \section{Sygnały, sloty i mutex}
 \label{sec::sig_slot}
 Komunikacja między klasami dziedziczącymi po \texttt{QObject} odbywa się przy pomocy połączonych ze sobą sygnałów i slotów. Można na nie patrzeć jako funkcje (sloty) oraz wskaźniki do funkcji (sygnały). Sygnał może trafiać do wielu slotów oraz do slotu może docierać wiele sygnałów. Ważne jest aby typy parametrów w deklaracji sygnału pokrywały się z typami parametrów deklaracji slotu. W przypadku gdy sygnał będzie miał zbyt dużo parametrów dla slotu, nadmiarowe parametry zostaną pominięte.
 
-W celu uniknięcia kolizji zapis-odczyt na współdzielonych zasobach została użyta klasa \texttt{mutex}. Jest to semafor, lecz nie chroni on danych przed dostępem z wielu źródeł, a jedynie informuje czy zasoby są obecnie używane czy nie. Nie ma niebezpieczeństwa wykonania operacji kolizyjnych, gdyż jest wykorzystywany jedynie przez wewnętrzne struktury programu, które nie wykonują operacji na wspólnych zasobach jeśli semafor jest zablokowany.
+W celu uniknięcia kolizji zapis-odczyt na współdzielonych zasobach została użyta klasa \texttt{mutex}. Jest to semafor, nie chroni on danych przed dostępem z wielu źródeł, a jedynie informuje czy zasoby są obecnie używane czy nie. Nie ma niebezpieczeństwa wykonania operacji kolizyjnych, gdyż zasoby są wykorzystywane jedynie przez wewnętrzne struktury programu, które nie wykonują operacji na wspólnych zasobach jeśli semafor jest zablokowany.
 %-------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 \section{Kod}
@@ -41,14 +40,14 @@ W celu uniknięcia kolizji zapis-odczyt na współdzielonych zasobach została u
 W tym podrozdziale będą opisane kluczowe fragmenty kodu, niezbędne do zrozumienia implementacji programu. Współdzielonymi zasobami są:
 \begin{lstlisting}
 template<typename T> using tup3= tuple<T,T,T>;
-vector<vector<tup3<double>>> beginsp; //wektor punktów początkowych odcinków
-vector<vector<tup3<double>>> endsp; //wektor punktów końcowych odcinków
-vector<tup3<int>>colorsp;
+vector<vector<tup3<double>>> beginsp; //wektor historii punktów początkowych odcinków
+vector<vector<tup3<double>>> endsp; //wektor historii punktów końcowych odcinków
+vector<tup3<int>>colorsp; //kolory funkcji
 mutex points;
 \end{lstlisting}
 
 \paragraph{Interfejs klasy \texttt{Game}}
-Cała symulacja przeprowadzana jest w klasie \texttt{Game}, dlatego chciałbym ją teraz omówić. Reprezentuje ona jedną instancję gry 3-osobowej. Parametrem konstruktora jest indeks tablicy \texttt{decision\_funs}, której element zostaje przypisany do \texttt{decision}. \texttt{function} jest wrapperem biblioteki standardowej dla dowolnej funkcji, wyrażenia lambda, wyrażenia bind, funkcjonału lub wskaźników do funkcji. W poniższym kodzie \texttt{function} jest parametryzowany bezargumentowym, bezwynikowym zachowaniem. Funkcja \texttt{next} przeprowadza rozgrywkę jednej partii. Jej implementacja zostanie przedstawiona później. Zmienna \texttt{current} odpowiada $liczba_{partii}$, natomiast \texttt{nr[i]} odpowiada $nast_i$ (opisano w podrozdziale \ref{sec:model}). Funkcja \texttt{checker} jest odpowiednikiem funkcji $ogr$ (opisano w podrozdziale \ref{sec:ograniczenie}). Tablica \texttt{decision\_funs} zawiera funkcje lambda mające dostęp do prywatnych zmiennych klasy \texttt{Game}. W tablicach \texttt{result} znajdują się obliczone $\Delta p_i$, które następnie poddawane są funkcji ograniczającej. 
+Cała symulacja przeprowadzana jest w klasie \texttt{Game}, dlatego zostanie teraz omówiona. Reprezentuje ona jedną instancję gry 3-osobowej. Parametrem konstruktora jest indeks tablicy \texttt{decision\_funs}, której element zostaje przypisany do \texttt{decision}. \texttt{function} jest wrapperem biblioteki standardowej dla dowolnej funkcji, wyrażenia lambda, wyrażenia bind, funkcjonału lub wskaźników do funkcji. W poniższym kodzie \texttt{function} jest parametryzowany bezargumentowym, bezwynikowym zachowaniem. Funkcja \texttt{next} przeprowadza rozgrywkę jednej partii. Jej implementacja zostanie przedstawiona później. Zmienna \texttt{current} odpowiada $liczba_{partii}$, natomiast \texttt{nr[i]} odpowiada $nast_i$ (opisano w podrozdziale \ref{sec:model}). Funkcja \texttt{checker} jest odpowiednikiem funkcji $ogr$ (opisano w podrozdziale \ref{sec:ograniczenie}). Tablica \texttt{decision\_funs} zawiera funkcje lambda mające dostęp do prywatnych zmiennych klasy \texttt{Game}. W tablicach \texttt{result} znajdują się obliczone $\Delta p_i$, które następnie poddawane są funkcji ograniczającej. 
 
 \begin{lstlisting}
 class Game{
@@ -161,7 +160,7 @@ void MyGLWidget::resizeGL(int width, int height){
     glMatrixMode(GL_MODELVIEW);
 }
 \end{lstlisting}
-Oknem widgetu jest widoczny na ekranie prostokąt. Oknem roboczym widgetu jest obszar, na którym przeprowadzane są operacje. Oba okna nie muszą się pokrywać, mogą istnieć sytuacje, w których rysowane są elementy poza widokiem użytkownika. Posiadając żądane wymiary nowego okna należy wyznaczyć nowe położenie i wymiary nowego okna roboczego tak, aby zachować proporcje sześcianu oraz przedstawić go w całości. Argumentami funkcji \texttt{glViewport} są kolejno: współrzędne x i y lewego dolnego rogu widoku, szerokość i wysokość widoku. Okno robocze musi być dopasowane do najkrótszego wymiaru widgetu, aby figury nie znalazły się poza oknem widgetu. Aby zapewnić wycentrowanie widoku roboczego należy dobrać punkt początkowy okna roboczego (lewy, dolny narożnik). Musi on mieć współrzędną punktu początkowego krótszej krawędzi jako 0, ponieważ chcemy wykorzystać ją całą. Współrzędna punktu początkowego dłuższej krawędzi okna roboczego musi być oddalona od punktu początkowego okna widgetu o połowę niewykorzystanej długości. Prowadzi to do wzoru na punkt początkowy okna roboczego: 
+Oknem widgetu jest widoczny na ekranie prostokąt. Oknem roboczym widgetu jest obszar, na którym przeprowadzane są operacje. Oba okna nie muszą się pokrywać, mogą istnieć sytuacje, w których rysowane są elementy poza widokiem użytkownika. Posiadając żądane wymiary nowego okna należy wyznaczyć nowe położenie i wymiary nowego okna roboczego tak, aby zachować proporcje sześcianu oraz przedstawić go w całości. Argumentami funkcji \texttt{glViewport} są kolejno: współrzędne x i y lewego dolnego rogu widoku, szerokość i wysokość okna roboczego. Okno robocze musi być dopasowane do najkrótszego wymiaru widgetu, aby figury nie znalazły się poza oknem widgetu. Aby zapewnić wycentrowanie widoku roboczego należy dobrać punkt początkowy okna roboczego (lewy, dolny narożnik). Musi on mieć współrzędną punktu początkowego krótszej krawędzi jako 0, ponieważ chcemy wykorzystać ją całą. Współrzędna punktu początkowego dłuższej krawędzi okna roboczego musi być oddalona od punktu początkowego okna widgetu o połowę niewykorzystanej długości. Prowadzi to do wzoru na punkt początkowy okna roboczego: 
 \begin{equation}
 p_0=(\frac{1}{2}(\text{szerokość}-min(\text{szerokość}, \text{wysokość}),\frac{1}{2}(\text{wysokość}-min(\text{szerokość}, \text{wysokość}))
 \end{equation}
@@ -179,8 +178,8 @@ Mając okno robocze o odpowiednich wymiarach zostało tylko przesunięcie układ
     \caption{Obrót - ruch myszy}
 	\label{fig:obrot} 
 \end{wrapfigure}
-Kąt obrotu figury jest wyznaczany na podstawie punkty, gdzie klawisz myszy został wciśnięty $(x_0,y_0)$ a punktem w którym jest nadal wciśnięty $(x_1,y_1)$.
-Lewy przycisk myszki ma priorytet nad prawym. Lewego przycisk myszy generuje obrót względem osi x i y o odpowiednio $\Delta$ y i $\Delta$ x stopni, natomiast prawy przycisk generuje obrót względem osi x i z o odpowiednio $\Delta$ y i $\Delta$ x stopni. Obrót jest ograniczony od $0^\circ$ do $360^\circ$ . Jednocześnie delty są wymnażane przez czynnik mający na celu spowolnić obrót.
+Kąt obrotu figury jest wyznaczany na podstawie punktu, gdzie klawisz myszy został wciśnięty $(x_0,y_0)$ oraz punktu w którym jest nadal wciśnięty $(x_1,y_1)$.
+Lewy przycisk myszki ma priorytet nad prawym. Lewy przycisk myszy generuje obrót względem osi x i y o odpowiednio $\Delta$ y i $\Delta$ x stopni, natomiast prawy przycisk generuje obrót względem osi x i z o odpowiednio $\Delta$ y i $\Delta$ x stopni. Obrót jest ograniczony od $0^\circ$ do $360^\circ$, wartości poza tym zakresem są do niego sprowadzane poprzez operacje $\pm 360^\circ$ . Wymnażane delt przez czynnik mniejszy od 1 prowadzi do spowolnienia obrotu.
 
 
 %-------------------------------------------------------------------------------------------------------------------------------------------------------------

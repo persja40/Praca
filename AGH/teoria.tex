@@ -4,18 +4,17 @@
 \section{Gra}
 \label{sec:gra}
 Niniejsza praca skupia się na grach wieloosobowych, których szczególnym przypadkiem jest gra 3-osobowa. Model gry 3-osobowej pokazuje, że decyzję jednego z zawodników mają bezpośredni wpływ na zachowanie sąsiadów. W modelu gry N-osobowej decyzje graczy będą wpływać nie tylko na najbliższych sąsiadów, ale pośrednio także na decyzje innych graczy.
-Omawiane tutaj gry są grami o niepełnej informacji, w tej pracy oznacza to grę, w której nie wszyscy uczestnicy znają prawdopodobieństwo wyborów przeciwników. Prawdopodobieństwo gry przeciwników będzie szacowane na podstawie obserwacji historii ich zagrań.
-Opisywane gry będą także grami ewolucyjnymi, czyli mającymi możliwość przewidywania i uczenia się na podstawie zachowań graczy.
+Omawiane tutaj gry są grami o niepełnej informacji, w tej pracy oznacza to grę, w której nie wszyscy uczestnicy znają prawdopodobieństwo określonych decyzji przeciwników. Prawdopodobieństwo gry przeciwników będzie szacowane na podstawie obserwacji historii ich zagrań.
+Opisywane gry będą także grami ewolucyjnymi, gdzie gracze mają możliwość przewidywania i uczenia się na podstawie zachowań innych graczy.
 
 \section{Model gry}
 \label{sec:model}
-Jak wcześniej wspomniano będą potrzebne dwa modele gier. Pierwszym z nich będzie model gry 3-osobowej \ref{fig:model_niezal}. Graczy nazwiemy odpowiednio $G_0$, $G_1$, $G_2$ (gracz zerowy, pierwszy, drugi). Każdy z nich posiada prawdopodobieństwo zagrania, w celu nawiązania koalicji z graczem o wyższym indeksie. To prawdopodobieństwo oznaczone jest jako $p_i$ ($i$ jest indeksem gracza), przy czym dla $G_2$ gracz o wyższym indeksie to $G_0$. Prawdopodobieństwo zagrania, w celu nawiązanie koalicji z graczem o niższym indeksie to $1 - p_i$, co nie będzie przechowywane, ponieważ w łatwy sposób można to wyliczyć. Analogicznie dla $G_0$ gracz o niższym indeksie to $G_2$. Ponieważ omawiana jest gra o niepełnej informacji żaden z zawodników nie ma dostępu do prawdopodobieństw innych graczy, lecz każdy ma dostęp do statystyki gry na którą składa się:
+Jak wcześniej wspomniano będą potrzebne dwa modele gier. Pierwszym z nich będzie model gry 3-osobowej (Rys. \ref{fig:model_niezal}). Graczy nazwiemy odpowiednio $G_0$, $G_1$, $G_2$ (gracz zerowy, pierwszy, drugi). Zachowanie każdego z nich jest opisane prawdopodobieństwem próby wejścia w koalicję z graczem o wyższym indeksie. To prawdopodobieństwo oznaczone jest jako $p_i$ ($i$ jest indeksem gracza), przy czym dla $G_2$ gracz o wyższym indeksie to $G_0$. Prawdopodobieństwo zagrania, w celu nawiązanie koalicji z graczem o niższym indeksie to $1 - p_i$. Analogicznie dla $G_0$ gracz o niższym indeksie to $G_2$. Ponieważ omawiana jest gra o niepełnej informacji żaden z zawodników nie ma dostępu do prawdopodobieństw innych graczy, lecz każdy ma dostęp do statystyki gry na którą składa się:
 \begin{itemize}
-\item $liczba_{partii}$ liczba rozegranych w grze partii
-\item $nast_i$ ilość zagrań $G_i$ w celu zawiązania sojuszu z $G_{i+1}$, ilość zagrań $G_{i}$ aby nawiązać sojusz z $G_{i-1}$ wyraża się jako $liczba_{partii} - nast_i$
+\item $l_p$ liczba rozegranych w grze partii
+\item $n_i$ ilość zagrań $G_i$ w celu zawiązania sojuszu z $G_{i+1}$, ilość zagrań $G_{i}$ aby nawiązać sojusz z $G_{i-1}$ wyraża się jako $l_p - n_i$
 \end{itemize}
-Model gry N-osobowe \ref{fig:model_zal} będzie dysponował takimi samymi danymi jak model gry 3-osobowej. Różnicą między nimi będzie ustawienie graczy w okręgu, co będzie prowadziło do konsekwencji nieograniczających się do najbliższych sąsiadów.
-{\color{red} UKŁAD}
+Model gry N-osobowe (Rys. \ref{fig:model_zal}) będzie opisany takimi samymi danymi jak model gry 3-osobowej. Różnicą między nimi będzie ustawienie graczy w okręgu, co w konsekwencji pokaże skutki decyzji wykraczające poza najbliższych sąsiadów, dla gier o liczbie graczy większej niż 3. Gra 3-osobowa jest szczególnym przypadkiem gry N-osobowej, w której konsekwencje zachowań jednego z naszych sąsiadów bezpośrednio wpływają na drugiego.
 \begin{figure}
 	\centering
 	\begin{tabular}{c|c}
@@ -75,7 +74,7 @@ Model gry N-osobowe \ref{fig:model_zal} będzie dysponował takimi samymi danymi
 		\end{tikzpicture}
 	}
 	\end{tabular}
-\caption{Modele gry}
+\caption{Modele gry. G w okręgu - gracz, strzałka z p - prawdopodobieństwo zagrania w celu nawiązania koalicji z graczem, na którego wskazuje strzałka}
 \label{fig:modele}
 \end{figure}
 %---------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -90,13 +89,13 @@ Z tym że żądana jest maksymalizacja, a nie minimalizacja odpowiednika energii
 \begin{equation}\label{eq:basic_stand}
 W_\beta = \frac{\delta W}{\delta \beta}
 \end{equation}
-W tym typie równań celem będzie maksymalizacja zysku( zyskiem jest prawdopodobieństwo ) w czasie. Wyprowadzenie będzie przeprowadzone dla $G_0$, przy założeniu gry o pełnej informacji. Pozostałe dwa równania można wyprowadzić analogicznie. Niech $x=p_0$, $y=p_1$, $z=p_2$. Wypłata dana jest przez:
+W tym typie równań celem będzie maksymalizacja zysku( zyskiem jest prawdopodobieństwo ) w czasie. Wyprowadzenie będzie przeprowadzone dla $G_0$, przy założeniu gry o pełnej informacji. Pozostałe dwa równania można wyprowadzić analogicznie. Niech $x=p_0$, $y=p_1$, $z=p_2$. Wypłata dla $G_0$ dana jest przez:
 \begin{equation}\label{eq:wypl_stand}
 W = \underbrace{x(1-y)}_{\text{wypłata sojuszu $G_0$ z $G_1$}} + \overbrace{(1-x)z}^{\text{wypłata sojuszu $G_0$ z $G_2$}} \\
 \end{equation}
 W równaniu \ref{eq:basic_stand} podstawiamy $x$ jako $\beta$.
 \begin{align*}
-W_x = \frac{\delta W}{\delta x} = 1-x-y
+W_x = \frac{\delta W}{\delta x} = 1-y-z
 \end{align*}
 Iloraz różnicowy na zmianę wypłaty od czasu daje:
 \begin{align}\label{eq:dynam_stand}
@@ -104,11 +103,11 @@ W_x(t) &= \frac{W_x(t+\Delta t)-W_x(t)}{\Delta t} \nonumber\\
 W_x(t) \Delta t &= W_x(t+\Delta t)-W_x(t) = \Delta p_0 \nonumber\\
 \Delta p_0 &= \Delta t (1-y-z)
 \end{align}
-W dalszej części będzie stosowane oznaczenie $\alpha = \Delta t$. Równanie wygląda obiecująco, gdyż człon $1 - y$ jest prawdopodobieństwem zagrania $G_1$ aby zawiązać sojusz z $G_0$. Podobnie $-z$ prowadzi do sojuszu $G_2$ z $G_0$, minus przy $z$ powoduje ubytek dla $x$, ponieważ prawdopodobieństwo zagrania $G_0$ w celu zawarcia sojuszu z $G_2$ jest dane przez $1-x$.
+W dalszej części będzie stosowane oznaczenie $\alpha = \Delta t$. Równanie wygląda obiecująco, gdyż człon $1 - y$ jest prawdopodobieństwem zagrania $G_1$ aby zawiązać sojusz z $G_0$. Podobnie $-z$ prowadzi do sojuszu $G_2$ z $G_0$.
 
 W przypadku gry o niepełnej informacji należy zmodyfikować równanie \ref{eq:dynam_stand}. Opis użytych parametrów można znaleźć w podrozdziale \ref{sec:model}.
 \begin{equation} \label{eq:stand}
-\Delta p_i = \alpha \cdot (1 - \frac{nast_{i+1}}{liczba_{partii}} - \frac{nast_{i-1}}{liczba_{partii}})
+\Delta p_i = \alpha \cdot (1 - \frac{n_{i+1}}{l_p} - \frac{n_{i-1}}{l_p})
 \end{equation}
 
 %---------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -119,7 +118,7 @@ Model dynamiki replikatorów jest najbardziej znanym różniczkowym modelem teor
 \begin{equation}
 \dot{x} = x \cdot ( W_x - \overline{W})
 \end{equation}
-Gdzie $W_x$ jest średnią wypłatą dla strategii $x$ (prawdopodobieństw strategii $x$), natomiast $\overline{W}$ jest średnią wypłatą co daje:
+Gdzie $\dot{x}$ jest tempem zmiany udziału strategi $x$, $W_x$ jest średnią wypłatą dla strategii $x$ (prawdopodobieństw strategii $x$), natomiast $\overline{W}$ jest średnią wypłatą co daje:
 \begin{gather*}
 \dot{x} = x \cdot ( \overbrace{(1-y)}^{W_x} - \overbrace{(x(1-y) + (1-x)z)}^{\overline{W}}) \\
 \Downarrow \\
@@ -132,9 +131,9 @@ x(t) \Delta t &= x(t+\Delta t)-x(t) = \Delta p_0
 \end{align*} 
 W dalszej części tej pracy $\alpha=\Delta t$. Co dla gry 3-osobowej generuje równania:
 \begin{align} \label{eq:repli}
-\Delta p_0 = \alpha p_0 \cdot (1 - p_0) \cdot (1 - \frac{n_1}{liczba_{partii}} - \frac{n_2}{liczba_{partii}}) \nonumber \\
-\Delta p_1 = \alpha p_1 \cdot (1 - p_1) \cdot (1 - \frac{n_2}{liczba_{partii}} - \frac{n_0}{liczba_{partii}}) \\
-\Delta p_2 = \alpha p_2 \cdot (1 - p_2) \cdot (1 - \frac{n_0}{liczba_{partii}} - \frac{n_1}{liczba_{partii}}) \nonumber
+\Delta p_0 = \alpha p_0 \cdot (1 - p_0) \cdot (1 - \frac{n_1}{l_p} - \frac{n_2}{l_p}) \nonumber \\
+\Delta p_1 = \alpha p_1 \cdot (1 - p_1) \cdot (1 - \frac{n_2}{l_p} - \frac{n_0}{l_p}) \\
+\Delta p_2 = \alpha p_2 \cdot (1 - p_2) \cdot (1 - \frac{n_0}{l_p} - \frac{n_1}{l_p}) \nonumber
 \end{align} 
 
 %---------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -145,7 +144,7 @@ Wszystkie zmiany prawdopodobieństwa muszą zostać poddane funkcji ograniczają
 \begin{equation} \label{eq:ograniczenie}
 p_i = ogr( p_i + \Delta p_i)
 \end{equation}
-W przeciwnym razie równania z poprzednich podrozdziałów mogą wyjść poza przedział $<0,1>$. Każde nowo obliczone prawdopodobieństwo podawane jest jako parametr do funkcji $ogr$, a dopiero jej rezultat jest przypisywany poszczególnym prawdopodobieństwom graczy. Funkcja dbająca o pozostanie prawdopodobieństwa w dziedzinie wygląda następująco:
+W przeciwnym razie równania z poprzednich podrozdziałów mogą wyjść poza przedział $<0,1>$. Każde nowo obliczone prawdopodobieństwo podawane jest jako parametr do funkcji $ogr$, a dopiero jej rezultat jest przypisywany poszczególnym prawdopodobieństwom graczy. Funkcja używana aby zapewnić pozostanie prawdopodobieństwa w dziedzinie wygląda następująco:
 \begin{displaymath}
 ogr(p_i) = \left\{
 \begin{array}{ll}
@@ -162,7 +161,6 @@ Wyjaśnienia wymaga wartość $\alpha$, która została przyjęta jako $0.1$. Je
 \section{Ograniczenie prawdopodobieństwa - przykłady}
 \label{sec:ograniczenie_przyk}
 Najpierw przeanalizowane zostaną równania standardowe dla gry 3-osobowej o prawdopodobieństwie początkowym $\frac{1}{2}$ i $\alpha = 1$. Gdzie $N$ oznacza zagranie $G_i$ mające na celu zawiązanie sojuszu z $G_{i+1}$, a $P$ ilość zagranie$G_i$ mające na celu zawiązanie sojuszu z $G_{i-1}$.
-{\color{red} UKŁAD}
 \begin{align*}
 G_0 = N, G_1 = P, G_2 = N && G_0 = N, G_1 = P, G_2 = P\\
 \left\{
@@ -279,7 +277,7 @@ Sytuacja taka nie jest pożądana, co stanowi dodatkowy argument za użyciem $\a
 
 \section{Rozwiązanie stacjonarne równań standardowych}
 \label{sec:stab_stand}
-Do ustalenia punktów stałych potrzebny jest zanik dynamiki $\Delta p_i = 0$. Krok czasowy zostanie pominięty, gdyż nie daje wkładu do obliczeń. Należy rozwiązać układ równań, gdzie przyjęte jest $x=p_0$, $y=p_1$, $z=p_2$:
+Celem tego podrozdziału jest znalezienie rozwiązań stacjonarnych dla równań standardowych, czyli sytuacji w których układ dla długiego czasu dąży do punktu stałego. Do ustalenia punktów stałych potrzebny jest zanik dynamiki $\Delta p_i = 0$. Krok czasowy zostanie pominięty, gdyż nie daje wkładu do obliczeń. Należy rozwiązać układ równań, gdzie przyjęte jest $x=p_0$, $y=p_1$, $z=p_2$:
 \begin{equation}
 \left\{
 \begin{array}{c}
@@ -289,29 +287,25 @@ Do ustalenia punktów stałych potrzebny jest zanik dynamiki $\Delta p_i = 0$. K
 \end{array}
 \right. \Rightarrow p_0 = p_1 = p_2 = \frac{1}{2}
 \end{equation}
-Z czego wynika że gra startująca w punkcie $(\frac{1}{2},\frac{1}{2},\frac{1}{2})$ nie powinna z niego wyjść. Byłoby tak gdyby prawdopodobieństwa użyte w równaniu były faktycznymi prawdopodobieństwami $p_i$, są one natomiast jedynie obserwacją zachowania pozostałych graczy. Są ono dane jako $\frac{nast_j}{liczba_{partii}}$. Użycie prawdopodobieństw obserwowanych umożliwia opuszczenie punktu stałego.
+Z czego wynika że gra startująca w punkcie $(\frac{1}{2},\frac{1}{2},\frac{1}{2})$ nie powinna z niego wyjść. Byłoby tak gdyby prawdopodobieństwa użyte w równaniu były faktycznymi prawdopodobieństwami $p_i$, są one natomiast jedynie obserwacją zachowania pozostałych graczy. Są ono dane jako $\frac{n_j}{l_p}$. Użycie prawdopodobieństw obserwowanych umożliwia opuszczenie punktu stałego.
 \section{Stabilność równań replikatorów}
 \label{sec:stab_repl}
-Stabilność równań replikatorów będzie badana poprzez znalezienie ich wartości własnych. Najpierw przyjmijmy oznaczenia:
-\begin{align*}
-\dot{x} &= f(x,y,z) = \Delta p_0 = x(1-x)(1-y-z)\\
+Stabilność równań replikatorów wymaga dążenia do stałych wartości, gdy $t\Rightarrow \infty$. Do analizy zostanie przyjęty układ równań:
+\begin{align}\label{eq:stab_uklad_analiza}
+\dot{x} &= f(x,y,z) = \Delta p_0 = x(1-x)(1-y-z)\nonumber\\
 \dot{y} &= g(x,y,z) = \Delta p_1 = y(1-y)(1-x-z)\\
-\dot{z} &= h(x,y,z) = \Delta p_2 = z(1-z)(1-x-y)
-\end{align*}
-Punkty stałe wymagają zanikania pochodnych.
-\begin{align*}
-\left\{
-\begin{array}{l}
-\dot{x} = 0 \\
-\dot{y} = 0 \\
-\dot{z} = 0 
+\dot{z} &= h(x,y,z) = \Delta p_2 = z(1-z)(1-x-y)\nonumber
+\end{align}
+
+Punkty stałe są to punkty, z których układ nie wyjdzie bez zewnętrznego czynnika. Do znalezienia punktów stałych wymagane jest zanikanie pochodnych. Prowadzi to do układu równań.
+\begin{align}
+\begin{array}{ccc}
+\dot{x} = 0, & \dot{y} = 0, & \dot{z} = 0
 \end{array}
-\right.
-\Rightarrow
-x_i^*, y_i^*, z_i^*
-\end{align*}
-Punkty stałe dane są jako:
-\begin{align*}
+\end{align}
+
+Z powyższych równań otrzymujemy punkty stałe $(x^*_i, y^*_i, z^*_i)$, które zostały ponumerowane przy pomocy indeksu $i$.
+\begin{align}
 (x^*_i, y^*_i, z^*_i) = \left\{
 \begin{array}{ll}
 (0,0,0)  & i=0 \\
@@ -320,25 +314,61 @@ Punkty stałe dane są jako:
 P_3 \{0,1,\xi \} & i=3 \text{, permutacja gdzie }\xi \in <0,1>\\ 
 \end{array}
 \right.
-\end{align*}
-Przeanalizowane zostaną wyżej wymienione przypadki, przy czym w ostatnim przypadku będzie uwzględniony tylko jeden, ze względu na symetrię.
-Do znalezienia wartości własnych będzie potrzebna macierz Jacoby'ego (macierz pochodnych cząstkowych funkcji).
+\end{align}
+
+Znajomość punktów stałych narzuca pytanie co do ich stabilności. Układ znajdujący się w pobliżu punktu stabilnego powinien zawsze do niego dążyć. Podczas analizy stabilności będą uwzględnione wszystkie powyższe punkty stałe, przy czym w ostatniej sytuacji będzie uwzględniony tylko przypadek $(0,1,\xi)$, ze względu na ich symetrię.
+
+Stosując metodę linearyzacji tworzymy funkcje, które powinny osiągać 0 w punktach stabilnych.
+\begin{align}\label{eq:nowe_f}
+X(t)=x(t)-x^* \nonumber\\
+Y(t)=y(t)-y^* \\
+Z(t)=z(t)-z^* \nonumber
+\end{align}
+
+Zróżniczkowanie funkcji \ref{eq:nowe_f} i rozwinięcie w szereg Taylora do pierwszej pochodnej dają:
+\begin{align}
+\dot{X}(t)=\dot{x}(t)-\dot{x}^* &=\dot{x}(t)=f(x(t),y(t),z(t))=f(x^*+X(t),y^*+Y(t),z^*+Z(t))= \nonumber\\
+&=f(x^*,y^*,z^*)+\frac{\delta f(x^*,y^*,z^*)}{\delta x}X+\frac{\delta f(x^*,y^*,z^*)}{\delta y}Y+\frac{\delta f(x^*,y^*,z^*)}{\delta z}Z \nonumber\\
+\dot{Y}(t)=\dot{y}(t)-\dot{y}^* &=\dot{y}(t)=g(x(t),y(t),z(t))=g(x^*+X(t),y^*+Y(t),z^*+Z(t))=\\
+&=g(x^*,y^*,z^*)+\frac{\delta g(x^*,y^*,z^*)}{\delta x}X+\frac{\delta g(x^*,y^*,z^*)}{\delta y}Y+\frac{\delta f(x^*,y^*,z^*)}{\delta z}Z \nonumber\\
+\dot{Z}(t)=\dot{z}(t)-\dot{z}^* &=\dot{z}(t)=h(x(t),y(t),z(t))=h(x^*+X(t),y^*+Y(t),z^*+Z(t))=\nonumber\\
+&=f(x^*,y^*,z^*)+\frac{\delta h(x^*,y^*,z^*)}{\delta x}X+\frac{\delta h(x^*,y^*,z^*)}{\delta y}Y+\frac{\delta h(x^*,y^*,z^*)}{\delta z}Z\nonumber
+\end{align}
+
+Wiadomo że w punktach stacjonarnych $\dot{x}= \dot{y} =\dot{z} =0$, na podstawie czego można przyjąć, że $f(x^*,y^*,z^*)=g(x^*,y^*,z^*)=h(x^*,y^*,z^*)=0$. Pierwszy i ostatni człon powyższych równań dają układ równań.
+\begin{align}
+\begin{array}{c}
+\dot{X}=a_{11}X+a_{12}Y+a_{13}Z \\
+\dot{Y}=a_{21}X+a_{22}Y+a_{23}Z \\
+\dot{Z}=a_{31}X+a_{32}Y+a_{33}Z
+\end{array}
+\end{align}
+
+Macierz współczynników można zapisać jako macierz Jacobiego.
 \begin{align*}
-J_i= \left. \left(
+J_i= \left. \left[
 \begin{array}{ccc}
 \frac{\delta \dot{x}}{\delta x} & \frac{\delta \dot{x}}{\delta y} & \frac{\delta \dot{x}}{\delta z} \\
 \frac{\delta \dot{y}}{\delta x} & \frac{\delta \dot{y}}{\delta y} & \frac{\delta \dot{y}}{\delta y} \\
 \frac{\delta \dot{z}}{\delta x} & \frac{\delta \dot{z}}{\delta y} & \frac{\delta \dot{z}}{\delta x}
 \end{array}
-\right)
+\right]
 \right|_{
 	\begin{array}{c}
 		x=x^*_i\\
 		y=y^*_i\\
-		z=z^*_i\\	
+		z=z^*_i	
 	\end{array}	
 }
+= \left[
+\begin{array}{ccc}
+a_{11} & a_{12} & a_{13} \\
+a_{21} & a_{22} & a_{23} \\
+a_{31} & a_{32} & a_{33}
+\end{array}
+\right] \text{dla }i\text{-tego punktu stałego}
 \end{align*}
+
 Pochodne cząstkowe:
 \begin{align*}
 \begin{array}{l}
@@ -360,8 +390,33 @@ Pochodne cząstkowe:
 \frac{\delta \dot{z}}{\delta z} = 1-x-y-2z+2xz+2yz\\
 \end{array}
 \end{align*}
-Wyznaczenie wartości własnych.
-\begin{align*}
+
+Do rozwiązania jest układ równań dany w zapisie macierzowym.
+\begin{align}\label{eq:uklad_rown_stab}
+\left[ \begin{array}{c}
+\dot{X} \\
+\dot{Y} \\
+\dot{Z}
+\end{array}
+\right] = 
+\left[
+\begin{array}{ccc}
+a_{11} & a_{12} & a_{13} \\
+a_{21} & a_{22} & a_{23} \\
+a_{31} & a_{32} & a_{33}
+\end{array}
+\right] \cdot 
+\left[
+\begin{array}{c}
+X\\
+Y\\
+Z
+\end{array}
+\right]
+\end{align}
+
+W tym celu wyznaczymy wartości własne.
+\begin{align}
 J_{i,\lambda} = J_i - \lambda I = 
 \left|
 \begin{array}{ccc}
@@ -369,10 +424,10 @@ J_{i,\lambda} = J_i - \lambda I =
 \frac{\delta \dot{y}}{\delta x} & \frac{\delta \dot{y}}{\delta y}-\lambda & \frac{\delta \dot{y}}{\delta z} \\
 \frac{\delta \dot{z}}{\delta x} & \frac{\delta \dot{z}}{\delta y} & \frac{\delta \dot{z}}{\delta z}-\lambda
 \end{array}
-\right|
-\end{align*}
+\right| = 0
+\end{align}
 \begin{equation*}
-J_{i,\lambda} = 0 \Rightarrow
+\lambda =
 \left\{
 \begin{array}{l}
 \lambda_0 \in \{1,1,1\}\\
@@ -382,6 +437,31 @@ J_{i,\lambda} = 0 \Rightarrow
 \end{array}
 \right.
 \end{equation*}
+
+W rozwiązaniu ogólnym układu \ref{eq:uklad_rown_stab} dla punktu stałego $(x^*_i, y^*_i, z^*_i)$ wartości własne odpowiadające zmiennym $x$, $y$, $z$ są odpowiednio $\alpha_i$, $\beta_i$, $\gamma_i$. Wektorami własnymi dla poszczególnych wartości własnych są $V_i$, natomiast $C_i$ są współczynnikami rozwiązania jednorodnego układu równań różniczkowych. 
+\begin{align}\label{eq:rozw_ur}
+\left[ \begin{array}{c}
+X(t)\\
+Y(t)\\
+Z(t)
+\end{array}
+\right] = C_{\alpha_i} V_{\alpha_i} e^{\alpha_it} + C_{\beta_i} V_{\beta_i} e^{\beta_it} + C_{\gamma_i} V_{\gamma_i} e^{\gamma_it}
+\end{align}
+
+Aby punkt był stabilny funkcje muszą dążyć w czasie do zera.
+\begin{align}
+\begin{array}{ccc}
+\displaystyle\lim_{t \to \infty} X(t)=0 & \displaystyle\lim_{t \to \infty} Y(t)=0 & \displaystyle\lim_{t \to \infty} Z(t)=0
+\end{array}
+\end{align}
+
+Aby eksponenta malała musi posiadać ujemny wykładnik, z czego wynika że warunkiem stabilności jest:
+\begin{equation}\label{eq:war_stab}
+Re(\lambda_a)<0 \wedge Re(\lambda_b)<0 \wedge Re(\lambda_c)<0
+\end{equation}
+
+Warunek \ref{eq:war_stab} eliminuje wszystkie lambdy poza $\lambda_3$. Pokazuje to że punkty o kombinacji $(0,1,\xi)$ są marginalnie stabilne. Analiza nie wskazuje że są stabilne, lecz temu też nie przeczy. W celu analitycznego określenia stabilności należałoby rozwiązać układ równań \ref{eq:rozw_ur}.
+
 \begin{wraptable}{rh}{0.35\textwidth}
     \centering
     \caption{Stabilność na krawędzi sześcianu}
@@ -394,8 +474,8 @@ x & y & 1-x-y & $\dot{z}$       \\ \hline
 1 & 1 & -1    & $-z \cdot (1-z)$
 \end{tabular}
 \end{wraptable}
-Warunkiem na stabilność punktu jest $Re \lambda_i < 0$, co eliminuje nam wszystkie lambdy poza $\lambda_3$. Pokazuje to że punkty o kombinacji $(0,1,\xi)$ są marginalnie stabilne.
 
-Ponieważ analiza matematyczna nie przyniosła jednoznacznej odpowiedzi co do stabilności, można spróbować przeanalizować równanie $\dot{z}$, dla sytuacji gdy $p_i$ dwóch z graczy dojdą do granicy prawdopodobieństwa.
-W pierwszym wierszu tabelki \ref{tab:krawedz_prawd} widać, że $x$ dąży do zawarcia sojuszu z $z$, natomiast $y$ gra aby osiągnąć sojusz z $x$. W tej sytuacji prawdopodobieństwo strategii $z$ będzie rosło do zawiązania koalicji z $x$. W kolejnych dwóch wierszach są stany ustalone. W wierszu drugim zmiana $\dot{z}$ nie ma znaczenia gdyż obaj przeciwnicy są w wyłącznej koalicji z $z$. Wiersz trzeci pokazuje przeciwną sytuację, w której jakakolwiek zmiana $\dot{z}$ nie wniesie nic do gry ze względu na trwały sojusz między $x$ a $y$. Ostatni wiersz pokazuje przypadek symetryczny do pierwszego, z tym że jedynym możliwym sojusznikiem dla $z$ jest $y$. Oczywiście omawiany teraz przykład do osiągnięcia stabilności wymagałby braku zmian decyzji pozostałych graczy. Musieli by oni znać realne prawdopodobieństwo przeciwników.
-
+Mając wiedzę że symulacja rozpoczyna się z punktu $(\frac{1}{2},\frac{1}{2},\frac{1}{2})$ znamy wartość $X(0)$, $Y(0)$, $Z(0)$ z czego można wyliczyć $C_i$. Jeśli będą one równe 0 dla wartości własnych równych 0 punkt jest stabilny, w przeciwny wypadku nie jest stabilny. Jest to nieelegancka i mozolna metoda.
+ 
+Ponieważ analiza matematyczna nie przyniosła jednoznacznej odpowiedzi co do stabilności punktów $(0,1,\xi)$, można spróbować przeanalizować równanie $\dot{z}$ - układ \ref{eq:stab_uklad_analiza}, dla sytuacji gdy $p_i$ dwóch z graczy dojdą do granicy prawdopodobieństwa. Warto przeanalizować wszystkie przypadki pomimo, że dla omawianych punktów tylko wiersz drugi i trzeci ma znaczenie. Celem poniższej analizy jest sprawdzenie czy wspomniane punkty są stabilne po ich osiągnięciu.
+W pierwszym wierszu tabelki \ref{tab:krawedz_prawd} widać, że $G_0$ dąży do zawarcia sojuszu z $G_2$, natomiast $G_1$ gra aby osiągnąć sojusz z $G_0$. W tej sytuacji prawdopodobieństwo $z$, że gracz $G_2$ zawiąże koalicję z $G_0$ będzie rosło. W kolejnych dwóch wierszach są stany ustalone. W wierszu drugim zmiana $\dot{z}$ nie ma znaczenia gdyż gracze $G_0$ oraz $G_1$ są w wyłącznej koalicji z $G_2$. Wiersz trzeci pokazuje przeciwną sytuację, w której jakakolwiek zmiana $\dot{z}$ nie wniesie nic do gry ze względu na trwały sojusz między $G_0$ a $G_1$. Ostatni wiersz pokazuje przypadek symetryczny do pierwszego, z tym że jedynym możliwym sojusznikiem dla $G_2$ jest $G_1$. Oczywiście omawiany teraz przykład do osiągnięcia stabilności wymagałby braku zmian decyzji pozostałych graczy. Musieli by oni znać realne prawdopodobieństwo przeciwników.
