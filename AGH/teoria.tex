@@ -3,7 +3,7 @@
 
 \section{Gra}
 \label{sec:gra}
-Niniejsza praca skupia się na grach wieloosobowych, których szczególnym przypadkiem jest gra 3-osobowa. Model gry 3-osobowej pokazuje, że decyzję jednego z zawodników mają bezpośredni wpływ na zachowanie sąsiadów. W modelu gry N-osobowej decyzje graczy będą wpływać nie tylko na najbliższych sąsiadów, ale pośrednio także na decyzje innych graczy.
+Niniejsza praca skupia się na grach wieloosobowych, których szczególnym przypadkiem jest gra 3-osobowa \cite{Str01}. Model gry 3-osobowej pokazuje, że decyzję jednego z zawodników mają bezpośredni wpływ na zachowanie sąsiadów. W modelu gry N-osobowej decyzje graczy będą wpływać nie tylko na najbliższych sąsiadów, ale pośrednio także na decyzje innych graczy.
 Omawiane tutaj gry są grami o niepełnej informacji, w tej pracy oznacza to grę, w której nie wszyscy uczestnicy znają prawdopodobieństwo określonych decyzji przeciwników. Prawdopodobieństwo gry przeciwników będzie szacowane na podstawie obserwacji historii ich zagrań.
 Opisywane gry będą także grami ewolucyjnymi, gdzie gracze mają możliwość przewidywania i uczenia się na podstawie zachowań innych graczy.
 
@@ -14,7 +14,7 @@ Jak wcześniej wspomniano będą potrzebne dwa modele gier. Pierwszym z nich bę
 \item $l_p$ liczba rozegranych w grze partii
 \item $n_i$ ilość zagrań $G_i$ w celu zawiązania sojuszu z $G_{i+1}$, ilość zagrań $G_{i}$ aby nawiązać sojusz z $G_{i-1}$ wyraża się jako $l_p - n_i$
 \end{itemize}
-Model gry N-osobowe (Rys. \ref{fig:model_zal}) będzie opisany takimi samymi danymi jak model gry 3-osobowej. Różnicą między nimi będzie ustawienie graczy w okręgu, co w konsekwencji pokaże skutki decyzji wykraczające poza najbliższych sąsiadów, dla gier o liczbie graczy większej niż 3. Gra 3-osobowa jest szczególnym przypadkiem gry N-osobowej, w której konsekwencje zachowań jednego z naszych sąsiadów bezpośrednio wpływają na drugiego.
+Model gry N-osobowe (Rys. \ref{fig:model_zal}) \cite{Fsmd} będzie opisany takimi samymi danymi jak model gry 3-osobowej. Różnicą między nimi będzie ustawienie graczy w okręgu, co w konsekwencji pokaże skutki decyzji wykraczające poza najbliższych sąsiadów, dla gier o liczbie graczy większej niż 3. Gra 3-osobowa jest szczególnym przypadkiem gry N-osobowej, w której konsekwencje zachowań jednego z naszych sąsiadów bezpośrednio wpływają na drugiego.
 \begin{figure}
 	\centering
 	\begin{tabular}{c|c}
@@ -99,8 +99,8 @@ W_x = \frac{\delta W}{\delta x} = 1-y-z
 \end{align*}
 Iloraz różnicowy na zmianę wypłaty od czasu daje:
 \begin{align}\label{eq:dynam_stand}
-W_x(t) &= \frac{W_x(t+\Delta t)-W_x(t)}{\Delta t} \nonumber\\
-W_x(t) \Delta t &= W_x(t+\Delta t)-W_x(t) = \Delta p_0 \nonumber\\
+W_x(t) &= \frac{p_0(t+\Delta t)-p_0(t)}{\Delta t} \nonumber\\
+W_x(t) \Delta t &= p_0(t+\Delta t)-p_0(t) = \Delta p_0 \nonumber\\
 \Delta p_0 &= \Delta t (1-y-z)
 \end{align}
 W dalszej części będzie stosowane oznaczenie $\alpha = \Delta t$. Równanie wygląda obiecująco, gdyż człon $1 - y$ jest prawdopodobieństwem zagrania $G_1$ aby zawiązać sojusz z $G_0$. Podobnie $-z$ prowadzi do sojuszu $G_2$ z $G_0$.
@@ -114,7 +114,7 @@ W przypadku gry o niepełnej informacji należy zmodyfikować równanie \ref{eq:
 
 \section{Równania replikatorów}
 \label{sec:r_repli}
-Model dynamiki replikatorów jest najbardziej znanym różniczkowym modelem teorii gier ewolucyjnych, przez co może stanowić dobry wybór do sterowania zachowaniem graczy. Tak jak poprzednio przyjmijmy prawdopodobieństwa $x=p_0$, $y=p_0$ oraz $z=p_0$ pamiętając, że prawdopodobieństwa przeciwników w symulacji są szacowane. Podstawowy wzór równania replikatorów wygląda następująco:
+Model dynamiki replikatorów jest najbardziej znanym różniczkowym modelem teorii gier ewolucyjnych \cite{Now06}\cite{Hof98}, przez co może stanowić dobry wybór do sterowania zachowaniem graczy. Tak jak poprzednio przyjmijmy prawdopodobieństwa $x=p_0$, $y=p_0$ oraz $z=p_0$ pamiętając, że prawdopodobieństwa przeciwników w symulacji są szacowane. Podstawowy wzór równania replikatorów wygląda następująco:
 \begin{equation}
 \dot{x} = x \cdot ( W_x - \overline{W})
 \end{equation}
@@ -126,8 +126,9 @@ Gdzie $\dot{x}$ jest tempem zmiany udziału strategi $x$, $W_x$ jest średnią w
 \end{gather*}
 Iloraz różnicowy zmiany wypłaty od czasu ponownie wyznaczy $\Delta p_0$:
 \begin{align*}
-x(t) &= \frac{x(t+\Delta t)-x(t)}{\Delta t} \\
-x(t) \Delta t &= x(t+\Delta t)-x(t) = \Delta p_0
+\dot{x}(t) &= \frac{p_0(t+\Delta t)-p_0(t)}{\Delta t} \\
+\dot{x}(t) \Delta t &= p_0(t+\Delta t)-p_0(t) = \Delta p_0 \\
+\Delta p_0 &= \dot{x}(t) \Delta t
 \end{align*} 
 W dalszej części tej pracy $\alpha=\Delta t$. Co dla gry 3-osobowej generuje równania:
 \begin{align} \label{eq:repli}
@@ -290,7 +291,7 @@ Celem tego podrozdziału jest znalezienie rozwiązań stacjonarnych dla równań
 Z czego wynika że gra startująca w punkcie $(\frac{1}{2},\frac{1}{2},\frac{1}{2})$ nie powinna z niego wyjść. Byłoby tak gdyby prawdopodobieństwa użyte w równaniu były faktycznymi prawdopodobieństwami $p_i$, są one natomiast jedynie obserwacją zachowania pozostałych graczy. Są ono dane jako $\frac{n_j}{l_p}$. Użycie prawdopodobieństw obserwowanych umożliwia opuszczenie punktu stałego.
 \section{Stabilność równań replikatorów}
 \label{sec:stab_repl}
-Stabilność równań replikatorów wymaga dążenia do stałych wartości, gdy $t\Rightarrow \infty$. Do analizy zostanie przyjęty układ równań:
+Stabilność równań replikatorów \cite{Sss} wymaga dążenia do stałych wartości, gdy $t\Rightarrow \infty$. Do analizy zostanie przyjęty układ równań:
 \begin{align}\label{eq:stab_uklad_analiza}
 \dot{x} &= f(x,y,z) = \Delta p_0 = x(1-x)(1-y-z)\nonumber\\
 \dot{y} &= g(x,y,z) = \Delta p_1 = y(1-y)(1-x-z)\\

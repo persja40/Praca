@@ -10,13 +10,13 @@ Symulacja gry N-osobowej, w której gracze ustawieni są w okręgu będzie obraz
 
 \section{Środowisko QT}
 \label{sec:qt}
-Do stworzenia programu wykorzystano QT Creator IDE z kilku powodów, które zaraz zostaną rozwinięte. Najważniejszą cechą środowiska jest udostępnienie go na kilku rodzajach licencji, z czego użyta tu została licencji LGPL. Pozwala ona na darmowe użytkowanie i modyfikowanie plików źródłowych, lecz udostępnienie własnego programu musi odbyć się na tej samej licencji. Kolejnym ważnym elementem jest multiplatformowość pozwalająca w łatwy sposób przenosić kod programu między systemami operacyjnymi, o ile nie zostały użyte biblioteki dostępne tylko na jeden z systemów. Kolejną z zalet jest łatwy i intuicyjny interfejs tworzenia graficznego interfejsu użytkownika, osoba mająca wcześniej styczność z na przykład biblioteką Swing Java'y nie powinna mieć problemu z zaadaptowaniem się do  formularza QT Creatora. Używanie nowoczesnego języka C++ (w pracy użyto wersji 14) nie sprawia problemów. Przed użyciem klas z bibliotek standardowych C++ warto sprawdzić czy biblioteka QT nie zawiera specjalnych klas opakowujących je. Przykładem może być \texttt{pthread} i \texttt{QThread}.
+Do stworzenia programu wykorzystano QT Creator IDE z kilku powodów, które zaraz zostaną rozwinięte. Najważniejszą cechą środowiska jest udostępnienie go na kilku rodzajach licencji, z czego użyta tu została licencji LGPL. Pozwala ona na darmowe użytkowanie i modyfikowanie plików źródłowych, lecz udostępnienie własnego programu musi odbyć się na tej samej licencji. Kolejnym ważnym elementem jest multiplatformowość pozwalająca w łatwy sposób przenosić kod programu między systemami operacyjnymi, o ile nie zostały użyte biblioteki dostępne tylko na jeden z systemów. Kolejną z zalet jest łatwy i intuicyjny interfejs tworzenia graficznego interfejsu użytkownika, osoba mająca wcześniej styczność z na przykład biblioteką Swing Java'y nie powinna mieć problemu z zaadaptowaniem się do  formularza QT Creatora. Używanie nowoczesnego języka C++ (w pracy użyto wersji 14) nie sprawia problemów. Przed użyciem klas z bibliotek standardowych C++ warto sprawdzić czy biblioteka QT nie zawiera specjalnych klas opakowujących je. Przykładem może być \texttt{pthread} i \texttt{QThread} \cite{Qt}.
 
 %-------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 \section{Schemat programu}
 \label{sec::schemat}
-Rysunek \ref{fig:schemat} przedstawia poglądowy schemat działania programu. Dzieląc rysunek na lewą i prawą część możemy wyodrębnić dwa wątki. Po lewej wątek odpowiadający za wykonanie symulacji, po prawej wątek odpowiadający za rysowanie. Określeniem \textit{Zasób} są opisane współdzielone dane ( opisane w podrozdziale \ref{sec::kod}) między wątkami, którymi jest historia symulacji. 
+Rysunek \ref{fig:schemat} przedstawia poglądowy schemat działania programu\cite{Tut}. Dzieląc rysunek na lewą i prawą część możemy wyodrębnić dwa wątki. Po lewej wątek odpowiadający za wykonanie symulacji, po prawej wątek odpowiadający za rysowanie. Określeniem \textit{Zasób} są opisane współdzielone dane ( opisane w podrozdziale \ref{sec::kod}) między wątkami, którymi jest historia symulacji. 
 
 Podczas startu programu zostaje narysowany sześcian, po czym program przechodzi w stan nasłuchiwania na sygnały. Przykładowymi sygnałami mogą być zmiana rozmiaru okna aplikacji, bądź obrót figury. Po wykryciu takowego, następują próby zablokowania dostępu do zasobu dopóki nie zostanie to wykonane (zasób może być zablokowany przez inny wątek). Następnie na podstawie historii symulacji i/lub sygnału dokonywane jest nowe rysowanie. Po czym zasób zostaje zwolniony, a główny wątek (odpowiedzialny za rysowanie) wraca do stanu nasłuchiwania. 
 \begin{figure}
@@ -30,9 +30,9 @@ Podczas startu symulacji (spowodowanej naciśnięciem przycisku \texttt{RUN}) id
 
 \section{Sygnały, sloty i mutex}
 \label{sec::sig_slot}
-Komunikacja między klasami dziedziczącymi po \texttt{QObject} odbywa się przy pomocy połączonych ze sobą sygnałów i slotów. Można na nie patrzeć jako funkcje (sloty) oraz wskaźniki do funkcji (sygnały). Sygnał może trafiać do wielu slotów oraz do slotu może docierać wiele sygnałów. Ważne jest aby typy parametrów w deklaracji sygnału pokrywały się z typami parametrów deklaracji slotu. W przypadku gdy sygnał będzie miał zbyt dużo parametrów dla slotu, nadmiarowe parametry zostaną pominięte.
+Komunikacja między klasami dziedziczącymi po \texttt{QObject} odbywa się przy pomocy połączonych ze sobą sygnałów i slotów \cite{Qt}. Można na nie patrzeć jako funkcje (sloty) oraz wskaźniki do funkcji (sygnały). Sygnał może trafiać do wielu slotów oraz do slotu może docierać wiele sygnałów. Ważne jest aby typy parametrów w deklaracji sygnału pokrywały się z typami parametrów deklaracji slotu. W przypadku gdy sygnał będzie miał zbyt dużo parametrów dla slotu, nadmiarowe parametry zostaną pominięte.
 
-W celu uniknięcia kolizji zapis-odczyt na współdzielonych zasobach została użyta klasa \texttt{mutex}. Jest to semafor, nie chroni on danych przed dostępem z wielu źródeł, a jedynie informuje czy zasoby są obecnie używane czy nie. Nie ma niebezpieczeństwa wykonania operacji kolizyjnych, gdyż zasoby są wykorzystywane jedynie przez wewnętrzne struktury programu, które nie wykonują operacji na wspólnych zasobach jeśli semafor jest zablokowany.
+W celu uniknięcia kolizji zapis-odczyt na współdzielonych zasobach została użyta klasa \texttt{mutex} \cite{Crf}. Jest to semafor, nie chroni on danych przed dostępem z wielu źródeł, a jedynie informuje czy zasoby są obecnie używane czy nie. Nie ma niebezpieczeństwa wykonania operacji kolizyjnych, gdyż zasoby są wykorzystywane jedynie przez wewnętrzne struktury programu, które nie wykonują operacji na wspólnych zasobach jeśli semafor jest zablokowany.
 %-------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 \section{Kod}
@@ -101,7 +101,7 @@ tup3<double> Game::next(){
 }
 \end{lstlisting}
 
-\paragraph{Implementacja wątku symulującego} \texttt{QtConcurrent::run} jest funkcją uruchamiającą w osobnym wątku funkcję podaną jako parametr. Zwraca ona obiekt \texttt{QFuture}, który nie może przerwać lub wstrzymać wątku. Poprzez \texttt{beginsp.resize(p)} tworzony jest wektor posiadający p pustych elementów(wektorów krotek), ponieważ już w pierwszej partii będziemy potrzebować osobnego wektora dla każdej instancji gry. Natomiast \texttt{beginsp[i].reserve(g)} rezerwuje pamięć dla g partii, gdyby ta funkcja nie została użyta prawdopodobnie wystąpiłaby realokacja pamięci, w celu zapewnienia jej ciągłości. Przekładałoby się to na spowolnienie działania programu. Napisałem prawdopodobnie, ponieważ standard języka nie precyzuje ilości pamięci domyślnie rezerwowanej przez wektor, co jest zostawione po stronie implementacji. Przed wykonaniem każdej partii wątek czeka na dostęp do zasobu. Funkcja \texttt{try\_lock()} zwróci \texttt{true} w przypadku udanego przydzielenia zasobu, w przeciwnym razie zwróci \texttt{false}. 
+\paragraph{Implementacja wątku symulującego} \texttt{QtConcurrent::run} jest funkcją uruchamiającą w osobnym wątku funkcję podaną jako parametr \cite{Qt}. Zwraca ona obiekt \texttt{QFuture}, który nie może przerwać lub wstrzymać wątku. Poprzez \texttt{beginsp.resize(p)} tworzony jest wektor posiadający p pustych elementów(wektorów krotek), ponieważ już w pierwszej partii będziemy potrzebować osobnego wektora dla każdej instancji gry. Natomiast \texttt{beginsp[i].reserve(g)} rezerwuje pamięć dla g partii, gdyby ta funkcja nie została użyta prawdopodobnie wystąpiłaby realokacja pamięci, w celu zapewnienia jej ciągłości. Przekładałoby się to na spowolnienie działania programu. Napisałem prawdopodobnie, ponieważ standard języka nie precyzuje ilości pamięci domyślnie rezerwowanej przez wektor, co jest zostawione po stronie implementacji. Przed wykonaniem każdej partii wątek czeka na dostęp do zasobu. Funkcja \texttt{try\_lock()} zwróci \texttt{true} w przypadku udanego przydzielenia zasobu, w przeciwnym razie zwróci \texttt{false}. 
 \begin{lstlisting}
 QtConcurrent::run(
             [&]()->void{
@@ -145,7 +145,7 @@ QtConcurrent::run(
 \paragraph{Rysowanie}
 Rysowanie sześcianu oraz funkcji zostało wykonane jako rysowanie odcinków. Ze względu na ograniczony krok czasowy symulacji funkcje wyglądają na wygładzone. Środek sześcianu jest środkiem układu współrzędnych.
 \paragraph{Rozszerzanie}
-Do rozszerzania ekranu został użyta następująca funkcja:
+Do rozszerzania ekranu został użyta następująca funkcja\cite{Tut} :
 \begin{lstlisting}
 void MyGLWidget::resizeGL(int width, int height){
     int side = qMin(width, height);
@@ -178,7 +178,7 @@ Mając okno robocze o odpowiednich wymiarach zostało tylko przesunięcie układ
     \caption{Obrót - ruch myszy}
 	\label{fig:obrot} 
 \end{wrapfigure}
-Kąt obrotu figury jest wyznaczany na podstawie punktu, gdzie klawisz myszy został wciśnięty $(x_0,y_0)$ oraz punktu w którym jest nadal wciśnięty $(x_1,y_1)$.
+Kąt obrotu figury \cite{Tut} jest wyznaczany na podstawie punktu, gdzie klawisz myszy został wciśnięty $(x_0,y_0)$ oraz punktu w którym jest nadal wciśnięty $(x_1,y_1)$.
 Lewy przycisk myszki ma priorytet nad prawym. Lewy przycisk myszy generuje obrót względem osi x i y o odpowiednio $\Delta$ y i $\Delta$ x stopni, natomiast prawy przycisk generuje obrót względem osi x i z o odpowiednio $\Delta$ y i $\Delta$ x stopni. Obrót jest ograniczony od $0^\circ$ do $360^\circ$, wartości poza tym zakresem są do niego sprowadzane poprzez operacje $\pm 360^\circ$ . Wymnażane delt przez czynnik mniejszy od 1 prowadzi do spowolnienia obrotu.
 
 
