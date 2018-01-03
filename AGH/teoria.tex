@@ -167,27 +167,31 @@ Wyjaśnienia wymaga wartość $\alpha$, która została przyjęta jako $0.1$. Je
 
 \section{Ograniczenie prawdopodobieństwa - przykłady}
 \label{sec:ograniczenie_przyk}
-Najpierw przeanalizowane zostaną równania standardowe dla gry 3-osobowej o prawdopodobieństwie początkowym $\frac{1}{2}$ i $\alpha = 1$. Gdzie $N$ oznacza zagranie $G_i$ mające na celu zawiązanie sojuszu z $G_{i+1}$, a $P$ ilość zagranie$G_i$ mające na celu zawiązanie sojuszu z $G_{i-1}$.
+\paragraph{Równania standardowe}
+Przeanalizowane zostaną równania standardowe dla gry 3-osobowej o prawdopodobieństwie początkowym $\frac{1}{2}$ i $\alpha = 1$. Gdzie $N$ oznacza zagranie $G_i$ mające na celu zawiązanie sojuszu z $G_{i+1}$, a $P$ ilość zagranie$G_i$ mające na celu zawiązanie sojuszu z $G_{i-1}$.
 \begin{align*}
-G_0 = N, G_1 = P, G_2 = N && G_0 = N, G_1 = P, G_2 = P\\
-\left\{
 \begin{array}{cc}
+G_0 = N, G_1 = P, G_2 = N & G_0 = N, G_1 = P, G_2 = P\\
+\left\{
+\begin{array}{ll}
 \Delta p_0 = (1 - 0 - 1) =  0 & p_0=\frac{1}{2}\\
 \Delta p_1 = (1 - 1 - 1) =  -1 & p_1= 0\\
 \Delta p_2 = (1 - 1 - 0) =  0 & p_2=\frac{1}{2}\\
 \end{array} 
-\right. &&
+\right. &
 \left\{
-\begin{array}{cc}
+\begin{array}{ll}
 \Delta p_0 = (1 - 0 - \frac{1}{2}) =  0 & p_0=\frac{3}{4}\\
 \Delta p_1 = (1 - \frac{1}{2} - 1) =  -\frac{1}{2} & p_1= 0\\
 \Delta p_2 = (1 - 0 - \frac{1}{2}) =  \frac{1}{2} & p_2=\frac{3}{4}\\
 \end{array}
 \right.
+\end{array}
 \end{align*}
 Schemat przedstawia dwie osobne tury: po lewej pierwszą, a po prawej drugą. Parametr $\alpha=1$ powoduje szybkie zawiązanie mocnych koalicji, których przerwanie staje się mało prawdopodobne, co może praktycznie uniemożliwiać jakiekolwiek zmiany sojuszy.
 
 %										REPLIKATORY
+\paragraph{Równania replikatorów}
 Wartym rozważenia jest czy w równaniach replikatorów potrzebna będzie $\alpha < 1$, skoro posiadają one człon postaci $x(1-x)$ gasnący na krańcach przedziału prawdopodobieństwa. Założenia zostały oparte na poprzednim przykładzie.
 \begin{gather*}
 G_0 = N, G_1 = P, G_2 = N \\
@@ -210,78 +214,6 @@ G_0 = N, G_1 = P, G_2 = P \\
 \end{gather*}
 Jak widać najszybsza zmiana zachodzi dla pierwszego gracza, który traci 25\% z prawdopodobieństwa sojuszu z graczem o wyższym indeksie. W kolejnej partii nie widzimy już tak dużych zmian. Należy odpowiedzieć na pytanie czy jest to na tyle dużo, aby zastosować $\alpha$ taką jak w równaniach standardowych. Powinno się poruszyć dwie kwestie. Dynamika prawdopodobieństwa jest akceptowalna(wynosi do 10\%), ale tylko dla prawdopodobieństw które oddalają się od środka przedziału, a grę rozpoczynamy właśnie w nim. Drugą sprawą jest porównanie obu równań. Porównanie wyników, o różnym kroku czasowym nie jest najłatwiejszą rzeczą do opisania.
 
-%                                                   BRAK WSPÓŁPRACY
-
-Omówiony teraz zostanie szczególny przypadek, gdy w dwóch osobnych grach żadna para graczy nie nawiązała koalicji. Użyte będą równania standardowe, prawdopodobieństwo początkowe $\frac{1}{2}$ oraz $\alpha = 1$.
-
-\begin{align*}
-G_0 = N, G_1 = N, G_2 = N && G_0 = P, G_1 = P, G_2 = P \\
-\left\{
-\begin{array}{ll}
-\Delta p_0 = (1 - 1 - 1) =  -1 & p_0=0\\
-\Delta p_1 = (1 - 1 - 1) =  -1 & p_1= 0\\
-\Delta p_2 = (1 - 1 - 1) =  -1 & p_2=0\\
-\end{array} 
-\right. &&
-\left\{
-\begin{array}{ll}
-\Delta p_0 = (1 - 0 - 0) =  1 & p_0= 1\\
-\Delta p_1 = (1 - 0 - 0) =  1 & p_1= 1\\
-\Delta p_2 = (1 - 0 - 0) =  1 & p_2= 1\\
-\end{array}
-\right.
-\end{align*}
-Przypadek ten pokazuje skutki braku ograniczenia kroku czasowego. Następny ruch jest z góry znany, każdy z graczy wykona ruch przeciwny do poprzedniego co daje w obu grach:
-\begin{align*}
-\left\{
-\begin{array}{l}
-\Delta p_0 = (1 - \frac{1}{2} - \frac{1}{2}) =  0 \\
-\Delta p_1 = (1 - \frac{1}{2} - \frac{1}{2}) =  0 \\
-\Delta p_2 = (1 - \frac{1}{2} - \frac{1}{2}) =  0 \\
-\end{array} 
-\right.
-\end{align*}
-Brak zmian prawdopodobieństw, gracze dokonują wyboru jak poprzednio.
-\begin{align*}
-G_0 = P, G_1 = P, G_2 = P && G_0 = N, G_1 = N, G_2 = N \\
-\left\{
-\begin{array}{ll}
-\Delta p_0 = (1 - \frac{1}{3} - \frac{1}{3}) =  \frac{1}{3} & p_0= \frac{1}{3}\\
-\Delta p_1 = (1 - \frac{1}{3} - \frac{1}{3}) =  \frac{1}{3} & p_1= \frac{1}{3}\\
-\Delta p_2 = (1 - \frac{1}{3} - \frac{1}{3}) =  \frac{1}{3} & p_2= \frac{1}{3}\\
-\end{array} 
-\right. &&
-\left\{
-\begin{array}{ll}
-\Delta p_0 = (1 - \frac{2}{3} - \frac{2}{3}) =  -\frac{1}{3} & p_0= \frac{2}{3}\\
-\Delta p_1 = (1 - \frac{2}{3} - \frac{2}{3}) =  -\frac{1}{3} & p_1= \frac{2}{3}\\
-\Delta p_2 = (1 - \frac{2}{3} - \frac{2}{3}) =  -\frac{1}{3} & p_2= \frac{2}{3}\\
-\end{array}
-\right.
-\end{align*}
-Nie jest to powrót do punktu wyjścia, w którym wyjściowym prawdopodobieństwem jest $\frac{1}{3}$ dla gry przedstawionej po lewej stronie i $\frac{2}{3}$ dla gry po prawej. W pamięci każdego z graczy jest liczba rozegranych partii ze swoimi rywalami co będzie prowadziło do niekoniecznie oczywistych zachowań.
-Od teraz dokonywany wybór będzie tym o większym prawdopodobieństwie.
-
-\begin{align*}
-G_0 = P, G_1 = P, G_2 = P && G_0 = N, G_1 = N, G_2 = N \\
-\left\{
-\begin{array}{cc}
-\Delta p_0 = (1 - \frac{1}{4} - \frac{1}{4}) =  \frac{1}{2} & p_0= \frac{5}{6}\\
-\Delta p_1 = (1 - \frac{1}{4} - \frac{1}{4}) =  \frac{1}{2} & p_1= \frac{5}{6}\\
-\Delta p_2 = (1 - \frac{1}{4} - \frac{1}{4}) =  \frac{1}{2} & p_2= \frac{5}{6}\\
-\end{array} 
-\right. &&
-\left\{
-\begin{array}{cc}
-\Delta p_0 = (1 - \frac{2}{5} - \frac{2}{5}) =  -\frac{1}{2} & p_0= \frac{1}{6}\\
-\Delta p_1 = (1 - \frac{2}{5} - \frac{2}{5}) =  -\frac{1}{2} & p_1= \frac{1}{6}\\
-\Delta p_2 = (1 - \frac{2}{5} - \frac{2}{5}) =  -\frac{1}{2} & p_2= \frac{1}{6}\\
-\end{array}
-\right.
-\end{align*}
-Obserwowana jest zmiana zachowania graczy spowodowana częstością gier przeciwników. Sytuacja takiej fluktuacji może się powtarzać. Dysponując odpowiednio dużą grupą instancji gry oraz dostatecznie długą rozgrywką możliwe byłoby zaobserwowanie funkcji prawdopodobieństwa od czasu (równą dla wszystkich graczy instancji) w kształcie sinusoidy o rosnącym okresie.
-Sytuacja taka nie jest pożądana, co stanowi dodatkowy argument za użyciem $\alpha < 1$ skutecznie niwelującego wystąpienie takich sytuacji.
-
 \section{Rozwiązanie stacjonarne równań standardowych}
 \label{sec:stab_stand}
 Celem tego podrozdziału jest znalezienie rozwiązań stacjonarnych dla równań standardowych, czyli sytuacji w których układ dla długiego czasu dąży do punktu stałego. Do ustalenia punktów stałych potrzebny jest zanik dynamiki $\Delta p_i = 0$. Krok czasowy zostanie pominięty, gdyż nie daje wkładu do obliczeń. Należy rozwiązać układ równań, gdzie przyjęte jest $x=p_0$, $y=p_1$, $z=p_2$:
@@ -295,6 +227,7 @@ Celem tego podrozdziału jest znalezienie rozwiązań stacjonarnych dla równań
 \right. \Rightarrow p_0 = p_1 = p_2 = \frac{1}{2}
 \end{equation}
 Z czego wynika że gra startująca w punkcie $(\frac{1}{2},\frac{1}{2},\frac{1}{2})$ nie powinna z niego wyjść. Byłoby tak gdyby prawdopodobieństwa użyte w równaniu były faktycznymi prawdopodobieństwami $p_i$, są one natomiast jedynie obserwacją zachowania pozostałych graczy. Są ono dane jako $\frac{n_j}{l_p}$. Użycie prawdopodobieństw obserwowanych umożliwia opuszczenie punktu stałego.
+
 \section{Stabilność równań replikatorów}
 \label{sec:stab_repl}
 Stabilność równań replikatorów \cite{Sss} wymaga dążenia do stałych wartości, gdy $t\Rightarrow \infty$. Do analizy zostanie przyjęty układ równań:
@@ -487,5 +420,5 @@ x & y & 1-x-y & $\dot{z}$       \\ \hline
 \end{tabular}
 \end{wraptable}
 
-Ponieważ metoda linearyzacji opisała punkty $(0,1,\xi)$ jako marginalnie stabilne, spróbujemy przesądzić co do ich stabilności na podstawie analizy równania $\dot{z}$ - układ \ref{eq:stab_uklad_analiza}. W sytuacji gdy $p_i$ dwóch z graczy dojdą do granicy prawdopodobieństwa. Warto przeanalizować wszystkie przypadki pomimo, że dla omawianych punktów tylko wiersz drugi i trzeci ma znaczenie. Celem poniższej analizy jest sprawdzenie czy wspomniane punkty są stabilne po ich osiągnięciu.
+Ponieważ metoda linearyzacji opisała punkty $(0,1,\xi)$ jako marginalnie stabilne, spróbujemy przesądzić co do ich stabilności na podstawie analizy równania $\dot{z}$ - układ \ref{eq:stab_uklad_analiza}. W sytuacji gdy $p_i$ dwóch z graczy dojdą do granicy prawdopodobieństwa. Przeanalizowane zostaną wszystkie przypadki pomimo, że dla omawianych punktów tylko wiersz drugi i trzeci ma znaczenie. Celem poniższej analizy jest sprawdzenie czy wspomniane punkty są stabilne po ich osiągnięciu.
 W pierwszym wierszu tabelki \ref{tab:krawedz_prawd} widać, że $G_0$ dąży do zawarcia sojuszu z $G_2$, natomiast $G_1$ gra aby osiągnąć sojusz z $G_0$. W tej sytuacji prawdopodobieństwo $z$, że gracz $G_2$ zawiąże koalicję z $G_0$ będzie rosło. W kolejnych dwóch wierszach są stany ustalone. W wierszu drugim zmiana $\dot{z}$ nie ma znaczenia gdyż gracze $G_0$ oraz $G_1$ są w wyłącznej koalicji z $G_2$. Wiersz trzeci pokazuje przeciwną sytuację, w której jakakolwiek zmiana $\dot{z}$ nie wniesie nic do gry ze względu na trwały sojusz między $G_0$ a $G_1$. Ostatni wiersz pokazuje przypadek symetryczny do pierwszego, z tym że jedynym możliwym sojusznikiem dla $G_2$ jest $G_1$. Oczywiście omawiany teraz przykład do osiągnięcia stabilności wymagałby braku zmian decyzji pozostałych graczy. Musieli by oni znać realne prawdopodobieństwo przeciwników.
