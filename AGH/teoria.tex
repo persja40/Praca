@@ -14,7 +14,7 @@ Jak wcześniej wspomniano będą potrzebne dwa modele gier. Pierwszym z nich bę
 \item $l_p$ liczba rozegranych w grze partii
 \item $n_i$ ilość zagrań $G_i$ w celu zawiązania sojuszu z $G_{i+1}$, ilość zagrań $G_{i}$ aby nawiązać sojusz z $G_{i-1}$ wyraża się jako $l_p - n_i$
 \end{itemize}
-Model gry N-osobowe (Rys. \ref{fig:model_zal}) \cite{Fsmd} będzie opisany takimi samymi danymi jak model gry 3-osobowej. Różnicą między nimi będzie ustawienie graczy w okręgu, co w konsekwencji pokaże skutki decyzji wykraczające poza najbliższych sąsiadów, dla gier o liczbie graczy większej niż 3. Gra 3-osobowa jest szczególnym przypadkiem gry N-osobowej, w której konsekwencje zachowań jednego z naszych sąsiadów bezpośrednio wpływają na drugiego.
+Model gry N-osobowej (Rys. \ref{fig:model_zal}) \cite{Fsmd} będzie opisany takimi samymi danymi jak model gry 3-osobowej. Różnicą między nimi będzie ustawienie graczy w okręgu, co w konsekwencji pokaże skutki decyzji wykraczające poza najbliższych sąsiadów, dla gier o liczbie graczy większej niż 3. Gra 3-osobowa jest szczególnym przypadkiem gry N-osobowej, w którym konsekwencje zachowań jednego z naszych sąsiadów bezpośrednio wpływają na drugiego.
 \begin{figure}
 	\centering
 	\begin{tabular}{c|c}
@@ -81,28 +81,34 @@ Model gry N-osobowe (Rys. \ref{fig:model_zal}) \cite{Fsmd} będzie opisany takim
 
 \section{Równania standardowe}
 \label{sec:r_stand}
-Pomysł na równania standardowe został zaczerpnięty ze wzoru na siłę w polu potencjału.
+Pomysł na równania standardowe został zaczerpnięty ze wzoru na siłę w polu.
 \begin{equation}\label{eq:fiz_stand}
-\overrightarrow{F}(\overrightarrow{r})=-\nabla \varphi (\overrightarrow{r})
+\overrightarrow{F}(\overrightarrow{r})=-\nabla E_p (\overrightarrow{r})
 \end{equation}
-Z tym że żądana jest maksymalizacja, a nie minimalizacja odpowiednika energii potencjalnej. Z tego powodu należy zmienić znak. Co przekłada się na ogólny wzór, gdzie $\beta$ jest zmienną funkcji W:
+Z tym że żądana jest maksymalizacja, a nie minimalizacja odpowiednika energii potencjalnej $E_p$. Z tego powodu należy zmienić znak. Siłę rozpisujemy jako:
+\begin{equation*}
+F=\frac{\delta E_p}{\delta x} = m\frac{\delta^2x}{\delta t^2} + \underbrace{\gamma \frac{\delta x}{\delta t}}_{\text{Siła tarcia}}
+\end{equation*}
+Będziemy mieli do czynienia z ruchem tłumionym, ze względu na brak przyspieszenia, co w efekcie prowadzi do zależności:
 \begin{equation}\label{eq:basic_stand}
-W_\beta = \frac{\delta W}{\delta \beta}
+\frac{\delta x}{\delta t} \sim \frac{\delta E_p}{\delta x}
 \end{equation}
-W tym typie równań celem będzie maksymalizacja zysku( zyskiem jest prawdopodobieństwo ) w czasie. Wyprowadzenie będzie przeprowadzone dla $G_0$, przy założeniu gry o pełnej informacji. Pozostałe dwa równania można wyprowadzić analogicznie. Niech $x=p_0$, $y=p_1$, $z=p_2$. Wypłata dla $G_0$ dana jest przez:
+Przemieszczenie zostanie zastąpione prawdopodobieństwem. W tym typie równań celem będzie maksymalizacja zysku( zyskiem jest prawdopodobieństwo ) w czasie. Wyprowadzenie będzie przeprowadzone dla $G_0$, przy założeniu gry o pełnej informacji. Pozostałe dwa równania można wyprowadzić analogicznie. Wypłata dla $G_0$ dana jest przez:
 \begin{equation}\label{eq:wypl_stand}
-W = \underbrace{x(1-y)}_{\text{wypłata sojuszu $G_0$ z $G_1$}} + \overbrace{(1-x)z}^{\text{wypłata sojuszu $G_0$ z $G_2$}} \\
+W_0 = \underbrace{p_0(1-p_1)}_{\text{wypłata sojuszu $G_0$ z $G_1$}} + \overbrace{(1-p_0)p_2}^{\text{wypłata sojuszu $G_0$ z $G_2$}} \\
 \end{equation}
-W równaniu \ref{eq:basic_stand} podstawiamy $x$ jako $\beta$.
+Do zależności \ref{eq:basic_stand} podstawiamy prawdopodobieństwa.
 \begin{align*}
-W_x = \frac{\delta W}{\delta x} = 1-y-z
+\frac{\delta p_0(t)}{\delta t} = \frac{\delta W_0(t)}{\delta p_0}
 \end{align*}
-Iloraz różnicowy na zmianę wypłaty od czasu daje:
-\begin{align}\label{eq:dynam_stand}
-W_x(t) &= \frac{p_0(t+\Delta t)-p_0(t)}{\Delta t} \nonumber\\
-W_x(t) \Delta t &= p_0(t+\Delta t)-p_0(t) = \Delta p_0 \nonumber\\
-\Delta p_0 &= \Delta t (1-y-z)
+Iloraz różnicowy na zmianę prawdopodobieństwa od czasu daje:
+\begin{align}
+\frac{p_0(t+\Delta t)-p_0(t)}{\Delta t} &= 1-y-z \nonumber\\
 \end{align}
+W używanej dalej notacji:
+\begin{equation}\label{eq:dynam_stand}
+\Delta p_0 = \Delta t (1-y-z)
+\end{equation}
 W dalszej części będzie stosowane oznaczenie $\alpha = \Delta t$. Równanie wygląda obiecująco, gdyż człon $1 - y$ jest prawdopodobieństwem zagrania $G_1$ aby zawiązać sojusz z $G_0$. Podobnie $-z$ prowadzi do sojuszu $G_2$ z $G_0$.
 
 W przypadku gry o niepełnej informacji należy zmodyfikować równanie \ref{eq:dynam_stand}. Opis użytych parametrów można znaleźć w podrozdziale \ref{sec:model}.
@@ -118,7 +124,7 @@ Model dynamiki replikatorów jest najbardziej znanym różniczkowym modelem teor
 \begin{equation}
 \dot{x} = x \cdot ( W_x - \overline{W})
 \end{equation}
-Gdzie $\dot{x}$ jest tempem zmiany udziału strategi $x$, $W_x$ jest średnią wypłatą dla strategii $x$ (prawdopodobieństw strategii $x$), natomiast $\overline{W}$ jest średnią wypłatą co daje:
+gdzie $\dot{x}$ jest tempem zmiany udziału strategi $x$, $W_x$ jest średnią wypłatą dla strategii $x$ (prawdopodobieństw strategii $x$), natomiast $\overline{W}$ jest średnią wypłatą co daje:
 \begin{gather*}
 \dot{x} = x \cdot ( \overbrace{(1-y)}^{W_x} - \overbrace{(x(1-y) + (1-x)z)}^{\overline{W}}) \\
 \Downarrow \\
@@ -428,18 +434,23 @@ J_{i,\lambda} = J_i - \lambda I =
 \right| = 0
 \end{align}
 \begin{equation*}
-\lambda =
-\left\{
-\begin{array}{l}
-\lambda_0 \in \{1,1,1\}\\
-\lambda_1 \in \{-\frac{1}{2}, \frac{1}{4}, \frac{1}{4}\}\\
-\lambda_2 \in \{1,1,1\}\\
-\lambda_3 \in \{0,-z, z-1\}
+\text{dla punktu stałego}
+\begin{array}{c}
+(0,0,0) \\
+(\frac{1}{2},\frac{1}{2},\frac{1}{2}) \\
+(1,1,1) \\
+(0,1,\xi)
 \end{array}
-\right.
+\text{wartości własne to}
+\begin{array}{c}
+(1,1,1)\\
+(-\frac{1}{2}, \frac{1}{4}, \frac{1}{4})\\
+(1,1,1)\\
+(0,-z, z-1)
+\end{array}
 \end{equation*}
 
-W rozwiązaniu ogólnym układu \ref{eq:uklad_rown_stab} dla punktu stałego $(x^*_i, y^*_i, z^*_i)$ wartości własne odpowiadające zmiennym $x$, $y$, $z$ są odpowiednio $\alpha_i$, $\beta_i$, $\gamma_i$. Wektorami własnymi dla poszczególnych wartości własnych są $V_i$, natomiast $C_i$ są współczynnikami rozwiązania jednorodnego układu równań różniczkowych. 
+W rozwiązaniu ogólnym układu \ref{eq:uklad_rown_stab} dla punktu stałego $(x^*_i, y^*_i, z^*_i)$ wartości własne odpowiadające zmiennym $x$, $y$, $z$ są oznaczone odpowiednio $\alpha_i$, $\beta_i$, $\gamma_i$. Wektorami własnymi dla poszczególnych wartości własnych są $V_i$, natomiast $C_i$ są współczynnikami rozwiązania jednorodnego układu równań różniczkowych. 
 \begin{align}\label{eq:rozw_ur}
 \left[ \begin{array}{c}
 X(t)\\
@@ -476,7 +487,5 @@ x & y & 1-x-y & $\dot{z}$       \\ \hline
 \end{tabular}
 \end{wraptable}
 
-Mając wiedzę że symulacja rozpoczyna się z punktu $(\frac{1}{2},\frac{1}{2},\frac{1}{2})$ znamy wartość $X(0)$, $Y(0)$, $Z(0)$ z czego można wyliczyć $C_i$. Jeśli będą one równe 0 dla wartości własnych równych 0 punkt jest stabilny, w przeciwny wypadku nie jest stabilny. Jest to nieelegancka i mozolna metoda.
- 
-Ponieważ analiza matematyczna nie przyniosła jednoznacznej odpowiedzi co do stabilności punktów $(0,1,\xi)$, można spróbować przeanalizować równanie $\dot{z}$ - układ \ref{eq:stab_uklad_analiza}, dla sytuacji gdy $p_i$ dwóch z graczy dojdą do granicy prawdopodobieństwa. Warto przeanalizować wszystkie przypadki pomimo, że dla omawianych punktów tylko wiersz drugi i trzeci ma znaczenie. Celem poniższej analizy jest sprawdzenie czy wspomniane punkty są stabilne po ich osiągnięciu.
+Ponieważ metoda linearyzacji opisała punkty $(0,1,\xi)$ jako marginalnie stabilne, spróbujemy przesądzić co do ich stabilności na podstawie analizy równania $\dot{z}$ - układ \ref{eq:stab_uklad_analiza}. W sytuacji gdy $p_i$ dwóch z graczy dojdą do granicy prawdopodobieństwa. Warto przeanalizować wszystkie przypadki pomimo, że dla omawianych punktów tylko wiersz drugi i trzeci ma znaczenie. Celem poniższej analizy jest sprawdzenie czy wspomniane punkty są stabilne po ich osiągnięciu.
 W pierwszym wierszu tabelki \ref{tab:krawedz_prawd} widać, że $G_0$ dąży do zawarcia sojuszu z $G_2$, natomiast $G_1$ gra aby osiągnąć sojusz z $G_0$. W tej sytuacji prawdopodobieństwo $z$, że gracz $G_2$ zawiąże koalicję z $G_0$ będzie rosło. W kolejnych dwóch wierszach są stany ustalone. W wierszu drugim zmiana $\dot{z}$ nie ma znaczenia gdyż gracze $G_0$ oraz $G_1$ są w wyłącznej koalicji z $G_2$. Wiersz trzeci pokazuje przeciwną sytuację, w której jakakolwiek zmiana $\dot{z}$ nie wniesie nic do gry ze względu na trwały sojusz między $G_0$ a $G_1$. Ostatni wiersz pokazuje przypadek symetryczny do pierwszego, z tym że jedynym możliwym sojusznikiem dla $G_2$ jest $G_1$. Oczywiście omawiany teraz przykład do osiągnięcia stabilności wymagałby braku zmian decyzji pozostałych graczy. Musieli by oni znać realne prawdopodobieństwo przeciwników.
