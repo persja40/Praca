@@ -156,6 +156,11 @@ void MyGLWidget::draw()
         glVertex3f(0.5,0.5,-0.5);
         glVertex3f(0.5,0.5,0.5);
     glEnd();
+    glColor3ub(255,0,0);
+    QFont f= QFont("Helvetica",20,2);
+    renderText(0,-0.55,-0.55,"x",f);
+    renderText(-0.55,0,-0.55,"y",f);
+    renderText(-0.55,-0.55,0,"z",f);
 }
 
 void MyGLWidget::drawLines(){

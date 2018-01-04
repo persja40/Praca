@@ -15,7 +15,7 @@
 
 Analiza teoretyczna równań wskazała punkt $(\frac{1}{2},\frac{1}{2},\frac{1}{2})$ jako punkt stały. Wynika to z założenia gry o pełnej informacji. W symulacji to założenie nie jest spełnione, dlatego trajektoria opuszcza centrum sześcianu. Osiągnięcie przez funkcję krawędzi sześcianu oznacza zawiązanie koalicji, po czym funkcja przesuwa się po krawędzi dążąc do wierzchołka. Biorąc pod uwagę że dla par prawdopodobieństw przeciwników $(p_a,p_b) \in \{(0,1),(1,0)\}$ zmiana prawdopodobieństwa trzeciego gracza wynosi $0$ należy stwierdzić, że funkcja powinna osiągać punkt stabilności na krawędzi i nie poruszać się dalej. Byłoby tak gdyby błąd szacowania prawdopodobieństw przeciwników był odpowiednio mały. Szacowanie prawdopodobieństw dane jest przez $\frac{n_{j}}{l_p}$. Wynika z tego, że wystarczy kilka zagrań przeciwników niezgodnych z zawartą koalicją, aby gracz szacujący ich prawdopodobieństwa nie mógł stwierdzić, że ich realne prawdopodobieństwa wynoszą 0 lub 1. Pokazuje to rysunek \ref{fig:stand100_10}, na którym widać funkcje o wielu punktach przegięcia. Szybkość dążenia do wierzchołków będzie malała wraz z czasem spędzonym na krawędzi, gdyż
 \[\lim_{n_j\rightarrow l_p \wedge l_p \rightarrow \infty} \frac{n_j}{l_p} \in \{0,1\} \]
-
+W miarę rozgrywania kolejnych partii przewidywane prawdopodobieństwa będą zbliżały się do realnych. Dla realnego prawdopodobieństwa ruch po krawędzi nie występuje, więc z czasem prędkość ruchu będzie dążyć do 0.
 %---------------------------------------------------------------------------------------------------------------------------------------------------------
 \paragraph{Równania replikatorów}
 \label{sec:r_repl}
@@ -39,10 +39,10 @@ Równania replikatorów charakteryzują się wolniejszymi zmianami gry w stosunk
 \begin{wrapfigure}{rh}{0.5\textwidth}
     \centering
     \includegraphics[width=0.5\textwidth]{pict/wyniki/repl_realp_mp_300_10.png}   
-    \caption{Równania replikatorów, gra o pełnej informacji: 300 partii, 10 instancji}
+    \caption{Równania replikatorów, gra o pełnej informacji: 300 partii, 10 instancji. Punkt początkowy $(0.55,0.6,0.4)$}
 	\label{fig:realp} 
 \end{wrapfigure}
-Zaś analiza stabilności pokazała, że każda krawędź sześcianu powinna być linią punktów stabilnych, co obrazuje rysunek \ref{fig:realp}. Natomiast symulacja przedstawiona na rysunku \ref{fig:repl1000_10} pokazuje przemieszczanie się funkcji ku wierzchołkom. Powodem tego jest błąd gracza w szacowaniu prawdopodobieństwa przeciwników, wynikający z gry o niepełnej informacji. Jest on różny w różnych instancjach gry, na przykład w jasno-zielonej rozgrywce \ref{fig:repl1000_10} widać, że funkcja nieznacznie porusza się po krawędzi, co świadczy o mniejszym błędzie szacowania prawdopodobieństwa w stosunku do innych rozgrywek. Analiza stabilności wskazuje, że punkty $(0,0,0)$ oraz $(1,1,1)$ nie są stabilne, co jest przyczyną tego, że żadna z symulacji do nich nie zmierza. Co więcej pierwszy i ostatni wiersz tabelki \ref{tab:krawedz_prawd} nie może wystąpić w symulacji. Osiągnięcie punktu składającego się z permutacji $\{0,0,\xi \}$, gdzie $\xi \neq 1$ lub permutacji $\{1,1,\xi \}$, gdzie $\xi \neq 0$, nie jest możliwe w symulacji. Oznaczałoby to zawiązanie sojuszu pomiędzy graczami, których zagrania nie mają na celu zawiązania między nimi koalicji. Potwierdzają to symulacje z których żadna nie dochodzi do krawędzi wychodzących z punktów $(0,0,0)$ oraz $(1,1,1)$.
+Analiza stabilności pokazała, że 6 krawędzi sześcianu powinno być liniami punktów stabilnych. Rysunek \ref{fig:realp} obrazujący grę o pełnej informacji wykazuje stabilność punktu na krawędzi. Natomiast symulacja przedstawiona na rysunku \ref{fig:repl1000_10} pokazuje przemieszczanie się funkcji ku wierzchołkom. Powodem tego jest błąd gracza w szacowaniu prawdopodobieństwa przeciwników, wynikający z gry o niepełnej informacji. Analiza stabilności wskazuje, że punkty $(0,0,0)$ oraz $(1,1,1)$ nie są stabilne, co jest przyczyną tego, że żadna z symulacji do nich nie zmierza. Co więcej pierwszy i ostatni wiersz tabelki \ref{tab:krawedz_prawd} nie może wystąpić w symulacji, jest to reprezentowane niebieskimi krawędziami na rysunku \ref{fig:szescian}. Osiągnięcie punktu składającego się z permutacji $\{0,0,\xi \}$, gdzie $\xi \neq 1$ lub permutacji $\{1,1,\xi \}$, gdzie $\xi \neq 0$, nie jest możliwe w symulacji. Oznaczałoby to zawiązanie sojuszu pomiędzy graczami, których zagrania nie mają na celu zawiązania między nimi koalicji. Potwierdzają to symulacje z których żadna nie dochodzi do krawędzi wychodzących z punktów $(0,0,0)$ oraz $(1,1,1)$.
 
 %---------------------------------------------------------------------------------------------------------------------------------------------------------
 \section{Gry N-osobowe}
@@ -65,36 +65,3 @@ Zaś analiza stabilności pokazała, że każda krawędź sześcianu powinna by�
 W grze w której ustawionych w okręgu jest $N$ graczy, spodziewamy się, że istotnym czynnikiem będzie parzystość ich liczby. Teoretyczna liczba graczy mogących nie znaleźć koalicjanta wynosi $< N\text{ mod }2, \left\lfloor \frac{N}{3} \right\rfloor >$. W grze o parzystej liczbie graczy zawsze istnieje rozwiązanie, które gwarantuje każdemu graczowi przynależność do koalicji. Natomiast w grach o nieparzystej liczbie graczy musi istnieć co najmniej jeden zawodnik, który nie zawrze sojuszu (posiadanie prawdopodobieństwa 0 lub 1, nie jest równoznaczne z byciem w sojuszu, co pokazały symulacje dla 3-graczy, kiedy funkcje dążyły do wierzchołków). Maksymalna liczba graczy bez sojuszu może być maksymalnie połową liczby graczy będących w sojuszy( maksymalnie co trzeci gracz może być bez sojuszy z zaokrągleniem w dół ). Gdyby była większa oznaczałoby to, że istnieją pary sąsiadujących graczy, którzy nie są w żadnej koalicji. Taka sytuacja nie może mieć miejsca, ponieważ omawiane pary stałyby się koalicjami. 
 
 W przypadku występowania dużej ilości zawodników łatwiej można zaobserwować sytuacje, w których sąsiedzi zawodnika stosują w przewadze jedną taktykę. Co prowadzi do dokładnego szacowania ich prawdopodobieństw. Gracz wtedy nie dokonuje zmian w swoim zachowaniu, co wynika z tabelki \ref{tab:krawedz_prawd}. Przypadek taki można zaobserwować również na rysunku \ref{fig:Nrepl_g10000p200}, oznaczony kolorem czarnym.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

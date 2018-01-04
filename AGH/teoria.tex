@@ -406,6 +406,8 @@ Re(\lambda_a)<0 \wedge Re(\lambda_b)<0 \wedge Re(\lambda_c)<0
 \end{equation}
 
 Warunek \ref{eq:war_stab} eliminuje wszystkie punkty stałe poza ostatnim. Pokazuje to że punkty o kombinacji $(0,1,\xi)$ są marginalnie stabilne. Analiza nie wskazuje że są stabilne, lecz temu też nie przeczy.
+
+Ponieważ metoda linearyzacji opisała punkty $(0,1,\xi)$ jako marginalnie stabilne, spróbujemy przesądzić co do ich stabilności na podstawie analizy równania $\dot{z}$ - układ \ref{eq:stab_uklad_analiza}. Przyjmując sytuację gdy $p_i$ dwóch z graczy przyjmie 0 lub 1. 
 \begin{wraptable}{rh}{0.35\textwidth}
     \centering
     \caption{Stabilność na krawędzi sześcianu}
@@ -418,6 +420,10 @@ x & y & 1-x-y & $\dot{z}$       \\ \hline
 1 & 1 & -1    & $-z \cdot (1-z)$
 \end{tabular}
 \end{wraptable}
-
-Ponieważ metoda linearyzacji opisała punkty $(0,1,\xi)$ jako marginalnie stabilne, spróbujemy przesądzić co do ich stabilności na podstawie analizy równania $\dot{z}$ - układ \ref{eq:stab_uklad_analiza}. W sytuacji gdy $p_i$ dwóch z graczy dojdą do granicy prawdopodobieństwa. Przeanalizowane zostaną wszystkie przypadki pomimo, że dla omawianych punktów tylko wiersz drugi i trzeci ma znaczenie. Celem poniższej analizy jest sprawdzenie czy wspomniane punkty są stabilne po ich osiągnięciu.
-W pierwszym wierszu tabelki \ref{tab:krawedz_prawd} widać, że $G_0$ dąży do zawarcia sojuszu z $G_2$, natomiast $G_1$ gra aby osiągnąć sojusz z $G_0$. W tej sytuacji prawdopodobieństwo $z$, że gracz $G_2$ zawiąże koalicję z $G_0$ będzie rosło. W kolejnych dwóch wierszach są stany ustalone. W wierszu drugim zmiana $\dot{z}$ nie ma znaczenia gdyż gracze $G_0$ oraz $G_1$ są w wyłącznej koalicji z $G_2$. Wiersz trzeci pokazuje przeciwną sytuację, w której jakakolwiek zmiana $\dot{z}$ nie wniesie nic do gry ze względu na trwały sojusz między $G_0$ a $G_1$. Ostatni wiersz pokazuje przypadek symetryczny do pierwszego, z tym że jedynym możliwym sojusznikiem dla $G_2$ jest $G_1$. Oczywiście omawiany teraz przykład do osiągnięcia stabilności wymagałby braku zmian decyzji pozostałych graczy. Musieli by oni znać realne prawdopodobieństwo przeciwników.
+Przeanalizowane zostaną wszystkie przypadki pomimo, że dla omawianych punktów tylko wiersz drugi i trzeci ma znaczenie. Celem poniższej analizy jest sprawdzenie czy wspomniane punkty są stabilne po ich osiągnięciu.
+W pierwszym wierszu tabelki \ref{tab:krawedz_prawd} widać, że $G_0$ dąży do zawarcia sojuszu z $G_2$, natomiast $G_1$ gra aby osiągnąć sojusz z $G_0$. W tej sytuacji prawdopodobieństwo $z$, że gracz $G_2$ zawiąże koalicję z $G_0$ będzie rosło. W kolejnych dwóch wierszach są stany ustalone. W wierszu drugim zmiana $\dot{z}$ nie ma znaczenia gdyż gracze $G_0$ oraz $G_1$ są w wyłącznej koalicji z $G_2$. Wiersz trzeci pokazuje przeciwną sytuację, w której jakakolwiek zmiana $\dot{z}$ nie wniesie nic do gry ze względu na trwały sojusz między $G_0$ a $G_1$. Te dwie sytuacje oznaczone są zielonymi krawędziami na rysunku \ref{fig:szescian}. Ostatni wiersz pokazuje przypadek symetryczny do pierwszego, z tym że jedynym możliwym sojusznikiem dla $G_2$ jest $G_1$. Wiersz pierwszy i ostatni przedstawia sytuację oznaczoną niebieską krawędzią na rysunku \ref{fig:szescian}, są to sytuacje w których zawiązanie sojuszu miałoby nastąpić przy parach prawdopodobieństw dwóch graczy $(0,0)$ lub $(1,1)$, co jest nierealne. Oczywiście omawiane teraz przykłady do osiągnięcia stabilności wymagałyby braku zmian decyzji pozostałych graczy. Musieli by oni znać realne prawdopodobieństwo przeciwników.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=.5\textwidth]{pict/wyniki/szescian.png}	
+	\caption{Sześcian prawdopodobieństwa. Niebieskie krawędzie - niemożliwe koalicje. Zielone krawędzie - linie punktów stałych.} \label{fig:szescian}
+\end{figure}
