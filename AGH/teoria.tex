@@ -3,18 +3,18 @@
 
 \section{Gra}
 \label{sec:gra}
-Niniejsza praca skupia się na grach wieloosobowych, których szczególnym przypadkiem jest gra 3-osobowa \cite{Str01}. Model gry 3-osobowej pokazuje, że decyzję jednego z zawodników mają bezpośredni wpływ na zachowanie sąsiadów. W modelu gry N-osobowej decyzje graczy będą wpływać nie tylko na najbliższych sąsiadów, ale pośrednio także na decyzje innych graczy.
+Niniejsza praca skupia się na grach wieloosobowych, których szczególnym przypadkiem jest gra 3-osobowa \cite{Str01}. Model gry 3-osobowej pokazuje, że decyzje jednego z zawodników mają bezpośredni wpływ na zachowanie sąsiadów. W modelu gry N-osobowej decyzje graczy będą wpływać nie tylko na najbliższych sąsiadów, ale pośrednio także na decyzje innych graczy.
 Omawiane tutaj gry są grami o niepełnej informacji, w tej pracy oznacza to grę, w której nie wszyscy uczestnicy znają prawdopodobieństwo określonych decyzji przeciwników. Prawdopodobieństwo gry przeciwników będzie szacowane na podstawie obserwacji historii ich zagrań.
 Opisywane gry będą także grami ewolucyjnymi, gdzie gracze mają możliwość przewidywania i uczenia się na podstawie zachowań innych graczy.
 
 \section{Model gry}
 \label{sec:model}
-Jak wcześniej wspomniano będą potrzebne dwa modele gier. Pierwszym z nich będzie model gry 3-osobowej (Rys. \ref{fig:model_niezal}). Graczy nazwiemy odpowiednio $G_0$, $G_1$, $G_2$ (gracz zerowy, pierwszy, drugi). Zachowanie każdego z nich jest opisane prawdopodobieństwem próby wejścia w koalicję z graczem o wyższym indeksie. To prawdopodobieństwo oznaczone jest jako $p_i$ ($i$ jest indeksem gracza), przy czym dla $G_2$ gracz o wyższym indeksie to $G_0$. Prawdopodobieństwo zagrania, w celu nawiązanie koalicji z graczem o niższym indeksie to $1 - p_i$. Analogicznie dla $G_0$ gracz o niższym indeksie to $G_2$. Ponieważ omawiana jest gra o niepełnej informacji żaden z zawodników nie ma dostępu do prawdopodobieństw innych graczy, lecz każdy ma dostęp do statystyki gry na którą składa się:
+Jak wcześniej wspomniano będą użyte dwa modele gier. Pierwszym z nich będzie model gry 3-osobowej (Rys. \ref{fig:model_niezal}). Graczy nazwiemy odpowiednio $G_0$, $G_1$, $G_2$ (gracz zerowy, pierwszy, drugi). Zachowanie każdego z nich jest opisane prawdopodobieństwem próby wejścia w koalicję z graczem o wyższym indeksie. To prawdopodobieństwo oznaczone jest jako $p_i$ ($i$ jest indeksem gracza), przy czym dla $G_2$ gracz o wyższym indeksie to $G_0$. Prawdopodobieństwo zagrania, w celu nawiązania koalicji z graczem o niższym indeksie to $1 - p_i$. Analogicznie dla $G_0$ gracz o niższym indeksie to $G_2$. Ponieważ omawiana jest gra o niepełnej informacji żaden z zawodników nie ma dostępu do prawdopodobieństw innych graczy, lecz każdy ma dostęp do statystyki gry na którą składa się:
 \begin{itemize}
 \item $l_p$ liczba rozegranych w grze partii
-\item $n_i$ ilość zagrań $G_i$ w celu zawiązania sojuszu z $G_{i+1}$, ilość zagrań $G_{i}$ aby nawiązać sojusz z $G_{i-1}$ wyraża się jako $l_p - n_i$
+\item $n_i$ ilość zagrań $G_i$ w celu zawiązania sojuszu z $G_{i+1}$. Ilość zagrań $G_{i}$ aby nawiązać sojusz z $G_{i-1}$ wyraża się jako $l_p - n_i$
 \end{itemize}
-Model gry N-osobowej (Rys. \ref{fig:model_zal}) \cite{Fsmd} będzie opisany takimi samymi danymi jak model gry 3-osobowej. Różnicą między nimi będzie ustawienie graczy w okręgu, co w konsekwencji pokaże skutki decyzji wykraczające poza najbliższych sąsiadów, dla gier o liczbie graczy większej niż 3. Gra 3-osobowa jest szczególnym przypadkiem gry N-osobowej, w którym konsekwencje zachowań jednego z naszych sąsiadów bezpośrednio wpływają na drugiego.
+Model gry N-osobowej (Rys. \ref{fig:model_zal}) \cite{Fsmd} będzie opisany takimi samymi danymi jak model gry 3-osobowej. Różnicą między nimi będzie ustawienie graczy w okręgu, co sprawia że skutki decyzji wykraczają poza najbliższych sąsiadów, dla gier o liczbie graczy większej niż 3. Gra 3-osobowa jest szczególnym przypadkiem gry N-osobowej, w którym konsekwencje zachowań jednego z naszych sąsiadów bezpośrednio wpływają na drugiego.
 \begin{figure}
 	\centering
 	\begin{tabular}{c|c}
@@ -81,19 +81,19 @@ Model gry N-osobowej (Rys. \ref{fig:model_zal}) \cite{Fsmd} będzie opisany taki
 
 \section{Równania standardowe}
 \label{sec:r_stand}
-Pomysł na równania standardowe został zaczerpnięty ze wzoru na siłę w polu.
+Pomysł na równania standardowe został zaczerpnięty ze wzoru na siłę w polu,
 \begin{equation}\label{eq:fiz_stand}
 \overrightarrow{F}(\overrightarrow{r})=-\nabla E_p (\overrightarrow{r})
 \end{equation}
-Z tym że żądana jest maksymalizacja, a nie minimalizacja odpowiednika energii potencjalnej $E_p$. Z tego powodu należy zmienić znak. Siłę rozpisujemy jako:
+z tym że żądana jest maksymalizacja, a nie minimalizacja odpowiednika energii potencjalnej $E_p$. Z tego powodu należy zmienić znak. Siłę rozpisujemy jako:
 \begin{equation*}
 F=\frac{\delta E_p}{\delta x} = m\frac{\delta^2x}{\delta t^2} + \underbrace{\gamma \frac{\delta x}{\delta t}}_{\text{Siła tarcia}}
 \end{equation*}
-Będziemy mieli do czynienia z ruchem tłumionym, ze względu na brak przyspieszenia, co w efekcie prowadzi do zależności:
+Zakładając że będziemy mieli do czynienia z ruchem przetłumionym, ze względu na duży współczynnik tarcia, w efekcie prowadzi do zależności:
 \begin{equation}\label{eq:basic_stand}
 \frac{\delta x}{\delta t} \sim \frac{\delta E_p}{\delta x}
 \end{equation}
-Przemieszczenie zostanie zastąpione prawdopodobieństwem. W tym typie równań celem będzie maksymalizacja zysku( zyskiem jest prawdopodobieństwo ) w czasie. Wyprowadzenie będzie przeprowadzone dla $G_0$, przy założeniu gry o pełnej informacji. Pozostałe dwa równania można wyprowadzić analogicznie. Wypłata dla $G_0$ dana jest przez:
+Przemieszczenie zostanie zastąpione prawdopodobieństwem. W tym typie równań celem będzie maksymalizacja zysku( zyskiem jest wypłata ) w czasie. Wyprowadzenie będzie przeprowadzone dla $G_0$, przy założeniu gry o pełnej informacji. Pozostałe dwa równania można wyprowadzić analogicznie. Wypłata dla $G_0$ dana jest przez:
 \begin{equation}\label{eq:wypl_stand}
 W_0 = \underbrace{p_0(1-p_1)}_{\text{wypłata sojuszu $G_0$ z $G_1$}} + \overbrace{(1-p_0)p_2}^{\text{wypłata sojuszu $G_0$ z $G_2$}} \\
 \end{equation}
@@ -103,13 +103,13 @@ Do zależności \ref{eq:basic_stand} podstawiamy prawdopodobieństwa.
 \end{align*}
 Iloraz różnicowy na zmianę prawdopodobieństwa od czasu daje:
 \begin{align}
-\frac{p_0(t+\Delta t)-p_0(t)}{\Delta t} &= 1-y-z \nonumber\\
+\frac{p_0(t+\Delta t)-p_0(t)}{\Delta t} &= 1-p_1-p_2 \nonumber\\
 \end{align}
 W używanej dalej notacji:
 \begin{equation}\label{eq:dynam_stand}
-\Delta p_0 = \Delta t (1-y-z)
+\Delta p_0 = \Delta t (1-p_1-p_2)
 \end{equation}
-W dalszej części będzie stosowane oznaczenie $\alpha = \Delta t$. Równanie wygląda obiecująco, gdyż człon $1 - y$ jest prawdopodobieństwem zagrania $G_1$ aby zawiązać sojusz z $G_0$. Podobnie $-z$ prowadzi do sojuszu $G_2$ z $G_0$.
+W dalszej części będzie stosowane oznaczenie $\alpha = \Delta t$. Równanie wygląda obiecująco, gdyż człon $1 - p_1$ jest prawdopodobieństwem zagrania $G_1$ aby zawiązać sojusz z $G_0$. Podobnie $z$ prowadzi do sojuszu $G_2$ z $G_0$, który osłabia koalicję $G_0$ z $G_1$. Dlatego znajduje się ze znakiem minus w $\Delta p_0$.
 
 W przypadku gry o niepełnej informacji należy zmodyfikować równanie \ref{eq:dynam_stand}. Opis użytych parametrów można znaleźć w podrozdziale \ref{sec:model}.
 \begin{equation} \label{eq:stand}
@@ -120,17 +120,17 @@ W przypadku gry o niepełnej informacji należy zmodyfikować równanie \ref{eq:
 
 \section{Równania replikatorów}
 \label{sec:r_repli}
-Model dynamiki replikatorów jest najbardziej znanym różniczkowym modelem teorii gier ewolucyjnych \cite{Now06}\cite{Hof98}, przez co może stanowić dobry wybór do sterowania zachowaniem graczy. Tak jak poprzednio przyjmijmy prawdopodobieństwa $x=p_0$, $y=p_0$ oraz $z=p_0$ pamiętając, że prawdopodobieństwa przeciwników w symulacji są szacowane. Podstawowy wzór równania replikatorów wygląda następująco:
+Model dynamiki replikatorów jest najbardziej znanym różniczkowym modelem teorii gier ewolucyjnych \cite{Now06}\cite{Hof98}, przez co może stanowić dobry wybór do sterowania zachowaniem graczy. Przyjmijmy prawdopodobieństwa $x=p_0$, $y=p_1$ oraz $z=p_2$ pamiętając, że prawdopodobieństwa przeciwników w symulacji są szacowane. Podstawowy wzór równania replikatorów wygląda następująco:
 \begin{equation}
 \dot{x} = x \cdot ( W_x - \overline{W})
 \end{equation}
-gdzie $\dot{x}$ jest tempem zmiany udziału strategi $x$, $W_x$ jest średnią wypłatą dla strategii $x$ (prawdopodobieństw strategii $x$), natomiast $\overline{W}$ jest średnią wypłatą co daje:
+gdzie $\dot{x}$ jest tempem zmiany udziału strategii $x$, $W_x$ jest średnią wypłatą dla strategii $x$, natomiast $\overline{W}$ jest średnią wypłatą co daje:
 \begin{gather*}
 \dot{x} = x \cdot ( \overbrace{(1-y)}^{W_x} - \overbrace{(x(1-y) + (1-x)z)}^{\overline{W}}) \\
 \Downarrow \\
 \dot{x} = x \cdot (1-x) \cdot (1-y-z)
 \end{gather*}
-Iloraz różnicowy zmiany wypłaty od czasu ponownie wyznaczy $\Delta p_0$:
+Iloraz różnicowy zmiany prawdopodobieństwa od czasu ponownie wyznaczy $\Delta p_0$:
 \begin{align*}
 \dot{x}(t) &= \frac{p_0(t+\Delta t)-p_0(t)}{\Delta t} \\
 \dot{x}(t) \Delta t &= p_0(t+\Delta t)-p_0(t) = \Delta p_0 \\
@@ -212,7 +212,7 @@ G_0 = N, G_1 = P, G_2 = P \\
 \end{array}
 \right.
 \end{gather*}
-Jak widać najszybsza zmiana zachodzi dla pierwszego gracza, który traci 25\% z prawdopodobieństwa sojuszu z graczem o wyższym indeksie. W kolejnej partii nie widzimy już tak dużych zmian. Należy odpowiedzieć na pytanie czy jest to na tyle dużo, aby zastosować $\alpha$ taką jak w równaniach standardowych. Powinno się poruszyć dwie kwestie. Dynamika prawdopodobieństwa jest akceptowalna(wynosi do 10\%), ale tylko dla prawdopodobieństw które oddalają się od środka przedziału, a grę rozpoczynamy właśnie w nim. Drugą sprawą jest porównanie obu równań. Porównanie wyników, o różnym kroku czasowym nie jest najłatwiejszą rzeczą do opisania.
+Jak widać, w wybranym przykładzie najszybsza zmiana zachodzi dla pierwszego gracza, który traci 25\% z prawdopodobieństwa sojuszu z graczem o wyższym indeksie. W kolejnej partii nie widzimy już tak dużych zmian. Należy odpowiedzieć na pytanie czy jest to na tyle dużo, aby zastosować $\alpha$ taką jak w równaniach standardowych.
 
 \section{Rozwiązanie stacjonarne równań standardowych}
 \label{sec:stab_stand}
@@ -226,7 +226,7 @@ Celem tego podrozdziału jest znalezienie rozwiązań stacjonarnych dla równań
 \end{array}
 \right. \Rightarrow p_0 = p_1 = p_2 = \frac{1}{2}
 \end{equation}
-Z czego wynika że gra startująca w punkcie $(\frac{1}{2},\frac{1}{2},\frac{1}{2})$ nie powinna z niego wyjść. Byłoby tak gdyby prawdopodobieństwa użyte w równaniu były faktycznymi prawdopodobieństwami $p_i$, są one natomiast jedynie obserwacją zachowania pozostałych graczy. Są ono dane jako $\frac{n_j}{l_p}$. Użycie prawdopodobieństw obserwowanych umożliwia opuszczenie punktu stałego.
+Z czego wynika że gra startująca w punkcie $(\frac{1}{2},\frac{1}{2},\frac{1}{2})$ nie powinna z niego wyjść. Byłoby tak gdyby prawdopodobieństwa użyte w symulacji były faktycznymi prawdopodobieństwami $p_i$, są one natomiast jedynie obserwacją zachowania pozostałych graczy. Są one dane jako $\frac{n_j}{l_p}$. Użycie prawdopodobieństw obserwowanych umożliwia opuszczenie punktu stałego.
 
 \section{Stabilność równań replikatorów}
 \label{sec:stab_repl}
@@ -237,7 +237,7 @@ Stabilność równań replikatorów \cite{Sss} wymaga dążenia do stałych wart
 \dot{z} &= h(x,y,z) = \Delta p_2 = z(1-z)(1-x-y)\nonumber
 \end{align}
 
-Punkty stałe są to punkty, z których układ nie wyjdzie bez zewnętrznego czynnika. Do znalezienia punktów stałych wymagane jest zanikanie pochodnych. Prowadzi to do układu równań.
+Punkty stałe są to punkty, z których układ nie wyjdzie bez zewnętrznego czynnika. Do znalezienia punktów stałych wymagane jest znikanie pochodnych. Prowadzi to do układu równań.
 \begin{align}
 \begin{array}{ccc}
 \dot{x} = 0, & \dot{y} = 0, & \dot{z} = 0
@@ -256,7 +256,7 @@ P_3 \{0,1,\xi \} & i=3 \text{, permutacja gdzie }\xi \in <0,1>\\
 \right.
 \end{align}
 
-Znajomość punktów stałych narzuca pytanie co do ich stabilności. Układ znajdujący się w pobliżu punktu stabilnego powinien zawsze do niego dążyć. Podczas analizy stabilności będą uwzględnione wszystkie powyższe punkty stałe, przy czym w ostatniej sytuacji będzie uwzględniony tylko przypadek $(0,1,\xi)$, ze względu na ich symetrię.
+Znajomość punktów stałych pozwala na pytanie co do ich stabilności. Układ znajdujący się w pobliżu punktu stabilnego powinien zawsze do niego dążyć. Podczas analizy stabilności będą uwzględnione wszystkie powyższe punkty stałe, przy czym w ostatniej sytuacji będzie uwzględniony tylko przypadek $(0,1,\xi)$, ze względu na ich symetrię.
 
 Stosując metodę linearyzacji tworzymy funkcje, które powinny osiągać 0 w punktach stabilnych.
 \begin{align}\label{eq:nowe_f}
@@ -405,8 +405,7 @@ Aby eksponenta malała musi posiadać ujemny wykładnik, z czego wynika że waru
 Re(\lambda_a)<0 \wedge Re(\lambda_b)<0 \wedge Re(\lambda_c)<0
 \end{equation}
 
-Warunek \ref{eq:war_stab} eliminuje wszystkie lambdy poza $\lambda_3$. Pokazuje to że punkty o kombinacji $(0,1,\xi)$ są marginalnie stabilne. Analiza nie wskazuje że są stabilne, lecz temu też nie przeczy. W celu analitycznego określenia stabilności należałoby rozwiązać układ równań \ref{eq:rozw_ur}.
-
+Warunek \ref{eq:war_stab} eliminuje wszystkie punkty stałe poza ostatnim. Pokazuje to że punkty o kombinacji $(0,1,\xi)$ są marginalnie stabilne. Analiza nie wskazuje że są stabilne, lecz temu też nie przeczy.
 \begin{wraptable}{rh}{0.35\textwidth}
     \centering
     \caption{Stabilność na krawędzi sześcianu}
